@@ -5,8 +5,11 @@ public class AbstractRangeStrategy {
     private static int dimensionX = 7;
     private static int dimensionY = 7;
 
-    protected AbstractRangeStrategy(int dimensionX, int dimensionY) {
+    public AbstractRangeStrategy() {}
+
+    public AbstractRangeStrategy(int dimensionX, int dimensionY) {
         setDimensionX(dimensionX);
+        setDimensionY(dimensionY);
     }
 
     public void setDimensionX(int newDimensionX) {

@@ -4,12 +4,9 @@ import java.util.ArrayList;
 
 public class RangeStrategyW2 extends AbstractRangeStrategy implements IRangeStrategy {
 
-    private static RangeStrategyW2 instance = null;
     private static String rangeName = "3-Row";
 
-    protected RangeStrategyW2(int dimensionX, int dimensionY) {
-        super(dimensionX, dimensionY);
-    }
+    public RangeStrategyW2() {}
 
     @Override
     public ArrayList getInvolvedSquares(int coordX, int coordY) {
@@ -30,13 +27,6 @@ public class RangeStrategyW2 extends AbstractRangeStrategy implements IRangeStra
         }
 
         return involvedSquares;
-    }
-
-    public static RangeStrategyW2 getInstance() {
-        if (instance == null) {
-            instance = new RangeStrategyW2(getDimensionX(), getDimensionY());
-        }
-        return instance;
     }
 
 }

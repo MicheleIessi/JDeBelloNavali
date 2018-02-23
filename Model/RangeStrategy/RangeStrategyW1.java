@@ -6,12 +6,9 @@ import java.util.ArrayList;
 
 public class RangeStrategyW1 extends AbstractRangeStrategy implements IRangeStrategy {
 
-    private static RangeStrategyW1 instance = null;
     private static String rangeName = "Single";
 
-    protected RangeStrategyW1(int dimensionX, int dimensionY) {
-        super(dimensionX, dimensionY);
-    }
+    public RangeStrategyW1() {}
 
     public static String getRangeName() {
         return rangeName;
@@ -26,13 +23,6 @@ public class RangeStrategyW1 extends AbstractRangeStrategy implements IRangeStra
         involvedSquares.add(centerSquare);
 
         return involvedSquares;
-    }
-
-    public static RangeStrategyW1 getInstance() {
-        if (instance == null) {
-            instance = new RangeStrategyW1(getDimensionX(), getDimensionY());
-        }
-        return instance;
     }
 
 }

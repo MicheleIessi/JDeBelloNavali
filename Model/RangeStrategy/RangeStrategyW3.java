@@ -5,13 +5,9 @@ import java.util.ArrayList;
 
 public class RangeStrategyW3 extends AbstractRangeStrategy implements IRangeStrategy {
 
-    private static RangeStrategyW3 instance = null;
     private static String rangeName = "2-Square";
 
-
-    protected RangeStrategyW3(int dimensionX, int dimensionY) {
-        super(dimensionX, dimensionY);
-    }
+    public RangeStrategyW3() {}
 
     @Override
     public ArrayList getInvolvedSquares(int coordX, int coordY) {
@@ -37,13 +33,6 @@ public class RangeStrategyW3 extends AbstractRangeStrategy implements IRangeStra
         }
 
         return involvedSquares;
-    }
-
-    public static RangeStrategyW3 getInstance() {
-        if (instance == null) {
-            instance = new RangeStrategyW3(getDimensionX(), getDimensionY());
-        }
-        return instance;
     }
 
 }
