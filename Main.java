@@ -1,13 +1,10 @@
-import Model.Battlefield;
+import Model.Factories.FleetFactory.BretoniFleetFactory;
+import Model.Factories.FleetFactory.FleetFactory;
+import Model.Factories.FleetFactory.GalliFleetFactory;
 import Model.Factories.RangeStrategyFactory;
 import Model.RangeStrategy.IRangeStrategy;
 import Model.Ship;
-import Persistence.ShipCatalog;
-import Persistence.ShipDescription;
 import Util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.SessionFactoryBuilder;
 
 public class Main {
 
@@ -21,15 +18,23 @@ public class Main {
 
         System.out.println(irs.getClass().getName());
 
-        Battlefield battlefield = new Battlefield();
-        battlefield.disegnaCampo();
+        FleetFactory galli = GalliFleetFactory.getInstance();
+        Ship ship = galli.getShipDimensionThree();
 
+        FleetFactory bretoni = BretoniFleetFactory.getInstance();
+        Ship ship2 = bretoni.getShipDimensionThree();
 
-        ShipCatalog shipCatalog = ShipCatalog.getInstance();
+        System.out.println(ship.toString());
+        System.out.println(ship2.toString());
 
-        ShipDescription shipDescription = shipCatalog.getShipDescriptionByCivDim("Galli",4);
+//        Battlefield battlefield = new Battlefield();
+//        battlefield.addShipToField(2,2,1,1,Battlefield.HORIZONTAL);
+//        battlefield.addShipToField(3,6,5,5,Battlefield.VERTICAL);
+//        battlefield.drawField();
+//
+//        Weapon weapon = WeaponFactory.getInstance().createWeapon("Quadrato");
+//        System.out.println(weapon.toString());
 
-        System.out.println(shipDescription.toString());
 
         HibernateUtil.getSessionFactory().close();
     }

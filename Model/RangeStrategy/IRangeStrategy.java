@@ -1,7 +1,5 @@
 package Model.RangeStrategy;
 
-import Model.Square;
-
 import java.util.ArrayList;
 
 public interface IRangeStrategy {

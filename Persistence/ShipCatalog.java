@@ -1,14 +1,11 @@
 package Persistence;
 
-import Model.Ship;
 import Util.HibernateUtil;
-import com.mysql.fabric.xmlrpc.base.Param;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShipCatalog {
@@ -17,27 +14,47 @@ public class ShipCatalog {
 
     private ShipCatalog() {}
 
-//    public ShipDescription getShipDescriptionByKey() {
-//
-//    }
+    public ShipDescription getShipDescriptionByKey(int shipID) {
+
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.getCurrentSession();
+        ShipDescription shipDescription;
+
+        try {
+            session.beginTransaction();
+
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<ShipDescription> criteriaQuery = criteriaBuilder.createQuery(ShipDescription.class);
+            Root<ShipDescription> root = criteriaQuery.from(ShipDescription.class);
+            ParameterExpression<Integer> idParameter = criteriaBuilder.parameter(Integer.class);
+
+            criteriaQuery.select(root).where(
+                    criteriaBuilder.equal(root.get("shipID"), idParameter));
+
+            TypedQuery<ShipDescription> query = session.createQuery(criteriaQuery)
+                    .setParameter(idParameter, shipID);
+
+            shipDescription = query.getSingleResult();
+            session.getTransaction().commit();
+        } finally {
+            session.close();
+        }
+        return shipDescription;
+    }
 
     public ShipDescription getShipDescriptionByCivDim(String civilization, int dimension) {
 
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.getCurrentSession();
-        List<ShipDescription> shipDescriptions= new ArrayList<>();
+        List<ShipDescription> shipDescriptions;
         try {
             session.beginTransaction();
 
-            // create criteria
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            // create query
             CriteriaQuery<ShipDescription> criteriaQuery = criteriaBuilder.createQuery(ShipDescription.class);
             Root<ShipDescription> root = criteriaQuery.from(ShipDescription.class);
-
-            // setting parameters
-            ParameterExpression<String> civilizationParameter = criteriaBuilder.parameter(String.class);
-            ParameterExpression<Integer> dimensionParameter = criteriaBuilder.parameter(Integer.class);
+            ParameterExpression<String> civilizationParameter = criteriaBuilder.parameter(String.class);    // civilization = string
+            ParameterExpression<Integer> dimensionParameter = criteriaBuilder.parameter(Integer.class);     // dimension = integer
 
             criteriaQuery.select(root).where(
                     criteriaBuilder.and(
@@ -49,12 +66,7 @@ public class ShipCatalog {
                     .setParameter(dimensionParameter, dimension);
 
             shipDescriptions = query.getResultList();
-
-
-            // commit a transaction
             session.getTransaction().commit();
-
-
 
         } finally {
             session.close();

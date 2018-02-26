@@ -36,6 +36,70 @@ public class ShipDescription {
      */
     protected ShipDescription() {}
 
+    public int getShipID() {
+        return shipID;
+    }
+
+    public void setShipID(int shipID) {
+        this.shipID = shipID;
+    }
+
+    public String getCivilization() {
+        return civilization;
+    }
+
+    public void setCivilization(String civilization) {
+        this.civilization = civilization;
+    }
+
+    public int getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(int dimension) {
+        this.dimension = dimension;
+    }
+
+    public String getShipName() {
+        return shipName;
+    }
+
+    public void setShipName(String shipName) {
+        this.shipName = shipName;
+    }
+
+    public int getShipWeight() {
+        return shipWeight;
+    }
+
+    public void setShipWeight(int shipWeight) {
+        this.shipWeight = shipWeight;
+    }
+
+    public String getFirstWeapon() {
+        return firstWeapon;
+    }
+
+    public void setFirstWeapon(String firstWeapon) {
+        this.firstWeapon = firstWeapon;
+    }
+
+    public String getSecondWeapon() {
+        return secondWeapon;
+    }
+
+    public void setSecondWeapon(String secondWeapon) {
+        this.secondWeapon = secondWeapon;
+    }
+
+    public String getThirdWeapon() {
+        return thirdWeapon;
+    }
+
+    public void setThirdWeapon(String thirdWeapon) {
+        this.thirdWeapon = thirdWeapon;
+    }
+
     /**
      * Full constructor for class ShipDescriptor
      * @param shipID        The ID of the ship descriptor
