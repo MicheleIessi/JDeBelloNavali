@@ -7,6 +7,7 @@ import Persistence.ShipCatalog;
 import Persistence.ShipDescription;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class FleetFactory {
 
@@ -19,39 +20,54 @@ public abstract class FleetFactory {
         shipID = 0;
     }
 
-    public Ship getShipDimensionTwo() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    public String getCivilization() {
+        return civilization;
+    }
+
+    public Ship createShip(int dimension) throws IllegalAccessException, ClassNotFoundException, InstantiationException {
+        Ship ship = null;
+        switch (dimension) {
+            case 2: ship = createShipDimensionTwo(); break;
+            case 3: ship = createShipDimensionThree(); break;
+            case 4: ship =  createShipDimensionFour(); break;
+            default: break;
+        }
+        return ship;
+    }
+
+    private Ship createShipDimensionTwo() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         ShipDescription shipDescription = ShipCatalog.getInstance().getShipDescriptionByCivDim(civilization,2);
         return createShip(shipDescription);
     }
 
-    public Ship getShipDimensionThree() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    private Ship createShipDimensionThree() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         ShipDescription shipDescription = ShipCatalog.getInstance().getShipDescriptionByCivDim(civilization,3);
         return createShip(shipDescription);
     }
 
-    public Ship getShipDimensionFour() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    private Ship createShipDimensionFour() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         ShipDescription shipDescription = ShipCatalog.getInstance().getShipDescriptionByCivDim(civilization,4);
         return createShip(shipDescription);
     }
 
     private Ship createShip(ShipDescription shipDescription) throws IllegalAccessException, ClassNotFoundException, InstantiationException {
         Ship ship = new Ship();
-        ArrayList<Weapon> weaponList = new ArrayList<>();
+        HashMap<Integer,Weapon> weaponList = new HashMap<>();
 
         incrementShipID();
         ship.setShipID(shipID);
         ship.setIntegrity(100);
 
         Weapon firstWeapon = WeaponFactory.getInstance().createWeapon(shipDescription.getFirstWeapon());
-        weaponList.add(firstWeapon);
+        weaponList.put(firstWeapon.getWeaponID(), firstWeapon);
 
         if(shipDescription.getSecondWeapon() != null) {
             Weapon secondWeapon = WeaponFactory.getInstance().createWeapon(shipDescription.getSecondWeapon());
-            weaponList.add(secondWeapon);
+            weaponList.put(secondWeapon.getWeaponID(), secondWeapon);
         }
         if(shipDescription.getThirdWeapon() != null) {
             Weapon thirdWeapon = WeaponFactory.getInstance().createWeapon(shipDescription.getThirdWeapon());
-            weaponList.add(thirdWeapon);
+            weaponList.put(thirdWeapon.getWeaponID(), thirdWeapon);
         }
 
         ship.setWeapons(weaponList);

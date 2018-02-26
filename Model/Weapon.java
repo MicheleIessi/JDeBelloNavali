@@ -2,6 +2,8 @@ package Model;
 
 import Model.RangeStrategy.IRangeStrategy;
 
+import java.util.ArrayList;
+
 public class Weapon {
 
     private String weaponName;
@@ -14,7 +16,8 @@ public class Weapon {
     public Weapon() {}
 
     public boolean isFireable() {
-        return (this.reloadTime > 0);
+        System.out.println("RELOAD TIME: " + this.reloadTime);
+        return (this.reloadTime == 0);
     }
 
     public boolean hasAmmo() {
@@ -23,6 +26,10 @@ public class Weapon {
 
     public void decreaseAmmo() {
         AmmoStorage.getInstance().decreaseAmmo(this.weaponName);
+    }
+
+    public ArrayList<int[]> attack(int posX, int posY) {
+        return rangeStrategy.getInvolvedSquares(posX, posY);
     }
 
     public void setMaxReloadTime() {

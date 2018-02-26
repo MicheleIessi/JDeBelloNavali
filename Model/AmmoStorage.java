@@ -17,11 +17,16 @@ public class AmmoStorage {
         }
     }
 
+    public HashMap<String, Integer> getAmmoByWeaponName() {
+        return ammoByWeaponName;
+    }
+
     public int getWeaponAmmo(String weaponName) {
         return ammoByWeaponName.get(weaponName);
     }
 
     public void decreaseAmmo(String weaponName) {
+        System.out.println("Prima era " + ammoByWeaponName.get(weaponName));
         ammoByWeaponName.replace(weaponName, ammoByWeaponName.get(weaponName) - 1);
     }
 

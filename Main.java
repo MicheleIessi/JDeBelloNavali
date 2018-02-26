@@ -1,9 +1,13 @@
+import Model.AmmoStorage;
+import Model.Battlefield;
 import Model.Factories.FleetFactory.BretoniFleetFactory;
 import Model.Factories.FleetFactory.FleetFactory;
 import Model.Factories.FleetFactory.GalliFleetFactory;
 import Model.Factories.RangeStrategyFactory;
+import Model.Factories.WeaponFactory;
 import Model.RangeStrategy.IRangeStrategy;
 import Model.Ship;
+import Model.Weapon;
 import Util.HibernateUtil;
 
 public class Main {
@@ -19,22 +23,27 @@ public class Main {
         System.out.println(irs.getClass().getName());
 
         FleetFactory galli = GalliFleetFactory.getInstance();
-        Ship ship = galli.getShipDimensionThree();
 
-        FleetFactory bretoni = BretoniFleetFactory.getInstance();
-        Ship ship2 = bretoni.getShipDimensionThree();
+        Battlefield battlefield = new Battlefield();
+        battlefield.setFleetFactory(galli);
+        battlefield.addShipToField(3,2,1,1,Battlefield.HORIZONTAL);
+        battlefield.addShipToField(4,3,2,2,Battlefield.VERTICAL);
 
-        System.out.println(ship.toString());
-        System.out.println(ship2.toString());
+        System.out.println(AmmoStorage.getInstance().getAmmoByWeaponName());
 
-//        Battlefield battlefield = new Battlefield();
-//        battlefield.addShipToField(2,2,1,1,Battlefield.HORIZONTAL);
-//        battlefield.addShipToField(3,6,5,5,Battlefield.VERTICAL);
-//        battlefield.drawField();
-//
-//        Weapon weapon = WeaponFactory.getInstance().createWeapon("Quadrato");
-//        System.out.println(weapon.toString());
+        battlefield.attack(1,1,1,1);
+        battlefield.attack(1,1,1,1);
+        battlefield.attack(1,1,1,1);
+        battlefield.drawField();
 
+
+        Weapon weapon = WeaponFactory.getInstance().createWeapon("Quadrato");
+        System.out.println(weapon.getReloadTime());
+        weapon.setMaxReloadTime();
+        System.out.println(weapon.getReloadTime());
+
+        System.out.println(AmmoStorage.getInstance().getAmmoByWeaponName());
+        System.out.println(battlefield.getFleet());
 
         HibernateUtil.getSessionFactory().close();
     }

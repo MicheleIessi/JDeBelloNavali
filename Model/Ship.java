@@ -1,6 +1,9 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Ship {
 
@@ -8,7 +11,7 @@ public class Ship {
 
     private int integrity;
 
-    private ArrayList<Weapon> weapons;
+    private HashMap<Integer,Weapon> weapons;
 
     public int getShipID() {
         return shipID;
@@ -26,12 +29,24 @@ public class Ship {
         this.integrity = integrity;
     }
 
-    public ArrayList<Weapon> getWeapons() {
+    public HashMap<Integer,Weapon> getWeapons() {
         return weapons;
     }
 
-    public void setWeapons(ArrayList<Weapon> weapons) {
+    public void setWeapons(HashMap<Integer,Weapon> weapons) {
         this.weapons = weapons;
+    }
+
+    public boolean isFireable(int weaponID) {
+        if(integrity > 50) {
+            for (Entry<Integer, Weapon> entry : weapons.entrySet()) {
+                Weapon weapon = entry.getValue();
+                if (weaponID == weapon.getWeaponID()) {
+                    return (weapon.isFireable() && weapon.hasAmmo());
+                }
+            }
+        }
+        return false;
     }
 
     @Override

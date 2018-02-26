@@ -12,7 +12,7 @@ public class Battlefield {
     public static final int VERTICAL = 1;
 
     private Map<Integer, Ship> fleet;
-    private Map<Integer, String> supportFleet;
+    private Map<Integer, Integer> supportFleet;
     private Square[][] field;
     private FleetFactory fleetFactory;
     private int fleetWeight;
@@ -29,11 +29,59 @@ public class Battlefield {
         this.field = buildField();
     }
 
+    public void setFleetFactory(FleetFactory fleetFactory) {
+        this.fleetFactory = fleetFactory;
+    }
+
     public boolean isPlaceable(int addedWeight) {
         return (addedWeight <= (this.fleetWeight - this.shipWeight));
     }
 
-    public boolean addShipToField(int dimension, int weight, int posX, int posY, int orientation) {
+    public Map<Integer, Ship> getFleet() {
+        return fleet;
+    }
+
+    public void setFleet(Map<Integer, Ship> fleet) {
+        this.fleet = fleet;
+    }
+
+    public Map<Integer, Integer> getSupportFleet() {
+        return supportFleet;
+    }
+
+    public void setSupportFleet(Map<Integer, Integer> supportFleet) {
+        this.supportFleet = supportFleet;
+    }
+
+    public Square[][] getField() {
+        return field;
+    }
+
+    public void setField(Square[][] field) {
+        this.field = field;
+    }
+
+    public FleetFactory getFleetFactory() {
+        return fleetFactory;
+    }
+
+    public int getFleetWeight() {
+        return fleetWeight;
+    }
+
+    public void setFleetWeight(int fleetWeight) {
+        this.fleetWeight = fleetWeight;
+    }
+
+    public int getShipWeight() {
+        return shipWeight;
+    }
+
+    public void setShipWeight(int shipWeight) {
+        this.shipWeight = shipWeight;
+    }
+
+    public boolean addShipToField(int dimension, int weight, int posX, int posY, int orientation) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
 
         if(isPlaceable(weight)) {
 
@@ -77,11 +125,20 @@ public class Battlefield {
             }
             // Problema: come posso recuperare le informazioni della nave da passare in questo caso?
             // Il Battlefield deve conoscere shipCatalog e la civiltà scelta dal giocatore?
-            shipCumulativeID++;
+            // La civiltà la conosce perché conosce la fleetFactory
+            Ship ship = fleetFactory.createShip(dimension);
+            int shipID = ship.getShipID();
+
+            fleet.put(shipID, ship);
+
+
+            System.out.println("SHIP ID = " + shipID);
+
+
             this.shipWeight += weight;
             for (Square square : squaresToBePlaced ) {
                 square.setEmpty(false);
-                square.setShipReference(shipCumulativeID);
+                square.setShipReference(shipID);
             }
 
         } else {
@@ -92,14 +149,50 @@ public class Battlefield {
         return true;
     }
 
+//    public boolean placeShips() {
+//        for(Map.Entry<Integer,Integer> entry : supportFleet.entrySet()) {
+//
+//
+//
+//        }
+//    }
+
+    private boolean isFireable(int shipID, int weaponID) {
+        Ship firingShip = fleet.get(shipID);
+        return firingShip.isFireable(weaponID);
+    }
+
     public void attack(int shipID, int weaponID, int posX, int posY) {
 
+        if(isFireable(shipID, weaponID)) {
+            Ship attackingShip = fleet.get(shipID);
+            Weapon attackingWeapon = attackingShip.getWeapons().get(weaponID);
+            ArrayList<int[]> hitSquares = attackingWeapon.attack(posX, posY);
 
+            for (int[] hitSquare : hitSquares) {
+                int hitX = hitSquare[0];
+                int hitY = hitSquare[1];
+                field[hitX][hitY].setHit(true);
+            }
+
+            attackingWeapon.setReloadTime(attackingWeapon.getMaxReloadTime());
+            System.out.println("NEW RELOAD: " + attackingWeapon.getReloadTime());
+            attackingWeapon.decreaseAmmo();
+        }
+        else {
+            System.out.println("Attack not possible");
+        }
     }
+
     public void drawField() {
         for(int i=0; i<8; i++) {
             for(int j=0; j<8; j++) {
-                System.out.print(field[j][i].getShipReference());
+                if(field[j][i].isHit()) {
+                    System.out.print("x");
+                }
+                else {
+                    System.out.print(field[j][i].getShipReference());
+                }
             }
             System.out.println("");
         }
