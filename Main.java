@@ -9,11 +9,28 @@ import Model.RangeStrategy.IRangeStrategy;
 import Model.Ship;
 import Model.Weapon;
 import Util.HibernateUtil;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import View.Browser;
 
-public class Main {
+public class Main extends Application{
 
+    private Scene scene;
+    private Browser browser;
 
-    //commit di prov
+    @Override public void start(Stage stage) {
+        // create the scene
+        stage.setTitle("De Bello Navali");
+        this.browser= new Browser();
+
+        scene = new Scene(this.browser, Browser.PrefWidth, Browser.PrefHeight);
+
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
     public static void main(String[] args) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
 
 
@@ -47,6 +64,9 @@ public class Main {
         System.out.println(battlefield.getFleet());
 
         HibernateUtil.getSessionFactory().close();
+
+        //launch view
+        launch(args);
     }
 
 }

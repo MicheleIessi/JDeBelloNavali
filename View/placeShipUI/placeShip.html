@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" user>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Place Ship</title>
+
+
+    <link href="../utility/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../utility/jquery-ui.min.css" rel="stylesheet">
+    <link href="style/placeShip.css" rel="stylesheet">
+    <link href="style/shipCardStyle.css" rel="stylesheet">
+    <link href="../utility/FlipClock/flipclock.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../utility/bootstrap/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../utility/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../utility/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../utility/mustache.min.js"></script>
+    <script type="text/javascript" src="../utility/matchHeight.js"></script>
+    <script type="text/javascript" src="../utility/PlaceshipMetaData.js"></script>
+    <script type="text/javascript" src="../utility/FlipClock/flipclock.js"></script>
+
+
+    <script type="text/javascript" src="initPlaceShip.js"></script>
+    <script type="text/javascript" src="placeShipController.js"></script>
+
+    <script type="text/javascript" src="../moduleUtility/cursorModule.js"></script>
+    <script type="text/javascript" src="../moduleUtility/jsBridgeModule.js"></script>
+    <script type="text/javascript" src="module/moduleShipList/shipListModule.js"></script>
+    <script type="text/javascript" src="module/moduleFlagBanner/flagBannerModule.js"></script>
+    <script type="text/javascript" src="module/moduleTimeZone/timerZoneModule.js"></script>
+    <script type="text/javascript" src="module/moduleGridZone/gridZoneModule.js"></script>
+
+    <!-- uncomment next line to get firebug in the browser -->
+    <script type='text/javascript' src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script>
+
+
+
+</head>
+
+
+<body class="bodySize">
+
+
+<div class="container-fluid contentMain">
+
+<div class="navbar navbar-default navbar-static-top navHeader" role="navigation">
+    <div class="container-fluid navBar">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+            </a>
+        </div>
+    </div>
+
+    </div>
+
+<div class="row contentRow">
+            <div class="col-xs-4 contentBox columnFleet ">
+                <div class="listShipTitle">
+                    <p>Place yuor fleet captain and lead us to victory!</p>
+                </div>
+                <div class="listShip">
+                </div>
+
+
+
+            </div>
+
+            <div class="col-xs-8 contentBox Grid ">
+                <div class="row grid">
+                    <div class="row fleetWeightContainer">
+                               <div class="col-xs-1 iconWeight">
+                                        <img class="icon-bar" src="img/multiWeight.png">
+                               </div>
+                                <div class="col-xs-3 fleetWeight pull-left">
+                                     <p class="">Actual Fleet Weight % :</p>
+                                </div>
+                                <div class="col-xs-8 weightProgress">
+                                    <div class="progress  ">
+                                        <div class="progress-bar " role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                            0%
+                                        </div>
+                                    </div>
+
+                                </div>
+                    </div>
+                    <div class="row gridContainer">
+                        <div class="row rowGrid" id="0" >
+                            <div class="col-xs-1 colGrid" id="00"></div>
+                            <div class="col-xs-1 colGrid" id="01"></div>
+                            <div class="col-xs-1 colGrid" id="02"></div>
+                            <div class="col-xs-1 colGrid" id="03"></div>
+                            <div class="col-xs-1 colGrid" id="04"></div>
+                            <div class="col-xs-1 colGrid" id="05"></div>
+                            <div class="col-xs-1 colGrid" id="06"></div>
+                            <div class="col-xs-1 colGrid lastColumn" id="07"></div>
+
+                        </div>
+                        <div class="row rowGrid" id="1">
+                            <div class="col-xs-1 colGrid" id="10"></div>
+                            <div class="col-xs-1 colGrid" id="11"></div>
+                            <div class="col-xs-1 colGrid" id="12"></div>
+                            <div class="col-xs-1 colGrid" id="13"></div>
+                            <div class="col-xs-1 colGrid" id="14"></div>
+                            <div class="col-xs-1 colGrid" id="15"></div>
+                            <div class="col-xs-1 colGrid" id="16"></div>
+                            <div class="col-xs-1 colGrid lastColumn" id="17"></div>
+
+                        </div>
+                        <div class="row rowGrid" id="2">
+                            <div class="col-xs-1 colGrid" id="20"></div>
+                            <div class="col-xs-1 colGrid" id="21"></div>
+                            <div class="col-xs-1 colGrid" id="22"></div>
+                            <div class="col-xs-1 colGrid" id="23"></div>
+                            <div class="col-xs-1 colGrid" id="24"></div>
+                            <div class="col-xs-1 colGrid" id="25"></div>
+                            <div class="col-xs-1 colGrid" id="26"></div>
+                            <div class="col-xs-1 colGrid lastColumn" id="27"></div>
+
+                        </div>
+                        <div class="row rowGrid" id="3">
+                            <div class="col-xs-1 colGrid" id="30"></div>
+                            <div class="col-xs-1 colGrid" id="31"></div>
+                            <div class="col-xs-1 colGrid" id="32"></div>
+                            <div class="col-xs-1 colGrid" id="33"></div>
+                            <div class="col-xs-1 colGrid" id="34"></div>
+                            <div class="col-xs-1 colGrid" id="35"></div>
+                            <div class="col-xs-1 colGrid" id="36"></div>
+                            <div class="col-xs-1 colGrid lastColumn" id="37"></div>
+
+                        </div>
+                        <div class="row rowGrid" id="4">
+                            <div class="col-xs-1 colGrid" id="40"></div>
+                            <div class="col-xs-1 colGrid" id="41"></div>
+                            <div class="col-xs-1 colGrid" id="42"></div>
+                            <div class="col-xs-1 colGrid" id="43"></div>
+                            <div class="col-xs-1 colGrid" id="44"></div>
+                            <div class="col-xs-1 colGrid" id="45"></div>
+                            <div class="col-xs-1 colGrid" id="46"></div>
+                            <div class="col-xs-1 colGrid lastColumn" id="47"></div>
+
+                        </div>
+                        <div class="row rowGrid" id="5">
+                            <div class="col-xs-1 colGrid" id="50"></div>
+                            <div class="col-xs-1 colGrid" id="51"></div>
+                            <div class="col-xs-1 colGrid" id="52"></div>
+                            <div class="col-xs-1 colGrid" id="53"></div>
+                            <div class="col-xs-1 colGrid" id="54"></div>
+                            <div class="col-xs-1 colGrid" id="55"></div>
+                            <div class="col-xs-1 colGrid" id="56"></div>
+                            <div class="col-xs-1 colGrid lastColumn" id="57"></div>
+
+                        </div>
+                        <div class="row rowGrid" id="6">
+                            <div class="col-xs-1 colGrid" id="60"></div>
+                            <div class="col-xs-1 colGrid" id="61"></div>
+                            <div class="col-xs-1 colGrid" id="62"></div>
+                            <div class="col-xs-1 colGrid" id="63"></div>
+                            <div class="col-xs-1 colGrid" id="64"></div>
+                            <div class="col-xs-1 colGrid" id="65"></div>
+                            <div class="col-xs-1 colGrid" id="66"></div>
+                            <div class="col-xs-1 colGrid lastColumn" id="67"></div>
+
+                        </div>
+                        <div class="row rowGrid" id="7">
+                            <div class="col-xs-1 colGrid lastRow" id="70"></div>
+                            <div class="col-xs-1 colGrid lastRow" id="71"></div>
+                            <div class="col-xs-1 colGrid lastRow" id="72"></div>
+                            <div class="col-xs-1 colGrid lastRow" id="73"></div>
+                            <div class="col-xs-1 colGrid lastRow" id="74"></div>
+                            <div class="col-xs-1 colGrid lastRow" id="75"></div>
+                            <div class="col-xs-1 colGrid lastRow" id="76"></div>
+                            <div class="col-xs-1 colGrid lastRow lastColumn" id="77"></div>
+
+                        </div>
+
+                        <div class="row randomButton">
+                            <button type="button" class="btn btn-default random ">Place random!</button>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="row timerRow">
+                            <div class="col-xs-4 timerZoneColumn">
+                                <button type="button" class="btn btn-default surrender pull-left ">Surrender</button>
+                            </div>
+                            <div class="col-xs-4 timerZoneColumn">
+                                <div class="timer">
+                                    <p class="textTimer">Time left</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 timerZoneColumn">
+                                <button type="button" class="btn btn-default startBattle pull-right">Start Battle</button>
+                            </div>
+                </div>
+
+            </div>
+
+</div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    function getJsBridge() {
+        return jsBridgeModule ;
+    }
+
+</script>
+
+</body>
+</html>
