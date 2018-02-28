@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Play Game</title>
+    <link href="../utility/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../utility/jquery-ui.min.css" rel="stylesheet">
+    <link href="../playGameUI/playGame.css" rel="stylesheet">
+    <link href="../playGameUI/module/moduleShipList/ShipListStyle.css" rel="stylesheet">
+    <link href="../playGameUI/module/moduleEnemyField/enemyFieldModule.css" rel="stylesheet">
+    <link rel="stylesheet" href="module/moduleUserField/moduleUserField.css">
+
+    <script type="text/javascript" src="../utility/bootstrap/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../utility/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../utility/bootstrap/js/bootstrap.js"></script>
+    <link href="../utility/FlipClock/flipclock.css" rel="stylesheet">
+    <script type="text/javascript" src="../utility/FlipClock/flipclock.js"></script>
+    <script type="text/javascript" src="../utility/mustache.min.js"></script>
+    <script type="text/javascript" src="../utility/matchHeight.js"></script>
+    <script type="text/javascript" src="../utility/FlipClock/flipclock.js"></script>
+
+    <script type="text/javascript" src="../utility/GeneralShipMetaData.js"></script>
+
+    <script type="text/javascript" src="../moduleUtility/cursorModule.js"></script>
+    <script type="text/javascript" src="../moduleUtility/rangeModule.js"></script>
+
+    <script type="text/javascript" src="module/moduleShipList/shipListPlayGameModule.js"></script>
+    <script type="text/javascript" src="module/moduleUserField/userFieldModule.js"></script>
+
+    <script type="text/javascript" src="../playGameUI/initPlayGame.js"></script>
+
+
+</head>
+
+<body>
+
+    <div class="container-fluid mainPage ">
+        <!-- Barra Superiore -->
+        <div class="row pageTitle">
+             BATTLE PHASE!!
+        </div>
+
+        <div class="row contentMain">
+        <!-- Colonna laterale per la flotta-->
+            <div class="colLat col-xs-4">
+                <div class="myFleetTitle"> That's your Fleet
+                </div>
+                    <div class="fleetList">
+
+
+
+                    </div>
+            </div>
+        <!-- Area di gioco-->
+        <div class="col-xs-8 gameArea">
+            <!-- Area dedicata all'utente-->
+            <div class="col-xs-5 userArea">
+                <!-- Informazioni dell'utente-->
+                <div class="userInfo">User Info</div>
+                <!-- Campo di gioco dell'utente-->
+                <div class="userField">
+                    <div class="row gridRow " id="0">
+                    <div class="col-xs-1 cell" id="00"></div>
+                    <div class="col-xs-1 cell" id="01"></div>
+                    <div class="col-xs-1 cell" id="02"></div>
+                    <div class="col-xs-1 cell" id="03"></div>
+                    <div class="col-xs-1 cell" id="04"></div>
+                    <div class="col-xs-1 cell" id="05"></div>
+                    <div class="col-xs-1 cell" id="06"></div>
+                    <div class="col-xs-1 cell lastColumn" id="07"></div>
+                    </div>
+                    <div class="row gridRow" id="1">
+                        <div class="col-xs-1 cell" id="10"></div>
+                        <div class="col-xs-1 cell" id="11"></div>
+                        <div class="col-xs-1 cell" id="12"></div>
+                        <div class="col-xs-1 cell" id="13"></div>
+                        <div class="col-xs-1 cell" id="14"></div>
+                        <div class="col-xs-1 cell" id="15"></div>
+                        <div class="col-xs-1 cell" id="16"></div>
+                        <div class="col-xs-1 cell lastColumn" id="17"></div>
+                    </div>
+                    <div class="row gridRow" id="2">
+                        <div class="col-xs-1 cell" id="20"></div>
+                        <div class="col-xs-1 cell" id="21"></div>
+                        <div class="col-xs-1 cell" id="22"></div>
+                        <div class="col-xs-1 cell" id="23"></div>
+                        <div class="col-xs-1 cell" id="24"></div>
+                        <div class="col-xs-1 cell" id="25"></div>
+                        <div class="col-xs-1 cell" id="26"></div>
+                        <div class="col-xs-1 cell lastColumn" id="27"></div>
+                    </div>
+                    <div class="row gridRow"  id="3">
+                        <div class="col-xs-1 cell" id="30"></div>
+                        <div class="col-xs-1 cell" id="31"></div>
+                        <div class="col-xs-1 cell" id="32"></div>
+                        <div class="col-xs-1 cell" id="33"></div>
+                        <div class="col-xs-1 cell" id="34"></div>
+                        <div class="col-xs-1 cell" id="35"></div>
+                        <div class="col-xs-1 cell" id="36"></div>
+                        <div class="col-xs-1 cell lastColumn" id="37"></div>
+                    </div>
+                    <div class="row gridRow"  id="4">
+                        <div class="col-xs-1 cell" id="40"></div>
+                        <div class="col-xs-1 cell" id="41"></div>
+                        <div class="col-xs-1 cell" id="42"></div>
+                        <div class="col-xs-1 cell" id="43"></div>
+                        <div class="col-xs-1 cell" id="44"></div>
+                        <div class="col-xs-1 cell" id="45"></div>
+                        <div class="col-xs-1 cell" id="46"></div>
+                        <div class="col-xs-1 cell lastColumn" id="47"></div>
+                    </div>
+                    <div class="row gridRow"   id="5">
+                        <div class="col-xs-1 cell" id="50"></div>
+                        <div class="col-xs-1 cell" id="51"></div>
+                        <div class="col-xs-1 cell" id="52"></div>
+                        <div class="col-xs-1 cell" id="53"></div>
+                        <div class="col-xs-1 cell" id="54"></div>
+                        <div class="col-xs-1 cell" id="55"></div>
+                        <div class="col-xs-1 cell" id="56"></div>
+                        <div class="col-xs-1 cell lastColumn" id="57"></div>
+                    </div>
+                    <div class="row gridRow"  id="6">
+                        <div class="col-xs-1 cell" id="60"></div>
+                        <div class="col-xs-1 cell" id="61"></div>
+                        <div class="col-xs-1 cell" id="62"></div>
+                        <div class="col-xs-1 cell" id="63"></div>
+                        <div class="col-xs-1 cell" id="64"></div>
+                        <div class="col-xs-1 cell" id="65"></div>
+                        <div class="col-xs-1 cell" id="66"></div>
+                        <div class="col-xs-1 cell lastColumn" id="67"></div>
+                    </div>
+                    <div class="row gridRow lastRow"  id="7">
+                        <div class="col-xs-1 cell" id="70"></div>
+                        <div class="col-xs-1 cell" id="71"></div>
+                        <div class="col-xs-1 cell" id="72"></div>
+                        <div class="col-xs-1 cell" id="73"></div>
+                        <div class="col-xs-1 cell" id="74"></div>
+                        <div class="col-xs-1 cell" id="75"></div>
+                        <div class="col-xs-1 cell" id="76"></div>
+                        <div class="col-xs-1 cell lastColumn" id="77"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Area dedicata all'avversario-->
+            <div class="col-xs-7 enemyArea">
+                <!--Campo di gioco dell'avversario-->
+                <div class="enemyField">
+                    <div class="row gridRow ">
+                      <div class="col-xs-1 cellEnemy" id="900"></div>
+                        <div class="col-xs-1 cellEnemy" id="901"></div>
+                        <div class="col-xs-1 cellEnemy" id="902"></div>
+                        <div class="col-xs-1 cellEnemy" id="903"></div>
+                        <div class="col-xs-1 cellEnemy " id="904"></div>
+                        <div class="col-xs-1 cellEnemy " id="905"></div>
+                        <div class="col-xs-1 cellEnemy " id="906"></div>
+                        <div class="col-xs-1 cellEnemy lastColumn " id="907"></div>
+                    </div>
+                    <div class="row gridRow">
+                        <div class="col-xs-1 cellEnemy " id="910"></div>
+                        <div class="col-xs-1 cellEnemy " id="911"></div>
+                        <div class="col-xs-1 cellEnemy " id="912"></div>
+                        <div class="col-xs-1 cellEnemy " id="913"></div>
+                        <div class="col-xs-1 cellEnemy " id="914"></div>
+                        <div class="col-xs-1 cellEnemy " id="915"></div>
+                        <div class="col-xs-1 cellEnemy " id="916"></div>
+                        <div class="col-xs-1 cellEnemy lastColumn " id="917"></div>
+                    </div>
+                    <div class="row gridRow ">
+                        <div class="col-xs-1 cellEnemy " id="920"></div>
+                        <div class="col-xs-1 cellEnemy " id="921"></div>
+                        <div class="col-xs-1 cellEnemy " id="922"></div>
+                        <div class="col-xs-1 cellEnemy " id="923"></div>
+                        <div class="col-xs-1 cellEnemy " id="924"></div>
+                        <div class="col-xs-1 cellEnemy " id="925"></div>
+                        <div class="col-xs-1 cellEnemy " id="926"></div>
+                        <div class="col-xs-1 cellEnemy lastColumn " id="927"></div>
+                    </div>
+                    <div class="row gridRow ">
+                        <div class="col-xs-1 cellEnemy " id="930"></div>
+                        <div class="col-xs-1 cellEnemy " id="931"></div>
+                        <div class="col-xs-1 cellEnemy " id="932"></div>
+                        <div class="col-xs-1 cellEnemy " id="933"></div>
+                        <div class="col-xs-1 cellEnemy " id="934"></div>
+                        <div class="col-xs-1 cellEnemy " id="935"></div>
+                        <div class="col-xs-1 cellEnemy " id="936"></div>
+                        <div class="col-xs-1 cellEnemy lastColumn " id="937"></div>
+                    </div>
+                    <div class="row gridRow ">
+                    <div class="col-xs-1 cellEnemy " id="940"></div>
+                    <div class="col-xs-1 cellEnemy " id="941"></div>
+                    <div class="col-xs-1 cellEnemy " id="942"></div>
+                    <div class="col-xs-1 cellEnemy " id="943"></div>
+                    <div class="col-xs-1 cellEnemy " id="944"></div>
+                    <div class="col-xs-1 cellEnemy " id="945"></div>
+                    <div class="col-xs-1 cellEnemy " id="946"></div>
+                    <div class="col-xs-1 cellEnemy lastColumn " id="947"></div>
+                </div>
+                    <div class="row gridRow ">
+                        <div class="col-xs-1 cellEnemy " id="950"></div>
+                        <div class="col-xs-1 cellEnemy " id="951"></div>
+                        <div class="col-xs-1 cellEnemy " id="952"></div>
+                        <div class="col-xs-1 cellEnemy " id="953"></div>
+                        <div class="col-xs-1 cellEnemy " id="954"></div>
+                        <div class="col-xs-1 cellEnemy " id="955"></div>
+                        <div class="col-xs-1 cellEnemy " id="956"></div>
+                        <div class="col-xs-1 cellEnemy lastColumn " id="957"></div>
+                    </div>
+                    <div class="row gridRow ">
+                        <div class="col-xs-1 cellEnemy " id="960"></div>
+                        <div class="col-xs-1 cellEnemy " id="961"></div>
+                        <div class="col-xs-1 cellEnemy " id="962"></div>
+                        <div class="col-xs-1 cellEnemy " id="963"></div>
+                        <div class="col-xs-1 cellEnemy " id="964"></div>
+                        <div class="col-xs-1 cellEnemy " id="965"></div>
+                        <div class="col-xs-1 cellEnemy " id="966"></div>
+                        <div class="col-xs-1 cellEnemy lastColumn " id="967"></div>
+                    </div>
+                    <div class="row gridRow lastRow">
+                        <div class="col-xs-1 cellEnemy " id="970"></div>
+                        <div class="col-xs-1 cellEnemy " id="971"></div>
+                        <div class="col-xs-1 cellEnemy " id="972"></div>
+                        <div class="col-xs-1 cellEnemy " id="973"></div>
+                        <div class="col-xs-1 cellEnemy " id="974"></div>
+                        <div class="col-xs-1 cellEnemy " id="975"></div>
+                        <div class="col-xs-1 cellEnemy " id="976"></div>
+                        <div class="col-xs-1 cellEnemy lastColumn " id="977"></div>
+                    </div>
+
+                </div>
+                <!-- Informazioni del nemico -->
+                <div class="enemyInfo"> Enemy Info</div>
+            </div>
+            <!-- Area dedicata al timer e ai comandi di resa -->
+            <div class="col-xs-12 gameInfo">
+                <!--Bottone di resa -->
+                <div class="col-xs-3 ">
+                    <button type="button" class="btn btn-danger btn-md surrender pull-left ">Surrender</button>
+                </div>
+                <!--Testo che indica se è il turno dell'utente o dell'avversario -->
+                <div class="col-xs-4 turn"> E' il tuo turno</div>
+                <!--Timer -->
+                <div class="col-xs-5 ">
+                    <div class="timer">
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

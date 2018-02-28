@@ -34,7 +34,7 @@ public class Main extends Application{
     public static void main(String[] args) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
 
 
-        RangeStrategyFactory rsf = RangeStrategyFactory.getInstance();
+       RangeStrategyFactory rsf = RangeStrategyFactory.getInstance();
 
         IRangeStrategy irs = RangeStrategyFactory.getInstance().createStrategy("W2");
 

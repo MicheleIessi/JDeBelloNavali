@@ -5,26 +5,20 @@ var jsBridgeModule=(function () {
 
     //------------------------------------private method----------------------------------------//
 
-    __sendToJava=function () {
+    __sendToJava=function (data) {
 
-        javaBridge.provaJava({msg:"ciao da JS!!"});
+        javaBridge.receive(data);
     };
 
-    __prova=function (msg) {
+    __receiveFromJava=function (data) {
 
-        console.log(msg)
-    };
-
-
-
-
+        console.log(data);
+    }
 
 
     var __init=function () {
 
-        $('.random').click(function(){
-            __sendToJava();
-        })
+
 
     };
 
@@ -34,8 +28,7 @@ var jsBridgeModule=(function () {
 
         initModule:__init,
         sendToJava:__sendToJava,
-        provaJS:__prova
-
+        receiveFromJava:__receiveFromJava
 
     }
 

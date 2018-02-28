@@ -7,7 +7,14 @@ var placeShipController={
 
     //chiamata al server per addShipToField
     addShip:function (dim,position) {
-        console.log("ship"+dim+" in position"+position);
+        var data={
+            "task":"addShipToField",
+            "ship":{
+                "dim":dim,
+                "position":position
+            }
+        };
+        jsBridgeModule.sendToJava(data)
     },
 
     //non ancora progettata

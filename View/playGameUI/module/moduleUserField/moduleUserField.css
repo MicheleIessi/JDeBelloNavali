@@ -1,0 +1,32 @@
+
+
+.shipHealty{
+    background-color: #2aabd2;
+    border: 2px solid;
+}
+
+.shipHorizontal{
+    border-right: 0px ;
+    border-left:0px ;
+}
+.shipHorizontalFirst{
+    border-left: 2px solid ;
+}
+.shipHorizontalLast{
+    border-right: 2px solid;
+}
+
+.shipVertical{
+
+    border-top: 0px ;
+    border-bottom: 0px;
+}
+
+.shipVerticalFirst{
+    border-bottom: 2px solid;
+}
+
+.shipVerticalLast{
+
+    border-top: 2px solid;
+}

@@ -1,5 +1,6 @@
 package View;
 import javafx.scene.web.WebEngine;
+import jdk.nashorn.internal.runtime.JSONFunctions;
 import netscape.javascript.JSObject;
 
 
@@ -19,8 +20,22 @@ public class JavaBridge {
 
     //--------------------------PUBLIC METHOD ACCESSIBLE FROM JAVASCRIPT------------------------------------------//
 
-    public void provaJava(JSObject data){
-            System.out.print(data.getMember("msg"));
-            this.jsBridge.call("provaJS",new Object[]{"ciao da java!!"});
+    public void receive(JSObject data){
+        if (data.getMember("task")!=null)
+        {
+            JSObject ship= (JSObject) data.getMember("ship");
+            System.out.print(ship.getMember("dim"));
+            System.out.println(ship.getMember("position"));
+
+            this.sendToJs("receiveFromJava",data);
+        }
     }
+
+
+    public void sendToJs(String method,JSObject data){
+        this.jsBridge.call(method,data);
+    }
+
+
+
 }
