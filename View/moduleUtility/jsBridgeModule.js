@@ -5,20 +5,23 @@ var jsBridgeModule=(function () {
 
     //------------------------------------private method----------------------------------------//
 
-    __sendToJava=function (data) {
+    var __pubsub;
 
-        javaBridge.receive(data);
+    __sendToJava=function (packet) {
+
+        javaBridge.receive(packet);
     };
 
-    __receiveFromJava=function (data) {
-
-        console.log(data);
-    }
+    __receiveFromJava=function (packet) {
 
 
-    var __init=function () {
+        __pubsub.publish(packet["task"],packet);
+    };
 
 
+    var __init=function (pubSub) {
+
+    __pubsub=pubSub;
 
     };
 

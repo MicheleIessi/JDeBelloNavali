@@ -9,7 +9,10 @@
             target: $('.bodySize')
         });
 
-        jsBridgeModule.initModule();
+        var pubsub=amplify;
+
+        jsBridgeModule.initModule(pubsub);
+        placeShipController.initModule(pubsub);
         moduleFlagBanner.initModule();
         moduleGridZone.initModule();
         moduleShipList.initModule();

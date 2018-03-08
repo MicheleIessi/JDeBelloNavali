@@ -72,7 +72,7 @@ var moduleShipList=(function () {
                         //aggiorna il fleet weight
                         moduleGridZone.updateWeight(actualWeight,shipWeight);
                         //chiamare il controller per comunicare al server che si è piazzata una nave
-                        placeShipController.addShip(dim,position);
+                        placeShipController.addShipToField(dim,position);
 
                     }
                     else

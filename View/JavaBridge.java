@@ -1,17 +1,28 @@
 package View;
+import Model.DeBelloGame;
 import javafx.scene.web.WebEngine;
-import jdk.nashorn.internal.runtime.JSONFunctions;
+
 import netscape.javascript.JSObject;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Objects;
 
 
 public class JavaBridge {
+
+    private DeBelloGame dbg;
 
     /** for communication to the Javascript engine. */
     private JSObject jsBridge;
 
     private WebEngine webEngine;
 
+    private Method method;
+
     public JavaBridge(WebEngine engine){
+
+        this.dbg=DeBelloGame.getInstance();
 
         this.webEngine=engine;
         // get the Javascript connector object.
@@ -20,20 +31,53 @@ public class JavaBridge {
 
     //--------------------------PUBLIC METHOD ACCESSIBLE FROM JAVASCRIPT------------------------------------------//
 
-    public void receive(JSObject data){
-        if (data.getMember("task")!=null)
+    public void receive(JSObject packet){
+
+
+        String task=  packet.getMember("task").toString();
+
+        JSObject data= (JSObject) packet.getMember("data");
+
+        JSObject result;
+
+        if (task!=null)
         {
-            JSObject ship= (JSObject) data.getMember("ship");
+            try {
+                    method = dbg.getClass().getDeclaredMethod(task,netscape.javascript.JSObject.class);
+
+                }
+                catch (SecurityException e) { System.out.println(e.toString()); }
+                catch (NoSuchMethodException e) {System.out.println(e.toString());  }
+
+
+                try {
+
+                    result=(JSObject)method.invoke(dbg,data);
+
+                    this.sendToJs("receiveFromJava",result);
+                }
+                catch (IllegalArgumentException e) {
+                    System.out.println(e.toString());
+                }
+                catch (IllegalAccessException e) {
+                    System.out.println(e.toString());
+                }
+                catch (InvocationTargetException e) {
+                    System.out.println(e.toString());
+                }
+
+            /*
+            JSObject ship= (JSObject) packet.getMember("ship");
             System.out.print(ship.getMember("dim"));
             System.out.println(ship.getMember("position"));
 
-            this.sendToJs("receiveFromJava",data);
+            this.sendToJs("receiveFromJava",packet);*/
         }
     }
 
 
-    public void sendToJs(String method,JSObject data){
-        this.jsBridge.call(method,data);
+    public void sendToJs(String method,JSObject packet){
+        this.jsBridge.call(method,packet);
     }
 
 

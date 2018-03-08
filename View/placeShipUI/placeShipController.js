@@ -1,31 +1,54 @@
 /**
  * Created by fabiodisabatino on 08/04/17.
  */
-var placeShipController={
+var placeShipController= (function () {
 
-    data:{},
+    var __pubsub;
+
+    //------------------------------------private method----------------------------------------//
+
+
+
 
     //chiamata al server per addShipToField
-    addShip:function (dim,position) {
-        var data={
+    var __addShip=function (dim,position) {
+        var packet={
             "task":"addShipToField",
-            "ship":{
+            "data":{
                 "dim":dim,
                 "position":position
             }
         };
-        jsBridgeModule.sendToJava(data)
-    },
 
-    //non ancora progettata
-    removeShip:function (dim,position) {
+        jsBridgeModule.sendToJava(packet)
+    };
 
+    //TODO: funzione da progettare
+    var __removeShip=function (dim,position) {
         cosole.log('Removing ship'+dim+' in position'+position);
-    }
+    };
 
 
 
 
 
+    //------------------------------------public method----------------------------------------//
+        var init=function (pubSub) {
 
-}
+            __pubsub=pubSub;
+
+            __pubsub.subscribe("ShipPlaced",function (data) {
+
+                console.log(data);
+            });
+        };
+
+
+        //return an object with only public method
+        return {
+            initModule:init,
+            addShipToField:__addShip
+        }
+
+
+    })();
