@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class    Battlefield {
+public class Battlefield {
 
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
