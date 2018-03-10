@@ -30,8 +30,8 @@ var jsBridgeModule=(function () {
     return{
 
         initModule:__init,
-        sendToJava:__sendToJava,
-        receiveFromJava:__receiveFromJava
+        send:__sendToJava,
+        receive:__receiveFromJava
 
     }
 

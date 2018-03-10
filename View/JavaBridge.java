@@ -36,8 +36,6 @@ public class JavaBridge {
 
         String task=  packet.getMember("task").toString();
 
-        JSObject data= (JSObject) packet.getMember("data");
-
         JSObject result;
 
         if (task!=null)
@@ -49,12 +47,11 @@ public class JavaBridge {
                 catch (SecurityException e) { System.out.println(e.toString()); }
                 catch (NoSuchMethodException e) {System.out.println(e.toString());  }
 
-
                 try {
 
-                    result=(JSObject)method.invoke(dbg,data);
+                    result=(JSObject)method.invoke(dbg,packet);
 
-                    this.sendToJs("receiveFromJava",result);
+                    this.send("receive",result);
                 }
                 catch (IllegalArgumentException e) {
                     System.out.println(e.toString());
@@ -76,7 +73,7 @@ public class JavaBridge {
     }
 
 
-    public void sendToJs(String method,JSObject packet){
+    public void send(String method,JSObject packet){
         this.jsBridge.call(method,packet);
     }
 

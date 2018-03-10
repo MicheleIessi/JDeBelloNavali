@@ -4,23 +4,30 @@
 var placeShipController= (function () {
 
     var __pubsub;
+    var __shipPlaced={
+        "task":"placeShips",
+        "data":[]
+    };
 
     //------------------------------------private method----------------------------------------//
 
 
 
-
     //chiamata al server per addShipToField
-    var __addShip=function (dim,position) {
-        var packet={
-            "task":"addShipToField",
-            "data":{
+    var __addShip=function (dim,position,orientation) {
+        __shipPlaced.data.push({
                 "dim":dim,
-                "position":position
+                "position":position,
+                "orientation":orientation
             }
-        };
+        );
 
-        jsBridgeModule.sendToJava(packet)
+    };
+
+
+    var __placeShips=function () {
+        console.log("sending ships placed...");
+        jsBridgeModule.send(__shipPlaced);
     };
 
     //TODO: funzione da progettare
@@ -30,15 +37,13 @@ var placeShipController= (function () {
 
 
 
-
-
     //------------------------------------public method----------------------------------------//
         var init=function (pubSub) {
 
             __pubsub=pubSub;
 
-            __pubsub.subscribe("ShipPlaced",function (data) {
-
+            //add a listener for the ShipsPlaced event
+            __pubsub.subscribe("shipsPlaced",function (data) {
                 console.log(data);
             });
         };
@@ -47,7 +52,8 @@ var placeShipController= (function () {
         //return an object with only public method
         return {
             initModule:init,
-            addShipToField:__addShip
+            addShip:__addShip,
+            placeShips:__placeShips
         }
 
 

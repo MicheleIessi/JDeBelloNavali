@@ -31,6 +31,13 @@ var moduleTimerZone=(function () {
         });
         $('.flip-clock-label').remove();
         $('.minutes').remove();
+
+        //start battle
+        $(".startBattle").click(function(){
+
+                placeShipController.placeShips();
+            }
+        )
     };
 
     return {

@@ -24,9 +24,10 @@ public class DeBelloGame {
 
 
 
-    public JSObject addShipToField(JSObject data){
-        data.setMember("task","ShipPlaced");
-        return data;
+    public JSObject placeShips(JSObject packet){
+        System.out.println("placeShips.");
+        packet.setMember("task","shipsPlaced");
+        return packet;
     }
 
 

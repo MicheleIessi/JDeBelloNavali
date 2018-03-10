@@ -69,10 +69,10 @@ var moduleShipList=(function () {
                         moduleGridZone.addClassPlaced($cursor,dim,0);
                         //set rotate event on rotateIcon
                         moduleGridZone.setRotateEvent($cursor,dim);
-                        //aggiorna il fleet weight
+                        //update fleet weight
                         moduleGridZone.updateWeight(actualWeight,shipWeight);
-                        //chiamare il controller per comunicare al server che si è piazzata una nave
-                        placeShipController.addShipToField(dim,position);
+                        //call the controller and add the ship
+                        placeShipController.addShip(dim,position,"horizontal");
 
                     }
                     else
