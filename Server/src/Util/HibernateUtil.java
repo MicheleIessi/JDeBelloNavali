@@ -13,7 +13,7 @@ public class HibernateUtil {
         try {
             // Create the session factory from hibernate.cfg.xml
             Configuration configuration = new Configuration();
-            configuration.configure("Model/hibernate.cfg.xml");
+            configuration.configure("Util/hibernate.cfg.xml");
             configuration = addAnnotatedClasses(configuration);
             System.out.println("Hibernate Configuration Loaded");
 
