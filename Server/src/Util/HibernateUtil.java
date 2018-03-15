@@ -11,7 +11,7 @@ public class HibernateUtil {
 
     private static SessionFactory buildSessionFactory() {
         try {
-            // Create the session factory from hibernate.cfg.xml
+
             Configuration configuration = new Configuration();
             configuration.configure("Util/hibernate.cfg.xml");
             configuration = addAnnotatedClasses(configuration);

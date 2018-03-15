@@ -1,15 +1,12 @@
-import Model.AmmoStorage;
-import Model.Battlefield;
-import Model.Factories.FleetFactory.FleetFactory;
-import Model.Factories.FleetFactory.GalliFleetFactory;
-import Model.Factories.RangeStrategyFactory;
-import Model.Factories.WeaponFactory;
-import Model.RangeStrategy.IRangeStrategy;
-import Model.Weapon;
+import SharedUtils.MessageDTO;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import View.Browser;
+
+import java.io.*;
+import java.net.Socket;
+
 
 public class MainClient extends Application{
 
@@ -28,8 +25,30 @@ public class MainClient extends Application{
 
     }
 
-    public static void main(String[] args) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        launch(args);
+    public static void main(String[] args) throws IOException {
+
+        String host = "localhost";
+        int portNumber = 1234;
+        Socket connectionSocket = null;
+
+        try {
+            connectionSocket = new Socket(host, portNumber);
+            ObjectOutputStream objectOutputStream =  new ObjectOutputStream(connectionSocket.getOutputStream());
+            ObjectInputStream objectInputStream = new ObjectInputStream(connectionSocket.getInputStream());
+
+            MessageDTO messageDTO = new MessageDTO();
+            messageDTO.setFunctionString("Ciao");
+
+            System.out.println(messageDTO.toString());
+
+            objectOutputStream.writeObject(messageDTO);
+            objectOutputStream.flush();
+        } catch (IOException e) {
+            System.out.printf("Connection refused on host %s/%d.%n", host, portNumber);
+            System.exit(1);
+        }
+
+        //launch(args);
 
     }
 

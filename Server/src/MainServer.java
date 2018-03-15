@@ -1,24 +1,22 @@
+import Controller.FacadeController;
 import Persistence.ShipCatalog;
 import Persistence.ShipDescription;
 import Util.HibernateUtil;
 
+import java.io.IOException;
+
 public class MainServer {
 
 
-    public static void main(String[] args) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException {
 
-        ShipCatalog shipCatalog = ShipCatalog.getInstance();
-        ShipDescription shipDescription = shipCatalog.getShipDescriptionByCivDim("Bretoni", 2);
+        ConnectionListener connectionListener = new ConnectionListener();
+        FacadeController facadeController = new FacadeController();
 
-        System.out.println(shipCatalog.toString());
+        connectionListener.setFacadeController(facadeController);
 
-        HibernateUtil.getSessionFactory().close();
+        connectionListener.startServer();
 
     }
-
-
-
-
-
 
 }
