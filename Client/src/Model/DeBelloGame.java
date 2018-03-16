@@ -12,24 +12,25 @@ public class DeBelloGame {
 
     private static DeBelloGame instance;
 
-    public DeBelloGame(){};
+    public DeBelloGame() {
+    }
+
+    ;
 
 
     public static DeBelloGame getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new DeBelloGame();
         }
         return instance;
     }
 
 
-
-    public JSObject placeShips(JSObject packet){
+    public JSObject placeShips(JSObject packet) {
         System.out.println("placeShips.");
-        packet.setMember("task","shipsPlaced");
+        packet.setMember("task", "shipsPlaced");
         return packet;
     }
-
 
 
 }

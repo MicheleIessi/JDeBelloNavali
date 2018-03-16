@@ -12,7 +12,7 @@ public class AmmoStorage {
     }
 
     public void addWeaponToStorage(String weaponName, int ammo) {
-        if(!ammoByWeaponName.containsKey(weaponName)) {
+        if (!ammoByWeaponName.containsKey(weaponName)) {
             ammoByWeaponName.put(weaponName, ammo);
         }
     }
@@ -31,7 +31,7 @@ public class AmmoStorage {
     }
 
     public static AmmoStorage getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new AmmoStorage();
         }
         return instance;

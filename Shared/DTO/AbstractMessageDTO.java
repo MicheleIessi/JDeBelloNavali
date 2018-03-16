@@ -1,12 +1,12 @@
-package SharedUtils;
+package DTO;
 
 import java.io.Serializable;
 
-public class MessageDTO implements Serializable {
+public abstract class AbstractMessageDTO implements Serializable, IMessageDTO {
 
     private String functionString;
 
-    public MessageDTO() { }
+    public AbstractMessageDTO() { }
 
     public void setFunctionString(String functionString) {
         this.functionString = functionString;
@@ -20,7 +20,7 @@ public class MessageDTO implements Serializable {
     // TODO: Delete after finishing
     @Override
     public String toString() {
-        return "MessageDTO{" +
+        return this.getClass().getSimpleName()+"{" +
                 "functionString='" + functionString + '\'' +
                 '}';
     }

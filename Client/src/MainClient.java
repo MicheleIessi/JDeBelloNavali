@@ -1,4 +1,8 @@
-import SharedUtils.MessageDTO;
+import Communicator.DTOTransceiver;
+import Communicator.ITransceiver;
+import DTO.AttackMessageDTO;
+import DTO.BasicMessageDTO;
+import DTO.IMessageDTO;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -6,6 +10,7 @@ import View.Browser;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 
 public class MainClient extends Application{
@@ -25,30 +30,31 @@ public class MainClient extends Application{
 
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        String host = "localhost";
-        int portNumber = 1234;
-        Socket connectionSocket = null;
-
+        ITransceiver transceiver = new DTOTransceiver();
         try {
-            connectionSocket = new Socket(host, portNumber);
-            ObjectOutputStream objectOutputStream =  new ObjectOutputStream(connectionSocket.getOutputStream());
-            ObjectInputStream objectInputStream = new ObjectInputStream(connectionSocket.getInputStream());
-
-            MessageDTO messageDTO = new MessageDTO();
-            messageDTO.setFunctionString("Ciao");
-
-            System.out.println(messageDTO.toString());
-
-            objectOutputStream.writeObject(messageDTO);
-            objectOutputStream.flush();
-        } catch (IOException e) {
-            System.out.printf("Connection refused on host %s/%d.%n", host, portNumber);
-            System.exit(1);
+            String host = "localhost";
+            int port = 1234;
+            if(transceiver.initializeTransceiver(host, port)) {
+                System.out.printf("Connection estabilished with Server at %s:%d%n", host, port);
+                int i = 1;
+                while (true) {
+                    transceiver.initializeTransceiver(host, port);
+                    System.out.printf("Sending message number %d...%n", i);
+                    IMessageDTO messageDTO = new BasicMessageDTO();
+                    messageDTO.setFunctionString("Message number " + i);
+                    transceiver.sendDTO(messageDTO);
+                    transceiver.closeConnection();
+                    System.out.println("Ciao");
+                    i++;
+                    Thread.sleep(1000);
+                }
+                //launch(args);
+            }
+        } catch (IOException | ClassNotFoundException | InterruptedException e) {
+            e.printStackTrace();
         }
-
-        //launch(args);
 
     }
 

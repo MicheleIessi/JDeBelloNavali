@@ -1,7 +1,5 @@
 import Controller.FacadeController;
-import Persistence.ShipCatalog;
-import Persistence.ShipDescription;
-import Util.HibernateUtil;
+import Controller.HelloControllerObserver;
 
 import java.io.IOException;
 
@@ -10,11 +8,16 @@ public class MainServer {
 
     public static void main(String[] args) throws IOException {
 
-        ConnectionListener connectionListener = new ConnectionListener();
+        HelloControllerObserver helloControllerObserver = new HelloControllerObserver();
+
         FacadeController facadeController = new FacadeController();
 
+        facadeController.attachObserver(helloControllerObserver);
+
+        ConnectionListener connectionListener = new ConnectionListener();
         connectionListener.setFacadeController(facadeController);
 
+        // Server can be started
         connectionListener.startServer();
 
     }

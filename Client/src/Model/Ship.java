@@ -11,7 +11,7 @@ public class Ship {
 
     private int integrity;
 
-    private HashMap<Integer,Weapon> weapons;
+    private HashMap<Integer, Weapon> weapons;
 
     public int getShipID() {
         return shipID;
@@ -29,16 +29,16 @@ public class Ship {
         this.integrity = integrity;
     }
 
-    public HashMap<Integer,Weapon> getWeapons() {
+    public HashMap<Integer, Weapon> getWeapons() {
         return weapons;
     }
 
-    public void setWeapons(HashMap<Integer,Weapon> weapons) {
+    public void setWeapons(HashMap<Integer, Weapon> weapons) {
         this.weapons = weapons;
     }
 
     public boolean isFireable(int weaponID) {
-        if(integrity > 50) {
+        if (integrity > 50) {
             for (Entry<Integer, Weapon> entry : weapons.entrySet()) {
                 Weapon weapon = entry.getValue();
                 if (weaponID == weapon.getWeaponID()) {

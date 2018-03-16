@@ -13,7 +13,8 @@ public class Weapon {
     private IRangeStrategy rangeStrategy;
 
 
-    public Weapon() {}
+    public Weapon() {
+    }
 
     public boolean isFireable() {
         System.out.println("RELOAD TIME: " + this.reloadTime);

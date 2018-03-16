@@ -3,7 +3,13 @@ import Controller.FacadeController;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import SharedUtils.MessageDTO;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import DTO.BasicMessageDTO;
+import DTO.IMessageDTO;
+import Util.AnswerContainer;
+
 
 public class ConnectionListener {
 
@@ -31,26 +37,31 @@ public class ConnectionListener {
         while (true) {
             try {
                 accessSocket = serverSocket.accept();
-                System.out.printf("Client accepted: %d%n", accessSocket.getPort());
+                System.out.printf("Client accepted from: %s:%d%n",
+                        accessSocket.getInetAddress().getHostName(),
+                        accessSocket.getPort());
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             ObjectInputStream objectInputStream = new ObjectInputStream(accessSocket.getInputStream());
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(accessSocket.getOutputStream());
-            MessageDTO messageDTO = null;
 
+            IMessageDTO messageDTO;
+            IMessageDTO answerDTO;
             try {
 
-                messageDTO = (MessageDTO) objectInputStream.readObject();
-                System.out.println(messageDTO);
-                String functionString = messageDTO.getFunctionString();
-
-                System.out.printf("String received from Client %d: %s%n", accessSocket.getPort(), functionString);
-
+                messageDTO = (IMessageDTO) objectInputStream.readObject();
+                facadeController.incomingRequest(messageDTO);
+                answerDTO = AnswerContainer.getInstance().getStoredDTO();
+                System.out.printf("Answering with DTO message '%s'...%n", answerDTO.getFunctionString());
+                objectOutputStream.writeObject(answerDTO);
+                objectOutputStream.flush();
 
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+            } finally {
+                accessSocket.close();
             }
 
 
