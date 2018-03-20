@@ -3,10 +3,7 @@ import Controller.FacadeController;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-import DTO.BasicMessageDTO;
 import DTO.IMessageDTO;
 import Util.AnswerContainer;
 
@@ -52,6 +49,7 @@ public class ConnectionListener {
             try {
 
                 messageDTO = (IMessageDTO) objectInputStream.readObject();
+                System.out.println("Messaggio ricevuto:" + messageDTO.getFunctionString());
                 facadeController.incomingRequest(messageDTO);
                 answerDTO = AnswerContainer.getInstance().getStoredDTO();
                 System.out.printf("Answering with DTO message '%s'...%n", answerDTO.getFunctionString());

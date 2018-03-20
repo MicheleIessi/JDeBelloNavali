@@ -1,6 +1,7 @@
 package Communicator;
 
-import DTO.BasicMessageDTO;
+import DTO.DTO;
+import DTO.DTOBuilder;
 import DTO.IMessageDTO;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class DTOTransceiver implements ITransceiver {
     public DTOTransceiver() {}
 
     @Override
-    public boolean initializeTransceiver(String host, int port) throws IOException, ClassNotFoundException {
+    public void initializeTransceiver(String host, int port) throws IOException, ClassNotFoundException {
         System.out.printf("Trying to connect to %s:%d...%n", host, port);
         this.destinationHost = host;
         this.destinationPort = port;
@@ -29,10 +30,8 @@ public class DTOTransceiver implements ITransceiver {
             objectInputStream = new ObjectInputStream(connectionSocket.getInputStream());
 
         } catch (IOException e) {
-            System.out.printf("Connection impossible to destination %s:%d", destinationHost, destinationPort);
-            return false;
+            System.out.printf("Connection impossible to destination %s:%d%n", destinationHost, destinationPort);
         }
-        return sendHelloDTO();
     }
 
     public void closeConnection() throws IOException {
@@ -57,8 +56,9 @@ public class DTOTransceiver implements ITransceiver {
      */
     private boolean sendHelloDTO() throws IOException, ClassNotFoundException {
 
-        IMessageDTO helloDTO = new BasicMessageDTO();
-        helloDTO.setFunctionString("Hello");
+        IMessageDTO helloDTO = new DTOBuilder()
+                .function("Hello")
+                .build();
         IMessageDTO replyDTO = sendDTO(helloDTO);
 
         if("HelloReply".equalsIgnoreCase(replyDTO.getFunctionString())) {

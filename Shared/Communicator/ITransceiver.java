@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public interface ITransceiver {
 
-    public boolean initializeTransceiver(String host, int port) throws IOException, ClassNotFoundException;
-    public void closeConnection() throws IOException;
-    public IMessageDTO sendDTO(IMessageDTO dto) throws IOException, ClassNotFoundException;
+    void initializeTransceiver(String host, int port) throws IOException, ClassNotFoundException;
+    void closeConnection() throws IOException;
+    IMessageDTO sendDTO(IMessageDTO dto) throws IOException, ClassNotFoundException;
 
 }

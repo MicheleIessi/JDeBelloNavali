@@ -1,18 +1,22 @@
 package Controller;
 
-import DTO.BasicMessageDTO;
+import DTO.DTOBuilder;
 import DTO.IMessageDTO;
 import Util.AnswerContainer;
 
 public class HelloControllerObserver implements IObserver {
 
+    private String controllerFunctionName = "Hello";
 
     @Override
     public void update(IController controller) {
-        if("Hello".equalsIgnoreCase(controller.getFunction())) {
+        if(controllerFunctionName.equalsIgnoreCase(controller.getFunction())) {
 
-            IMessageDTO dto = new BasicMessageDTO();
-            dto.setFunctionString("HelloReply");
+            IMessageDTO dto = new DTOBuilder()
+                    .function("HelloReply")
+                    .build();
+
+            System.out.printf("%s", dto.getFunctionString());
             AnswerContainer.getInstance().putDTOMessage(dto);
 
         }

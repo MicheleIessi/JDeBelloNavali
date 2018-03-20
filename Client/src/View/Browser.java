@@ -9,10 +9,7 @@ import netscape.javascript.JSObject;
 import java.net.URL;
 
 
-
-
 public class Browser extends javafx.scene.layout.Region {
-
 
 
     /** for communication from the Javascript engine. */

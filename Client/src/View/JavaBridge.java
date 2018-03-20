@@ -33,43 +33,32 @@ public class JavaBridge {
 
     public void receive(JSObject packet){
 
-
-        String task=  packet.getMember("task").toString();
-
+        String task = packet.getMember("task").toString();
         JSObject result;
 
-        if (task!=null)
-        {
+        if (task!=null)  {
+
             try {
-                    method = dbg.getClass().getDeclaredMethod(task,netscape.javascript.JSObject.class);
-
-                }
-                catch (SecurityException e) { System.out.println(e.toString()); }
-                catch (NoSuchMethodException e) {System.out.println(e.toString());  }
-
-                try {
-
-                    result=(JSObject)method.invoke(dbg,packet);
-
-                    this.send("receive",result);
-                }
-                catch (IllegalArgumentException e) {
+                method = dbg.getClass().getDeclaredMethod(task,netscape.javascript.JSObject.class);
+            } catch (SecurityException e) {
                     System.out.println(e.toString());
-                }
-                catch (IllegalAccessException e) {
-                    System.out.println(e.toString());
-                }
-                catch (InvocationTargetException e) {
-                    System.out.println(e.toString());
-                }
+            } catch (NoSuchMethodException e) {
+                System.out.println(e.toString());
+            }
 
-            /*
-            JSObject ship= (JSObject) packet.getMember("ship");
-            System.out.print(ship.getMember("dim"));
-            System.out.println(ship.getMember("position"));
+            try {
+                result=(JSObject)method.invoke(dbg,packet);
+                this.send("receive",result);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.toString());
+            } catch (IllegalAccessException e) {
+                System.out.println(e.toString());
+            } catch (InvocationTargetException e) {
+                System.out.println(e.toString());
+            }
 
-            this.sendToJs("receiveFromJava",packet);*/
         }
+
     }
 
 
