@@ -1,6 +1,7 @@
 package Communicator;
 
-import DTO.DTO;
+import Controller.FacadeClientController;
+import Controller.IClientController;
 import DTO.DTOBuilder;
 import DTO.IMessageDTO;
 
@@ -16,8 +17,14 @@ public class DTOTransceiver implements ITransceiver {
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
     private Socket connectionSocket;
+    private FacadeClientController facadeClientController;
 
     public DTOTransceiver() {}
+
+    @Override
+    public void attachFacadeController(FacadeClientController facadeController) {
+        this.facadeClientController = facadeController;
+    }
 
     @Override
     public void initializeTransceiver(String host, int port) throws IOException, ClassNotFoundException {
@@ -47,6 +54,7 @@ public class DTOTransceiver implements ITransceiver {
         objectOutputStream.flush();
         System.out.println("Message sent");
         IMessageDTO replyDTO = (IMessageDTO) objectInputStream.readObject();
+        facadeClientController.incomingRequest(replyDTO);
         return replyDTO;
     }
 

@@ -13,7 +13,7 @@ public class HelloControllerObserver implements IObserver {
         if(controllerFunctionName.equalsIgnoreCase(controller.getFunction())) {
 
             IMessageDTO dto = new DTOBuilder()
-                    .function("HelloReply")
+                    .function("Attack")
                     .build();
 
             System.out.printf("%s", dto.getFunctionString());

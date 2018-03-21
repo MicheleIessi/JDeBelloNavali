@@ -1,5 +1,7 @@
 import Communicator.DTOTransceiver;
 import Communicator.ITransceiver;
+import Controller.AttackControllerObserver;
+import Controller.FacadeClientController;
 import DTO.DTOBuilder;
 import DTO.IMessageDTO;
 import javafx.application.Application;
@@ -30,6 +32,10 @@ public class MainClient extends Application{
     public static void main(String[] args) {
 
         ITransceiver transceiver = new DTOTransceiver();
+        FacadeClientController facadeClientController = new FacadeClientController();
+        AttackControllerObserver attackControllerObserver = new AttackControllerObserver();
+        facadeClientController.attachObserver(attackControllerObserver);
+        transceiver.attachFacadeController(facadeClientController);
         try {
             String host = "localhost";
             int port = 1234;
@@ -37,8 +43,10 @@ public class MainClient extends Application{
             IMessageDTO messageDTO = new DTOBuilder()
                     .function("Hello")
                     .build();
-            transceiver.sendDTO(messageDTO);
-            transceiver.closeConnection();
+            IMessageDTO dto = transceiver.sendDTO(messageDTO);
+//            transceiver.closeConnection();
+            System.out.println(dto.getFunctionString());
+
             launch(args);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

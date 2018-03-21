@@ -13,7 +13,6 @@ public class FacadeController implements IController {
     private String function;
     private ArrayList<IObserver> observerList;
 
-
     public FacadeController() {
         this.observerList = new ArrayList<>();
     }
@@ -31,7 +30,7 @@ public class FacadeController implements IController {
     }
 
     public void notifyObservers() {
-        for(IObserver observer : observerList) {
+        for (IObserver observer : observerList) {
             observer.update(this);
         }
     }

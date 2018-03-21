@@ -28,7 +28,7 @@ var cursorModule = (function () {
             }
         }
         console.log("Next cursor: " + nextID);
-        return $("#" + nextID);
+        return $("#" + nextID.toString());
     };
 
     __prevCursor = function ($cursor, orientation) {
