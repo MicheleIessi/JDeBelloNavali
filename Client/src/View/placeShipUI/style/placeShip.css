@@ -40,6 +40,8 @@ body, html {
 .timerRow{
     height: 12%;
     border: solid 1px;
+    border-left: 0px;
+    border-right: 0px;
 }
 
 .flagCivilization{
@@ -82,10 +84,10 @@ text-align: center;
 .gridContainer{
     height: 80%;
     margin: 0px;
-    padding-bottom: 10px;
+    padding-bottom: 5%;
     padding-left: 5%;
     padding-right: 5%;
-    padding-top: 10px;
+    padding-top: 5%;
 
 }
 .rowGrid{
@@ -93,12 +95,12 @@ text-align: center;
     height: 12.5%;
 }
 .colGrid{
-    border: 4px solid;
+    border: 1px solid;
     border-right: 0px;
+    border-bottom: 0px;
     width: 12.5%;
-    height:100%;
-    padding: 0px;
-
+    height: 100%;
+    padding: 1%;
 }
 .fleetWeightContainer{
     margin:0px;
@@ -117,13 +119,16 @@ text-align: center;
 }
 
 .lastRow{
-    border-bottom: 4px solid;
+    border-bottom: 1px solid;
 }
 .lastColumn{
-    border-right: 4px solid;
+    border-right: 1px solid;
 }
 .noBorder-left{
-    border-left:0px;
+    border-left: 0px;
+}
+.noBorder-top {
+    border-top: 0px;
 }
 .rotateIcon{
     font-size: 1.5em;
@@ -202,3 +207,7 @@ margin-left: 10px;
 
 
 
+
+.horizontal {
+    
+}

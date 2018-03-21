@@ -56,13 +56,17 @@ var moduleGridZone = (function () {
     var addClassPlaced = function (cursor, shipDim, orientation) {
         cursor.addClass("placed");
         cursor.addClass("ui-state-highlight");
+        var orientationClass = (orientation == HORIZONTAL) ? "noBorder-left" : "noBorder-top";
         appendRotationIcon(cursor, shipDim);
         cursor = cursorModule.getNextCursor(cursor, orientation);
 
         for (var i = 0; i < shipDim - 1; i++) {
-            cursor.addClass("placed ui-state-highlight noBorder-left");
+            cursor.addClass("placed");
+            cursor.addClass("ui-state-highlight");
+            cursor.addClass(orientationClass);
             cursor = cursorModule.getNextCursor(cursor, orientation);
         }
+
 
     };
 
@@ -87,7 +91,7 @@ var moduleGridZone = (function () {
 
         for (var i = 0; i < shipDim; i++) {
             console.log("remove placed at :" + cursor.attr("id"));
-            cursor.removeClass("placed ui-state-highlight noBorder-left");
+            cursor.removeClass("placed ui-state-highlight noBorder-left noBorder-top");
             cursor = cursorModule.getNextCursor(cursor, orientation);
         }
 
