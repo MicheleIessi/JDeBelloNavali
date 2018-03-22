@@ -16,13 +16,13 @@ public class DeBelloGame {
     private static DeBelloGame instance;
 
     public DeBelloGame() {
-        facadeController = new FacadeClientController();
-        try {
-            DTOTransceiver transceiver = new DTOTransceiver();
-            transceiver.initializeTransceiver("enemyHost", 1);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+//        facadeController = new FacadeClientController();
+//        try {
+//            DTOTransceiver transceiver = new DTOTransceiver();
+//            transceiver.initializeTransceiver("localhost", 1234);
+//        } catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static DeBelloGame getInstance() {

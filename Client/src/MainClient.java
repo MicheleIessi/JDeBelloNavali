@@ -1,3 +1,4 @@
+import Communicator.AnswerContainer;
 import Communicator.DTOTransceiver;
 import Communicator.ITransceiver;
 import Controller.AttackControllerObserver;
@@ -36,6 +37,7 @@ public class MainClient extends Application{
         AttackControllerObserver attackControllerObserver = new AttackControllerObserver();
         facadeClientController.attachObserver(attackControllerObserver);
         transceiver.attachFacadeController(facadeClientController);
+
         try {
             String host = "localhost";
             int port = 1234;
@@ -44,10 +46,13 @@ public class MainClient extends Application{
                     .function("Hello")
                     .build();
             IMessageDTO dto = transceiver.sendDTO(messageDTO);
-//            transceiver.closeConnection();
-            System.out.println(dto.getFunctionString());
+            if("HelloReply".equalsIgnoreCase(dto.getFunctionString())) {
+                System.out.printf("%s received from server, closing transceiver%n", dto.getFunctionString());
+                transceiver.closeConnection();
+            }
 
             launch(args);
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

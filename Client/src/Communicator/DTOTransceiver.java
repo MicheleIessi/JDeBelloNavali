@@ -58,22 +58,4 @@ public class DTOTransceiver implements ITransceiver {
         return replyDTO;
     }
 
-    /**
-     * Method sendHelloDTO checks if the connection is established by sending an HelloDTO object
-     * @return true if destinationHost answers, false otherwise
-     */
-    private boolean sendHelloDTO() throws IOException, ClassNotFoundException {
-
-        IMessageDTO helloDTO = new DTOBuilder()
-                .function("Hello")
-                .build();
-        IMessageDTO replyDTO = sendDTO(helloDTO);
-
-        if("HelloReply".equalsIgnoreCase(replyDTO.getFunctionString())) {
-            return true;
-        }
-
-        return false;
-    }
-
 }

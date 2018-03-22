@@ -1,3 +1,4 @@
+import Controller.DefenseControllerObserver;
 import Controller.FacadeController;
 import Controller.HelloControllerObserver;
 
@@ -9,10 +10,12 @@ public class MainServer {
     public static void main(String[] args) throws IOException {
 
         HelloControllerObserver helloControllerObserver = new HelloControllerObserver();
+        DefenseControllerObserver defenseControllerObserver = new DefenseControllerObserver();
 
         FacadeController facadeController = new FacadeController();
 
         facadeController.attachObserver(helloControllerObserver);
+        facadeController.attachObserver(defenseControllerObserver);
 
         ConnectionListener connectionListener = new ConnectionListener();
         connectionListener.setFacadeController(facadeController);
