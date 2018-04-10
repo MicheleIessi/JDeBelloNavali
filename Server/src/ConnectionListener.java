@@ -61,9 +61,6 @@ public class ConnectionListener {
             } finally {
                 accessSocket.close();
             }
-
-
-
         }
     }
 }
