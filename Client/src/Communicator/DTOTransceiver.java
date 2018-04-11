@@ -1,9 +1,7 @@
-package Communicator;
+package src.Communicator;
 
-import Controller.FacadeClientController;
-import Controller.IClientController;
-import DTO.DTOBuilder;
 import DTO.IMessageDTO;
+import src.Controller.FacadeClientController;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

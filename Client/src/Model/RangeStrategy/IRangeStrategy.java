@@ -1,6 +1,4 @@
-package Model.RangeStrategy;
-
-import Model.Square;
+package src.Model.RangeStrategy;
 
 import java.util.ArrayList;
 

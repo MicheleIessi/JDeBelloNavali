@@ -1,6 +1,7 @@
-package Model;
+package src.Model;
 
-import Model.Factories.FleetFactory.FleetFactory;
+
+import src.Model.Factories.FleetFactory.FleetFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;

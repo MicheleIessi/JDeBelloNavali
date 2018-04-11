@@ -1,6 +1,6 @@
-package Model.Factories;
+package src.Model.Factories;
 
-import Model.DeBelloGame;
+import src.Model.DeBelloGame;
 
 public class GameFactory {
 

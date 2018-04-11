@@ -1,4 +1,4 @@
-package Model.RangeStrategy;
+package src.Model.RangeStrategy;
 
 import java.util.ArrayList;
 

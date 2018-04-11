@@ -1,4 +1,4 @@
-package Model.RangeStrategy;
+package src.Model.RangeStrategy;
 
 public class AbstractRangeStrategy {
 

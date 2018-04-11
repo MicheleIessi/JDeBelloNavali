@@ -1,6 +1,6 @@
-package Model.Factories;
+package src.Model.Factories;
 
-import Model.RangeStrategy.IRangeStrategy;
+import src.Model.RangeStrategy.IRangeStrategy;
 
 public class RangeStrategyFactory {
 

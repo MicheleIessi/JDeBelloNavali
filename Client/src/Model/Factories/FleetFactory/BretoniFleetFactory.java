@@ -1,4 +1,4 @@
-package Model.Factories.FleetFactory;
+package src.Model.Factories.FleetFactory;
 
 public class BretoniFleetFactory extends FleetFactory {
 

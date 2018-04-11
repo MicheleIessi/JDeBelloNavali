@@ -1,6 +1,6 @@
-package Model;
+package src.Model;
 
-import Model.RangeStrategy.IRangeStrategy;
+import src.Model.RangeStrategy.IRangeStrategy;
 
 import java.util.ArrayList;
 

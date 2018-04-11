@@ -1,4 +1,4 @@
-package Persistence;
+package src.Persistence;
 
 public class ShipDescription {
 

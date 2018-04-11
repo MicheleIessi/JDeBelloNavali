@@ -1,10 +1,8 @@
-package Model;
+package src.Model;
 
-import Communicator.DTOTransceiver;
-import Controller.FacadeClientController;
-import netscape.javascript.JSObject;
+import src.Communicator.DTOTransceiver;
+import src.Controller.FacadeClientController;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class DeBelloGame {
@@ -30,11 +28,5 @@ public class DeBelloGame {
             instance = new DeBelloGame();
         }
         return instance;
-    }
-
-    public JSObject placeShips(JSObject packet) {
-        System.out.println("placeShips.");
-        packet.setMember("task", "shipsPlaced");
-        return packet;
     }
 }

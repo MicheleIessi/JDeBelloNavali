@@ -1,10 +1,10 @@
-package Model.Factories;
+package src.Model.Factories;
 
-import Model.AmmoStorage;
-import Model.RangeStrategy.IRangeStrategy;
-import Model.Weapon;
 import Persistence.WeaponCatalog;
 import Persistence.WeaponDescription;
+import src.Model.AmmoStorage;
+import src.Model.RangeStrategy.IRangeStrategy;
+import src.Model.Weapon;
 
 public class WeaponFactory {
 

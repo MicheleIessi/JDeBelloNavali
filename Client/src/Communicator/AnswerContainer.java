@@ -1,4 +1,4 @@
-package Communicator;
+package src.Communicator;
 
 import DTO.IMessageDTO;
 

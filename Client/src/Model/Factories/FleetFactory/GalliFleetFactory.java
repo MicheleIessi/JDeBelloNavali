@@ -1,12 +1,4 @@
-package Model.Factories.FleetFactory;
-
-import Model.Factories.WeaponFactory;
-import Model.Ship;
-import Model.Weapon;
-import Persistence.ShipCatalog;
-import Persistence.ShipDescription;
-
-import java.util.ArrayList;
+package src.Model.Factories.FleetFactory;
 
 public class GalliFleetFactory extends FleetFactory {
 

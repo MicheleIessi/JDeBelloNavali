@@ -1,6 +1,6 @@
-package Controller;
+package src.Controller;
 
-import Communicator.AnswerContainer;
+import src.Communicator.AnswerContainer;
 import DTO.DTOBuilder;
 import DTO.IMessageDTO;
 
