@@ -2,9 +2,10 @@ package com.debellonavali;
 
 import com.badlogic.gdx.Game;
 import com.debellonavali.Screens.SplashScreen;
-import src.Communicator.DTOTransceiver;
 
 public class MainView extends Game {
+
+
 
 	@Override
 	public void create () {
@@ -30,4 +31,5 @@ public class MainView extends Game {
 	public void resume() {
 		super.resume();
 	}
+
 }

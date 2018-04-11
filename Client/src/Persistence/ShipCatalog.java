@@ -1,6 +1,8 @@
 package src.Persistence;
 
 
+import src.Persistence.ShipDescription;
+
 public class ShipCatalog {
 
     private static ShipCatalog instance;

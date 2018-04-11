@@ -1,7 +1,7 @@
 package src.Model.Factories;
 
-import Persistence.WeaponCatalog;
-import Persistence.WeaponDescription;
+import src.Persistence.WeaponCatalog;
+import src.Persistence.WeaponDescription;
 import src.Model.AmmoStorage;
 import src.Model.RangeStrategy.IRangeStrategy;
 import src.Model.Weapon;

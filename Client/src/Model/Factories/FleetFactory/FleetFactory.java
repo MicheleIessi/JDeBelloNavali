@@ -1,8 +1,8 @@
 package src.Model.Factories.FleetFactory;
 
 import src.Model.Factories.WeaponFactory;
-import Persistence.ShipCatalog;
-import Persistence.ShipDescription;
+import src.Persistence.ShipCatalog;
+import src.Persistence.ShipDescription;
 import src.Model.Ship;
 import src.Model.Weapon;
 
