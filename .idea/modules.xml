@@ -9,7 +9,6 @@
       <module fileurl="file://$PROJECT_DIR$/Client/src/View/android/android.iml" filepath="$PROJECT_DIR$/Client/src/View/android/android.iml" />
       <module fileurl="file://$PROJECT_DIR$/Client/src/View/core/core.iml" filepath="$PROJECT_DIR$/Client/src/View/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/Client/src/View/desktop/desktop.iml" filepath="$PROJECT_DIR$/Client/src/View/desktop/desktop.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Client/src/View/ios/ios.iml" filepath="$PROJECT_DIR$/Client/src/View/ios/ios.iml" />
     </modules>
   </component>
 </project>

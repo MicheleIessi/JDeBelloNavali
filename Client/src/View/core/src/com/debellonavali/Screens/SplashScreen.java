@@ -1,10 +1,11 @@
 package com.debellonavali.Screens;
 
-import aurelienribon.tweenengine.*;
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -23,9 +24,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
+import com.debellonavali.Classes.Model.Ship;
+import com.debellonavali.Constants;
 import com.debellonavali.Tween.ActorAccessor;
 import com.debellonavali.Tween.SpriteAccessor;
-
 
 public class SplashScreen implements Screen {
 
@@ -42,9 +44,11 @@ public class SplashScreen implements Screen {
     private BitmapFont buttonFont, titleFont;
     private SpriteBatch batch;
     private Sprite splash;
+    private Music backgroundMusic;
     private TweenManager tweenManager;
-    private AssetManager assetManager;
     private boolean prossimoScreenIstanziato = false;
+
+    private Ship ship;
 
     public SplashScreen(Game game) {
         this.game = game;
@@ -53,17 +57,16 @@ public class SplashScreen implements Screen {
     @Override
     public void show() {
 
-        assetManager = new AssetManager();
-        atlas = new TextureAtlas(Gdx.files.internal("Packs/newButton.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal(Constants.SPLASH_BUTTON_PACK));
         skin = new Skin(atlas);
 
         tweenManager = new TweenManager();
         batch = new SpriteBatch();
-        Texture texture = new Texture(Gdx.files.internal("Pictures/background2.jpeg"));
+        Texture texture = new Texture(Gdx.files.internal(Constants.SPLASH_BACKGROUND_IMG));
         splash = new Sprite(texture);
         splash.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        buttonFont = new BitmapFont(Gdx.files.internal("Fonts/buttonFont.fnt"), false);
-        titleFont = new BitmapFont(Gdx.files.internal("Fonts/titleFont.fnt"), false);
+        buttonFont = new BitmapFont(Gdx.files.internal(Constants.SPLASH_BUTTON_FONT), false);
+        titleFont = new BitmapFont(Gdx.files.internal(Constants.SPLASH_TITLE_FONT), false);
 
         textButtonStyle = new TextButtonStyle();
         textButtonStyle.font = buttonFont;
@@ -74,10 +77,10 @@ public class SplashScreen implements Screen {
         titleLabelStyle.font = titleFont;
         titleLabelStyle.fontColor = new Color(.1f, .1f, .1f, 1);
 
-        titleLabel = new Label("DE  BELLO  NAVALI", titleLabelStyle);
+        titleLabel = new Label(Constants.SPLASH_LABEL_TITLE, titleLabelStyle);
 
-        playButton = new TextButton("PLAY NOW", textButtonStyle);
-        exitButton = new TextButton("EXIT", textButtonStyle);
+        playButton = new TextButton(Constants.SPLASH_PLAY_TEXT, textButtonStyle);
+        exitButton = new TextButton(Constants.SPLASH_EXIT_TEXT, textButtonStyle);
 
         playButton.addListener(new ChangeListener() {
             @Override
@@ -96,8 +99,8 @@ public class SplashScreen implements Screen {
             }
         });
 
-        Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/prova.ogg"));
-        mp3Music.play();
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(Constants.AUDIO_MAIN_THEME));
+        backgroundMusic.play();
 
         exitButton.addListener(new ChangeListener() {
             @Override
@@ -130,6 +133,8 @@ public class SplashScreen implements Screen {
         stage = new Stage();
 
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
+
         stage.addActor(table);
 
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
@@ -140,8 +145,6 @@ public class SplashScreen implements Screen {
 
         Tween.to(splash, SpriteAccessor.ALPHA, 1).target(1).start(tweenManager);
         Tween.to(table, ActorAccessor.ALPHA, 1).target(1).start(tweenManager);
-
-
 
     }
 
@@ -155,7 +158,6 @@ public class SplashScreen implements Screen {
         batch.begin();
         splash.draw(batch);
         batch.end();
-
 
         stage.act(delta);
         stage.draw();
@@ -183,7 +185,10 @@ public class SplashScreen implements Screen {
 
     @Override
     public void dispose() {
+        tweenManager.killAll();
+        backgroundMusic.dispose();
         batch.dispose();
+        titleFont.dispose();
         buttonFont.dispose();
         stage.dispose();
     }
