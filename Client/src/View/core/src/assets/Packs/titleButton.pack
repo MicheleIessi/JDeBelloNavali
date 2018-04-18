@@ -1,0 +1,24 @@
+
+titleButton.png
+size: 256,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button.down
+  rotate: false
+  xy: 104, 2
+  size: 100, 50
+  split: 5, 5, 5, 5
+  pad: 5, 5, 5, 5
+  orig: 100, 50
+  offset: 0, 0
+  index: -1
+button.up
+  rotate: false
+  xy: 2, 2
+  size: 100, 50
+  split: 5, 5, 5, 5
+  pad: 5, 5, 5, 5
+  orig: 100, 50
+  offset: 0, 0
+  index: -1
