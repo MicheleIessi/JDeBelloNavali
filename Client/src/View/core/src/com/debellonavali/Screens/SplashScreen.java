@@ -24,7 +24,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
-import com.debellonavali.Classes.Model.Ship;
 import com.debellonavali.Constants;
 import com.debellonavali.Tween.ActorAccessor;
 import com.debellonavali.Tween.SpriteAccessor;
@@ -47,8 +46,6 @@ public class SplashScreen implements Screen {
     private Music backgroundMusic;
     private TweenManager tweenManager;
     private boolean prossimoScreenIstanziato = false;
-
-    private Ship ship;
 
     public SplashScreen(Game game) {
         this.game = game;
@@ -133,7 +130,6 @@ public class SplashScreen implements Screen {
         stage = new Stage();
 
         Gdx.input.setInputProcessor(stage);
-        Gdx.input.setCatchBackKey(true);
 
         stage.addActor(table);
 

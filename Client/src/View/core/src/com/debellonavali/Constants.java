@@ -18,14 +18,15 @@ public class Constants {
 
     // Texture packs
     public static String SPLASH_BUTTON_PACK = "Packs/titleButton.pack";
-
+    public static String GRID_BUTTON_PACK = "Packs/gridButton.pack";
+    public static String GRID_PACK = "Packs/grid_pack.pack";
     // Pictures
     public static String SPLASH_BACKGROUND_IMG = "Pictures/background.jpeg";
+    public static String BATTLE_BACKGROUND_IMG = "Pictures/sfondoFasi.png";
 
     /* --- Label & Button text --- */
     public static String SPLASH_LABEL_TITLE = "DE  BELLO  NAVALI";
     public static String SPLASH_PLAY_TEXT = "PLAY NOW";
     public static String SPLASH_EXIT_TEXT = "EXIT";
-
 
 }
