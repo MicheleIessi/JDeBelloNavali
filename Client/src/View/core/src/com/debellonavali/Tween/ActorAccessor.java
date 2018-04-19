@@ -9,6 +9,8 @@ public class ActorAccessor implements TweenAccessor<Actor> {
     public static final int ALPHA = 1;
     public static final int X = 2;
     public static final int Y = 3;
+    public static final int WIDTH = 4;
+    public static final int HEIGHT = 5;
 
     @Override
     public int getValues(Actor target, int tweenType, float[] returnValues) {
@@ -27,6 +29,12 @@ public class ActorAccessor implements TweenAccessor<Actor> {
             case Y:
                 returnValues[0] = target.getY();
                 return 1;
+            case WIDTH:
+                returnValues[0] = target.getWidth();
+                return 1;
+            case HEIGHT:
+                returnValues[0] = target.getHeight();
+                return 1;
             default:
                 assert false;
                 return -1;
@@ -41,6 +49,21 @@ public class ActorAccessor implements TweenAccessor<Actor> {
                 break;
             case ALPHA:
                 target.setColor(target.getColor().r, target.getColor().g, target.getColor().b, newValues[0]);
+                break;
+            case X:
+                target.setX(newValues[0]);
+                break;
+            case Y:
+                target.setY(newValues[0]);
+                break;
+            case WIDTH:
+                target.setWidth(newValues[0]);
+                break;
+            case HEIGHT:
+                target.setHeight(newValues[0]);
+                break;
+            default:
+                assert false;
         }
     }
 }

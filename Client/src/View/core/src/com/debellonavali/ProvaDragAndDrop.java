@@ -80,7 +80,6 @@ public class ProvaDragAndDrop extends Game {
             }
 
             public void drop (DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                System.out.println("Refused: " + payload.getObject() + " " + x + ", " + y);
             }
         });
     }

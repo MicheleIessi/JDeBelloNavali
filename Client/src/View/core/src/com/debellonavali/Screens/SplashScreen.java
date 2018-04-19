@@ -191,8 +191,8 @@ public class SplashScreen implements Screen {
 
     private void fade(float duration) {
         Timeline.createParallel().beginParallel()
-                .push(Tween.to(table, ActorAccessor.ALPHA, duration).target(0).start(tweenManager))
-                .push(Tween.to(splash, SpriteAccessor.ALPHA, duration).target(0).start(tweenManager))
-                .end().start();
+                .push(Tween.to(table, ActorAccessor.ALPHA, duration).target(0))
+                .push(Tween.to(splash, SpriteAccessor.ALPHA, duration).target(0))
+                .end().start(tweenManager);
     }
 }

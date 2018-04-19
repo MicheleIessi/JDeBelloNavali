@@ -18,8 +18,8 @@ public class Constants {
 
     // Texture packs
     public static String SPLASH_BUTTON_PACK = "Packs/titleButton.pack";
-    public static String GRID_BUTTON_PACK = "Packs/gridButton.pack";
-    public static String GRID_PACK = "Packs/grid_pack.pack";
+    public static String GRID_CELL_PACK = "Packs/gridCell.pack";
+
     // Pictures
     public static String SPLASH_BACKGROUND_IMG = "Pictures/background.jpeg";
     public static String BATTLE_BACKGROUND_IMG = "Pictures/sfondoFasi.png";
