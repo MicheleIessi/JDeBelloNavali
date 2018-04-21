@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 import com.debellonavali.Constants;
+import com.debellonavali.PlaceShip.PlaceShipScreen;
 import com.debellonavali.Tween.ActorAccessor;
 import com.debellonavali.Tween.SpriteAccessor;
 
@@ -88,7 +89,7 @@ public class SplashScreen implements Screen {
                     Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
-                            game.setScreen(new BattlePhaseScreen(game));
+                            game.setScreen(new PlaceShipScreen(game));
                         }
                     }, .3f);
                 }
