@@ -1,0 +1,24 @@
+
+gridButton.png
+size: 128,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+gridButton.down
+  rotate: false
+  xy: 54, 2
+  size: 50, 50
+  split: 3, 3, 3, 3
+  pad: 3, 3, 3, 3
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+gridButton.up
+  rotate: false
+  xy: 2, 2
+  size: 50, 50
+  split: 3, 3, 3, 3
+  pad: 3, 3, 3, 3
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
