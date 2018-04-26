@@ -28,7 +28,9 @@ public class EnemyGridTable extends GridTable {
             for (int j = 0; j < 8; j++) {
                 Image gridCell = new Image(skin.getDrawable("grid_center"));
                 gridCell.setName(i + "," + j);
-                this.add(gridCell).width(75).height(75).minHeight(25).minWidth(25);
+                this.add(gridCell)
+                        .maxSize(Constants.GRID_CELL_MAX_DIMENSION)
+                        .minSize(Constants.GRID_CELL_MIN_DIMENSION);
                 dragAndDrop.addTarget(new DragAndDrop.Target(gridCell) {
                     public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
                         getActor().setColor(Color.LIME);

@@ -14,15 +14,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.debellonavali.Constants;
+import com.debellonavali.Screens.BattlePhase.Groups.ShipInfoGroup;
 import com.debellonavali.Screens.BattlePhase.Tables.EnemyGridTable;
 import com.debellonavali.Screens.BattlePhase.Tables.PlayerGridTable;
+import com.debellonavali.Screens.BattlePhase.Tables.ShipInfoTable;
 import com.debellonavali.Tween.SpriteAccessor;
 
 public class BattlePhaseScreen implements Screen {
@@ -32,7 +33,7 @@ public class BattlePhaseScreen implements Screen {
     private TextureAtlas atlas;
     private Skin skin;
     private TweenManager tweenManager;
-    private Table leftTable;
+    private ShipInfoTable shipInfoTable;
     private PlayerGridTable playerGridTable;
     private EnemyGridTable enemyGridTable;
     private Sprite sfondo;
@@ -54,56 +55,33 @@ public class BattlePhaseScreen implements Screen {
         skin.add("default", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         tweenManager = new TweenManager();
 
-        Image sourceImage = new Image(skin.getDrawable("grid_border"));
-
         Texture texture = new Texture(Gdx.files.internal(Constants.BATTLE_BACKGROUND_IMG));
         sfondo = new Sprite(texture);
         batch = new SpriteBatch();
         sfondo.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        leftTable = new Table();
+        shipInfoTable = new ShipInfoTable(skin, dragAndDrop);
         playerGridTable = new PlayerGridTable(skin, dragAndDrop);
         enemyGridTable = new EnemyGridTable(skin, dragAndDrop);
 
-        leftTable.setPosition(0,0);
-        leftTable.setSize(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight());
-        leftTable.add(sourceImage);
+        ScrollPane infoScrollPane = new ScrollPane(shipInfoTable);
+        infoScrollPane.setPosition(0, 0);
+        infoScrollPane.setSize(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight());
 
         Tween.set(sfondo, SpriteAccessor.ALPHA).target(0).start(tweenManager);
         Tween.to(sfondo, SpriteAccessor.ALPHA, .3f).target(1).start(tweenManager);
 
-        // In seguito questa azione andrà fatta per ogni arma di ogni nave del giocatore!
-        dragAndDrop.addSource(new DragAndDrop.Source(sourceImage) {
-            @Override
-            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                DragAndDrop.Payload payload = new DragAndDrop.Payload();
-
-                payload.setObject("Some payload!");
-
-                payload.setDragActor(new Label("Some payload!", skin));
-
-                Label validLabel = new Label("Some payload!", skin);
-                validLabel.setColor(0, 1, 0, 1);
-                payload.setValidDragActor(validLabel);
-
-                Label invalidLabel = new Label("Some payload!", skin);
-                invalidLabel.setColor(1, 0, 0, 1);
-                payload.setInvalidDragActor(invalidLabel);
-
-                return payload;
-            }
-        });
+        for (int i = 0; i < 10; i++) {
+            ShipInfoGroup shipGroup = new ShipInfoGroup(dragAndDrop);
+            shipInfoTable.addShipGroup(shipGroup);
+        }
 
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        stage.addActor(leftTable);
+        stage.addActor(infoScrollPane);
         stage.addActor(enemyGridTable);
         stage.addActor(playerGridTable);
-
-        leftTable.debug();
-        enemyGridTable.debug();
-        playerGridTable.debug();
 
         addTableClickListeners();
 
@@ -146,6 +124,9 @@ public class BattlePhaseScreen implements Screen {
 
     @Override
     public void dispose() {
+        batch.dispose();
+        atlas.dispose();
+        skin.dispose();
         stage.dispose();
     }
 
@@ -155,7 +136,7 @@ public class BattlePhaseScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(playerGridTable.getWidth() == Constants.GRID_MINIMIZED_WIDTH) {
+                if (playerGridTable.getWidth() == Constants.GRID_MINIMIZED_WIDTH) {
                     playerGridTable.toggleDimension(resized, tweenManager);
                     enemyGridTable.toggleDimension(!resized, tweenManager);
                 }
@@ -167,7 +148,7 @@ public class BattlePhaseScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(enemyGridTable.getWidth() == Constants.GRID_MINIMIZED_WIDTH) {
+                if (enemyGridTable.getWidth() == Constants.GRID_MINIMIZED_WIDTH) {
                     playerGridTable.toggleDimension(!resized, tweenManager);
                     enemyGridTable.toggleDimension(resized, tweenManager);
                 }

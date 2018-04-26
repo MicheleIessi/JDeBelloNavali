@@ -34,5 +34,4 @@ public abstract class GridTable extends Table {
 
     }
 
-
 }
