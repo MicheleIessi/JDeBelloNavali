@@ -30,4 +30,18 @@ public class Constants {
     public static String SPLASH_PLAY_TEXT = "PLAY NOW";
     public static String SPLASH_EXIT_TEXT = "EXIT";
 
+    /* --- Grid Tables Position and Dimension constants --- */
+    public static float GRID_MINIMIZED_POS_X = APP_WIDTH / 4;
+    public static float GRID_MINIMIZED_POS_Y = 0;
+    public static float GRID_MINIMIZED_WIDTH = APP_WIDTH / 4;
+    public static float GRID_MINIMIZED_HEIGHT = APP_WIDTH / 4;
+    public static float GRID_MINIMIZED_PADDING = 10;
+
+    public static float GRID_MAXIMIZED_POS_X = APP_WIDTH / 2;
+    public static float GRID_MAXIMIZED_POS_Y = 0;
+    public static float GRID_MAXIMIZED_WIDTH = APP_WIDTH / 2;
+    public static float GRID_MAXIMIZED_HEIGHT = APP_HEIGHT;
+    public static float GRID_MAXIMIZED_PADDING = 20;
+
+
 }

@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.debellonavali.Constants;
 import com.debellonavali.Screens.BattlePhase.Tables.EnemyGridTable;
 import com.debellonavali.Screens.BattlePhase.Tables.PlayerGridTable;
@@ -37,6 +38,7 @@ public class BattlePhaseScreen implements Screen {
     private Sprite sfondo;
     private SpriteBatch batch;
     private boolean resized = false;
+    private DragAndDrop dragAndDrop;
 
 
     public BattlePhaseScreen(Game game) {
@@ -45,6 +47,7 @@ public class BattlePhaseScreen implements Screen {
 
     @Override
     public void show() {
+        dragAndDrop = new DragAndDrop();
 
         atlas = new TextureAtlas(Gdx.files.internal(Constants.GRID_CELL_PACK));
         skin = new Skin(atlas);
@@ -59,8 +62,8 @@ public class BattlePhaseScreen implements Screen {
         sfondo.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         leftTable = new Table();
-        playerGridTable = new PlayerGridTable(skin, tweenManager);
-        enemyGridTable = new EnemyGridTable(skin, tweenManager);
+        playerGridTable = new PlayerGridTable(skin, dragAndDrop);
+        enemyGridTable = new EnemyGridTable(skin, dragAndDrop);
 
         leftTable.setPosition(0,0);
         leftTable.setSize(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight());
@@ -68,6 +71,29 @@ public class BattlePhaseScreen implements Screen {
 
         Tween.set(sfondo, SpriteAccessor.ALPHA).target(0).start(tweenManager);
         Tween.to(sfondo, SpriteAccessor.ALPHA, .3f).target(1).start(tweenManager);
+
+        // In seguito questa azione andrà fatta per ogni arma di ogni nave del giocatore!
+        dragAndDrop.addSource(new DragAndDrop.Source(sourceImage) {
+            @Override
+            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                DragAndDrop.Payload payload = new DragAndDrop.Payload();
+
+                payload.setObject("Some payload!");
+
+                payload.setDragActor(new Label("Some payload!", skin));
+
+                Label validLabel = new Label("Some payload!", skin);
+                validLabel.setColor(0, 1, 0, 1);
+                payload.setValidDragActor(validLabel);
+
+                Label invalidLabel = new Label("Some payload!", skin);
+                invalidLabel.setColor(1, 0, 0, 1);
+                payload.setInvalidDragActor(invalidLabel);
+
+                return payload;
+            }
+        });
+
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -124,14 +150,14 @@ public class BattlePhaseScreen implements Screen {
     }
 
     private void addTableClickListeners() {
+
         ClickListener playerClickListener = new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                if(playerGridTable.getWidth() == playerGridTable.PLAYER_GRID_MIN_WIDTH) {
-                    playerGridTable.toggleDimension(resized);
-                    enemyGridTable.toggleDimension(resized);
+                if(playerGridTable.getWidth() == Constants.GRID_MINIMIZED_WIDTH) {
+                    playerGridTable.toggleDimension(resized, tweenManager);
+                    enemyGridTable.toggleDimension(!resized, tweenManager);
                 }
                 resized = !resized;
             }
@@ -141,10 +167,9 @@ public class BattlePhaseScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                if(enemyGridTable.getWidth() == enemyGridTable.ENEMY_GRID_WIDTH) {
-                    playerGridTable.toggleDimension(resized);
-                    enemyGridTable.toggleDimension(resized);
+                if(enemyGridTable.getWidth() == Constants.GRID_MINIMIZED_WIDTH) {
+                    playerGridTable.toggleDimension(!resized, tweenManager);
+                    enemyGridTable.toggleDimension(resized, tweenManager);
                 }
                 resized = !resized;
             }
