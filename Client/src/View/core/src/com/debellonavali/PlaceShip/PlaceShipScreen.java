@@ -1,6 +1,8 @@
 package com.debellonavali.PlaceShip;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.audio.Music;
+import com.debellonavali.Constants;
 import com.debellonavali.PlaceShip.ConstantsPlaceShips;
 import com.debellonavali.PlaceShip.Stage.PlaceShipStage;
 import com.badlogic.gdx.Gdx;
@@ -17,6 +19,7 @@ public class PlaceShipScreen implements Screen {
 
     private final Game app;
     private PlaceShipStage stage;
+    private Music backgroundMusic;
 
 
     /*   layout:
@@ -39,7 +42,11 @@ public class PlaceShipScreen implements Screen {
     public void show() {
         System.out.println("Place ship screen show...");
         Gdx.input.setInputProcessor(stage);
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(ConstantsPlaceShips.AUDIO_MAIN_THEME));
+        //backgroundMusic.play();
+
         stage.setUpLayout();
+
 
     }
 

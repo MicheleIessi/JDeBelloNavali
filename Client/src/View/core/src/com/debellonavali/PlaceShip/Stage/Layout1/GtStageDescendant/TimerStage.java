@@ -21,8 +21,9 @@ public class TimerStage extends zoneStage {
 
     public TimerStage(zoneStage parent) {
         super( parent);
-        zoneTable.setDebug(true);
         zoneTable.pad(0);
+
+
     }
 
     @Override
