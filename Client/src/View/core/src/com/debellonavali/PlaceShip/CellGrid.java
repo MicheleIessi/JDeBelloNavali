@@ -8,15 +8,20 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
+import com.debellonavali.PlaceShip.Stage.Layout1.GtStageDescendant.GridStage;
 
 public class CellGrid extends Actor {
     //Variables for water animation
     private Animation water;
     private TextureRegion[] waterTextures;
     float waterStateTime = 0f;
+    private CellState state;
     //CellGrid select overlay texture
     Texture selected = new Texture(Gdx.files.internal(ConstantsPlaceShips.SELECTED_TEXTURE_PATH));
     //Ship contained
@@ -24,14 +29,12 @@ public class CellGrid extends Actor {
     //Sizing for the cell
     private int x, y;
     public static int cellWidth =  (ConstantsPlaceShips.GRID_ZONE_WIDTH/13);
-    //Position relative to ship (zero indexed)
-    private int position;
 
+    private GridStage parentStage;
 
-    private boolean isSelected = false;
 
     public enum CellState {
-        WATER, DAMAGED, HEALTHY
+        EMPTY, NOT_EMPTY
     }
     public CellState getState() {
         return state;
@@ -41,16 +44,15 @@ public class CellGrid extends Actor {
         this.state = state;
     }
 
-    CellState state = CellState.WATER;
-
-    public CellGrid(int x, int y) {
+    public CellGrid(int x, int y, GridStage stage) {
         this.x = x;
         this.y = y;
-        setDimensions();
-        //Used to detect actor based on x,y string
+        this.parentStage=stage;
+        this.state=CellState.EMPTY;
         super.setName(x+","+y);
+
+        setDimensions();
         setUpWaterAnimation();
-        setUpListener();
     }
 
     @Override
@@ -59,7 +61,7 @@ public class CellGrid extends Actor {
         if(shipImg!=null) {
             //batch.draw(ship.getTexture(position), getX(), getY(), cellWidth, cellWidth);
         }
-        if(isSelected ) {
+        if(state!=CellState.EMPTY ) {
             batch.draw(selected, getX(), getY(), cellWidth, cellWidth);
         }
     }
@@ -68,35 +70,6 @@ public class CellGrid extends Actor {
         return (shipImg != null);
     }
 
-    /**
-     * Damages this cell
-     * @return true if the cell became damaged
-     */
-    public boolean damage() {
-        if(state == CellState.HEALTHY) {
-            state = CellState.DAMAGED;
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Sets up listener
-     */
-    private void setUpListener() {
-        this.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                isSelected = !isSelected;
-                return true;
-            }
-        });
-
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
-    }
 
     public void dropShip(Payload ship){
         System.out.println(ship);
@@ -139,12 +112,20 @@ public class CellGrid extends Actor {
         super.setBounds((x*cellWidth), (y*cellWidth), cellWidth , cellWidth);
     }
 
-    public void updateDimensions() {
-        super.setWidth(cellWidth);
-        super.setHeight(cellWidth);
-    }
 
     public String getPosition(){
         return ""+x+" "+y;
     }
+
+    public void showPreview(int dim){
+
+        this.parentStage.showPreview(x,y,dim);
+
+    }
+    public void hidePreview(int dim) {
+
+        this.parentStage.hidePreview();
+    }
+
+
 }

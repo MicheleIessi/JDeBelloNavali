@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
@@ -95,13 +96,15 @@ public class ShipListStage extends zoneStage {
 
     }
 
+
+
     public void setUpDragAndDrop() {
 
 
         Table playerGridTable=((PlaceShipStage)parent).getGtStage().getGridTable();
 
         DragAndDrop dragAndDrop = new DragAndDrop();
-
+        // Set each ship in the list as draggable
         for (Table t: ships) {
             for ( Cell c:t.getCells()
                  ) {
@@ -116,30 +119,28 @@ public class ShipListStage extends zoneStage {
                         }
                     });
                 }
-
-
             }
-
         }
 
         ArrayList<ArrayList<CellGrid>> gridArray=((PlaceShipStage)parent).getGtStage().getGridArray();
-
+        //set each cell of the grid as droppable
         for (ArrayList<CellGrid> cells:gridArray
              ) {
             for (CellGrid cell: cells){
                 dragAndDrop.addTarget(new Target(cell) {
+                    CellGrid cellTarget=(CellGrid)getActor();
+                    //called when the payload is over the target
                     public boolean drag (Source source, Payload payload, float x, float y, int pointer) {
-
+                        cellTarget.showPreview(3);
                         return true;
                     }
-
+                    //called when the payload is no longer over the target
                     public void reset (Source source, Payload payload) {
-                        getActor().setColor(Color.WHITE);
+                       cellTarget.hidePreview(3);
                     }
-
+                    // called when the payload is dropped on the target
                     public void drop (Source source, Payload payload, float x, float y, int pointer) {
                         System.out.println("Accepted: " + payload.getObject());
-                         CellGrid cellTarget=(CellGrid)getActor();
                          cellTarget.dropShip(payload);
                          System.out.println(cellTarget.getPosition());
 
@@ -149,20 +150,6 @@ public class ShipListStage extends zoneStage {
 
         }
 
-       /* dragAndDrop.addTarget(new Target(invalidTargetImage) {
-            public boolean drag (Source source, Payload payload, float x, float y, int pointer) {
-                getActor().setColor(Color.RED);
-                return false;
-            }
-
-            public void reset (Source source, Payload payload) {
-                getActor().setColor(Color.WHITE);
-            }
-
-            public void drop (Source source, Payload payload, float x, float y, int pointer) {
-                ((CellGrid) getActor()).setSelected(true);
-            }
-        });*/
     }
 
 }
