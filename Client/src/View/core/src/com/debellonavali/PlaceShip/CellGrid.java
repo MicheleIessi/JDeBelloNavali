@@ -1,20 +1,20 @@
 package com.debellonavali.PlaceShip;
 
 import java.awt.*;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import com.debellonavali.PlaceShip.Stage.Layout1.GtStageDescendant.GridStage;
+import com.sun.javafx.collections.MappingChange;
 
 public class CellGrid extends Actor {
     //Variables for water animation
@@ -31,6 +31,7 @@ public class CellGrid extends Actor {
     public static int cellWidth =  (ConstantsPlaceShips.GRID_ZONE_WIDTH/13);
 
     private GridStage parentStage;
+
 
 
     public enum CellState {
@@ -59,7 +60,7 @@ public class CellGrid extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         drawWater(batch);
         if(shipImg!=null) {
-            //batch.draw(ship.getTexture(position), getX(), getY(), cellWidth, cellWidth);
+            shipImg.getDrawable().draw(batch, getX(),getY(),cellWidth,cellWidth);
         }
         if(state!=CellState.EMPTY ) {
             batch.draw(selected, getX(), getY(), cellWidth, cellWidth);
@@ -71,8 +72,17 @@ public class CellGrid extends Actor {
     }
 
 
-    public void dropShip(Payload ship){
-        System.out.println(ship);
+    public void dropShip(Map pack,int part){
+        System.out.println(pack);
+        Image img= new Image(new Texture(Gdx.files.internal(
+                ConstantsPlaceShips.FLEET_PICTURES_PATH+pack.get("civil")+"/divided/"+pack.get("name")+"/"+part+".png")));
+        shipImg=new Image(img.getDrawable());
+
+
+
+
+
+
     }
 
     /**
@@ -83,7 +93,7 @@ public class CellGrid extends Actor {
         TextureRegion currentFrame =(TextureRegion)water.getKeyFrame(waterStateTime, true);
         for(float i = 0; i < CellGrid.cellWidth - currentFrame.getRegionWidth(); i+=currentFrame.getRegionWidth()) {
             for(float j = 0; j< CellGrid.cellWidth - currentFrame.getRegionHeight(); j+=currentFrame.getRegionHeight()) {
-                batch.draw(currentFrame, getX()+i, getY()+j);
+                batch.draw(currentFrame, getX()+i, getY()+j,cellWidth-1,cellWidth-1);
             }
         }
     }
@@ -93,15 +103,15 @@ public class CellGrid extends Actor {
      */
     private void setUpWaterAnimation() {
         //Combines the water images into a TextureRegion array
-        waterTextures = new TextureRegion[32];
-        for(int i=0; i<32; i++) {
+        waterTextures = new TextureRegion[25];
+        for(int i=0; i<25; i++) {
             //Uses entire texture as "region" since they aren't on combined sprite sheet
             waterTextures[i] = new TextureRegion(
                     new Texture(Gdx.files.internal(ConstantsPlaceShips.WATER_TEXTURE+i+".png")),0, 0, cellWidth-1,cellWidth-1);
 
         }
         //Sets up the background animation at 32 fps
-        water = new Animation(1/32f, waterTextures);
+        water = new Animation(1/2f, waterTextures);
     }
 
     /**
@@ -117,15 +127,15 @@ public class CellGrid extends Actor {
         return ""+x+" "+y;
     }
 
-    public void showPreview(int dim){
 
-        this.parentStage.showPreview(x,y,dim);
 
-    }
-    public void hidePreview(int dim) {
 
-        this.parentStage.hidePreview();
+    public int getXCoordinate() {
+        return x;
     }
 
 
+    public int getYCoordinate() {
+        return y;
+    }
 }

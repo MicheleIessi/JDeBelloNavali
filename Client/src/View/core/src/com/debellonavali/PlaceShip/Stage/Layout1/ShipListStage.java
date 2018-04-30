@@ -29,24 +29,28 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShipListStage extends zoneStage {
 
-    private  TweenManager tweenManager;
+
     private DragAndDrop dragAndDrop;
-    private TextureAtlas atlas;
-    private Skin skin;
+
     private ArrayList<Table> ships;
     private LabelStyle shipLabelStyle;
     private BitmapFont shipFont;
     private Label shipLabel;
+    private String civilization;
+
 
     public ShipListStage(zoneStage parent) {
         super(parent);
         zoneTable.pad(0);
         ships= new ArrayList<>();
-
+        dragAndDrop = new DragAndDrop();
         initFonts();
 
     }
@@ -68,22 +72,42 @@ public class ShipListStage extends zoneStage {
     @Override
     public void setUpLayout() {
 
-        String packageCivil= ((PlaceShipStage)parent).getCivilization();
+        civilization= ((PlaceShipStage)parent).getCivilization();
         Table temp;
-        FileHandle [] files = Gdx.files.internal(ConstantsPlaceShips.FLEET_PICTURES_PATH+packageCivil+"/entire").list();
+        FileHandle [] files = Gdx.files.internal(ConstantsPlaceShips.FLEET_PICTURES_PATH+civilization+"/entire").list();
         int count =files.length;
+
+
         for(FileHandle file: files) {
 
+
             temp= new Table();
+            System.out.println(file.nameWithoutExtension());
+            final  Map<String, String> map= packSihpInfo(file.nameWithoutExtension());
+
             Image ship= new Image( new Texture(file));
-            ship.setName(file.nameWithoutExtension());
+
             temp.add(ship).width(200).height(200);
             temp.row();
-            shipLabel = new Label(file.nameWithoutExtension().split("-")[0], shipLabelStyle);
+            shipLabel = new Label(map.get("name"), shipLabelStyle);
             shipLabel.setAlignment(Align.center);
             temp.add(shipLabel).height(5).width(ConstantsPlaceShips.SHIP_ZONE_WIDTH);
             temp.setBounds(temp.getX(),temp.getY(),temp.getWidth(),temp.getHeight());
             ships.add(temp);
+
+
+
+            dragAndDrop.addSource(new Source(ship){
+                public Payload dragStart (InputEvent event, float x, float y, int pointer) {
+                    Payload payload = new Payload();
+
+                    payload.setObject(map);
+                    Image toDrag=new Image( ship.getDrawable());
+                    toDrag.setSize(70,70);
+                    payload.setDragActor(toDrag);
+                    return payload;
+                }
+            });
 
         }
         for (Table t:ships) {
@@ -92,64 +116,30 @@ public class ShipListStage extends zoneStage {
         }
 
         parent.getTable().add(zoneTable).width(ConstantsPlaceShips.SHIP_ZONE_WIDTH).height(ConstantsPlaceShips.SHIP_ZONE_HEIGHT);
-        tweenManager = new TweenManager();
+
+
 
     }
 
-
-
-    public void setUpDragAndDrop() {
-
-
-        Table playerGridTable=((PlaceShipStage)parent).getGtStage().getGridTable();
-
-        DragAndDrop dragAndDrop = new DragAndDrop();
-        // Set each ship in the list as draggable
-        for (Table t: ships) {
-            for ( Cell c:t.getCells()
-                 ) {
-                //check the actor ain't the label
-                if (c.getActor().getClass()!=Label.class){
-                    dragAndDrop.addSource(new Source(c.getActor()){
-                        public Payload dragStart (InputEvent event, float x, float y, int pointer) {
-                            Payload payload = new Payload();
-                            payload.setObject(c.getActor().getName());
-                            payload.setDragActor(new Image(((Image) c.getActor()).getDrawable()));
-                            return payload;
-                        }
-                    });
-                }
-            }
-        }
-
-        ArrayList<ArrayList<CellGrid>> gridArray=((PlaceShipStage)parent).getGtStage().getGridArray();
-        //set each cell of the grid as droppable
-        for (ArrayList<CellGrid> cells:gridArray
-             ) {
-            for (CellGrid cell: cells){
-                dragAndDrop.addTarget(new Target(cell) {
-                    CellGrid cellTarget=(CellGrid)getActor();
-                    //called when the payload is over the target
-                    public boolean drag (Source source, Payload payload, float x, float y, int pointer) {
-                        cellTarget.showPreview(3);
-                        return true;
-                    }
-                    //called when the payload is no longer over the target
-                    public void reset (Source source, Payload payload) {
-                       cellTarget.hidePreview(3);
-                    }
-                    // called when the payload is dropped on the target
-                    public void drop (Source source, Payload payload, float x, float y, int pointer) {
-                        System.out.println("Accepted: " + payload.getObject());
-                         cellTarget.dropShip(payload);
-                         System.out.println(cellTarget.getPosition());
-
-                    }
-                });
-            }
-
-        }
-
+    public DragAndDrop getDragAndDrop() {
+        return this.dragAndDrop;
     }
+
+
+    private Map packSihpInfo(String fileName){
+        String [] shipInfo=fileName.split("-");
+        Map<String, String> map = new HashMap<>();
+
+        map.put("civil",civilization);
+        map.put("name",shipInfo[0]);
+        map.put("dim",shipInfo[1]);
+        map.put("weight",shipInfo[2]);
+
+
+
+
+        return map;
+    }
+
 
 }

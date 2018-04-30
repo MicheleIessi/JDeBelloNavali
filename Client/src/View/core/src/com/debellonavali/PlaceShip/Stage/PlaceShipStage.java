@@ -1,8 +1,9 @@
 package com.debellonavali.PlaceShip.Stage;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.debellonavali.PlaceShip.ConstantsPlaceShips;
 import com.debellonavali.PlaceShip.Stage.Layout1.GtStage;
 import com.debellonavali.PlaceShip.Stage.Layout1.ShipListStage;
 
@@ -18,8 +19,10 @@ public class PlaceShipStage extends zoneStage {
     private final String civilization="RomanFleet";
 
 
+
     public PlaceShipStage(){
         super();
+
         zoneTable.setFillParent(true);
         zoneTable.pad(0);
         shipListStage= new ShipListStage(this);
@@ -41,10 +44,11 @@ public class PlaceShipStage extends zoneStage {
     @Override
     public void setUpLayout() {
         Gdx.input.setInputProcessor(this);
+
         for (zoneStage stage : stages) {
             stage.setUpLayout();
         }
-        shipListStage.setUpDragAndDrop();
+
         addActor(zoneTable);
     }
 
@@ -54,5 +58,13 @@ public class PlaceShipStage extends zoneStage {
 
     public GtStage getGtStage() {
         return gtStage;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        shipListStage.dispose();
+        gtStage.dispose();
+
     }
 }

@@ -1,7 +1,13 @@
 package com.debellonavali.PlaceShip;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.debellonavali.Constants;
 import com.debellonavali.PlaceShip.ConstantsPlaceShips;
 import com.debellonavali.PlaceShip.Stage.PlaceShipStage;
@@ -14,12 +20,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.debellonavali.Tween.SpriteAccessor;
 
 public class PlaceShipScreen implements Screen {
 
     private final Game app;
     private PlaceShipStage stage;
+    private SpriteBatch batch;
     private Music backgroundMusic;
+    private Image splash;
+
 
 
     /*   layout:
@@ -35,15 +45,19 @@ public class PlaceShipScreen implements Screen {
     public PlaceShipScreen (Game game){
         this.app=game;
         stage= new PlaceShipStage();
-
+        batch = new SpriteBatch();
     }
 
     @Override
     public void show() {
+
+
         System.out.println("Place ship screen show...");
         Gdx.input.setInputProcessor(stage);
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(ConstantsPlaceShips.AUDIO_MAIN_THEME));
-        //backgroundMusic.play();
+        backgroundMusic.play();
+
+
 
         stage.setUpLayout();
 
@@ -52,9 +66,9 @@ public class PlaceShipScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1f, 1f, 1f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(delta);
 
         stage.draw();
@@ -82,7 +96,7 @@ public class PlaceShipScreen implements Screen {
 
     @Override
     public void dispose() {
-
+         stage.dispose();
     }
 
     public void update(float delta){

@@ -6,6 +6,7 @@ public class ConstantsPlaceShips {
     public static int APP_HEIGHT = 720;
 
     public static String AUDIO_MAIN_THEME="Music/themePlaceShip.mp3";
+    public static String PLACE_SHIP_BACKGROUND_IMG= "Pictures/PlaceShipPictures/PlaceShipBackground.jpg";
 
     /************************** TABLE AND ZONE SIZE CONSTANTS**********************************/
     public static int SHIP_ZONE_PER_WIDTH=35;
@@ -49,7 +50,7 @@ public class ConstantsPlaceShips {
     /***********************************GRID TEXTURE*******************************************************/
 
     public static final String SELECTED_TEXTURE_PATH= "Pictures/PlaceShipPictures/select.png";
-    public static final String WATER_TEXTURE= "Pictures/PlaceShipPictures/water/water";
+    public static final String WATER_TEXTURE= "Pictures/PlaceShipPictures/water2/";
 
 
     /***********************************SHIPS IMG*******************************************************/
