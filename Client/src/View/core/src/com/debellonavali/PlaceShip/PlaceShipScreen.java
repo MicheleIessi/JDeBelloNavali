@@ -55,7 +55,7 @@ public class PlaceShipScreen implements Screen {
         System.out.println("Place ship screen show...");
         Gdx.input.setInputProcessor(stage);
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(ConstantsPlaceShips.AUDIO_MAIN_THEME));
-        backgroundMusic.play();
+        //backgroundMusic.play();
 
 
 

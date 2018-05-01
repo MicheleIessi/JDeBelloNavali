@@ -49,7 +49,10 @@ public class ConstantsPlaceShips {
 
     /***********************************GRID TEXTURE*******************************************************/
 
-    public static final String SELECTED_TEXTURE_PATH= "Pictures/PlaceShipPictures/select.png";
+    public static final String NOT_EMPTY_TEXTURE_PATH= "Pictures/PlaceShipPictures/notEmpty.png";
+    public static final String EMPTY_TEXTURE_PATH= "Pictures/PlaceShipPictures/empty.png";
+    public static final String EMPTY_INVALID_TEXTURE_PATH= "Pictures/PlaceShipPictures/notValid.png";
+
     public static final String WATER_TEXTURE= "Pictures/PlaceShipPictures/water2/";
 
 

@@ -1,15 +1,13 @@
 package com.debellonavali.PlaceShip.Stage.Layout1.GtStageDescendant;
 
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.debellonavali.PlaceShip.CellGrid;
 import com.debellonavali.PlaceShip.ConstantsPlaceShips;
+import com.debellonavali.PlaceShip.GridChecker;
 import com.debellonavali.PlaceShip.Stage.PlaceShipStage;
 import com.debellonavali.PlaceShip.Stage.zoneStage;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -18,21 +16,20 @@ public class GridStage extends zoneStage {
 
     //Game grid
     private ArrayList<ArrayList<CellGrid>> grid;
-    private ArrayList<CellGrid> lastCells;
+
+    private GridChecker checker;
 
 
     private Table fleetWeightTable;
     private Table gridTable;
 
-    public enum orientation{
-        Horizontal_Right,Horizontal_Left,
-        Vertical_Up,Vertical_Down
-    }
 
-    private orientation standardOrientation=orientation.Horizontal_Right;
+
+
 
     public GridStage(zoneStage parent) {
         super(parent);
+
         zoneTable.pad(0);
         fleetWeightTable= new Table();
         gridTable= new Table();
@@ -41,6 +38,9 @@ public class GridStage extends zoneStage {
         for(int i=0; i<8; i++) {
             grid.add(new ArrayList<>(8));
         }
+
+        checker= new GridChecker(grid);
+
 
 
     }
@@ -79,81 +79,59 @@ public class GridStage extends zoneStage {
         return gridTable;
     }
 
-    private ArrayList<CellGrid> getCells(int x,int y,int dim, orientation o){
-        Method method;
-
-            try {
-                method =this.getClass().getDeclaredMethod("getNext"+o,int.class,int.class,int.class );
-                return (ArrayList<CellGrid>) method.invoke(this,x,y,dim);
-
-            } catch (SecurityException e) { return null; }
-            catch (NoSuchMethodException e) {
-                System.out.println("Method not found...");
-                return null;
-            }
-            catch (IllegalAccessException e){ return null;}
-            catch(InvocationTargetException e){return null;}
-
-
-    }
 
     public void showPreview(int x, int y, int dim){
-        lastCells=getCells(x,y,dim,standardOrientation);
-        for (CellGrid cell:lastCells
-             ) {
-                cell.setState(CellGrid.CellState.NOT_EMPTY);
+        ArrayList<ArrayList<CellGrid>> invalidCells=checker.getPreviewInvalidCells(x,y,dim);
+        ArrayList<CellGrid> validCells=checker.getPreviewValidCells(x,y,dim);
+
+
+        if (invalidCells!=null){
+            for (ArrayList<CellGrid> position:invalidCells) {
+                for (CellGrid cell:position) {
+                    cell.showPreview(CellGrid.previewStyle.NOT_VALID);
+                }
+            }
+        }
+
+
+        if (validCells!=null){
+            for (CellGrid cell:validCells){
+                cell.showPreview(CellGrid.previewStyle.VALID);
+            }
         }
 
 
 
     }
 
-    public void hidePreview(int x, int y, int dim){
 
-        for (CellGrid cell:lastCells
-                ) {
-            cell.setState(CellGrid.CellState.EMPTY);
+    public void hidePreview(){
+        ArrayList<ArrayList<CellGrid>> invalidCells=checker.getPreviewedInvalidCells();
+        ArrayList<CellGrid> validCells=checker.getPreviewedValidCells();
+
+
+        if (invalidCells!=null){
+            for (ArrayList<CellGrid> position:invalidCells) {
+                for (CellGrid cell:position) {
+                    cell.hidePreview();
+                }
+            }
         }
+
+
+        if (validCells!=null){
+            for (CellGrid cell:validCells){
+                cell.hidePreview();
+            }
+        }
+
     }
 
 
-    public ArrayList<CellGrid> getNextHorizontal_Right(int x, int y, int dim){
-        ArrayList<CellGrid>cells=new ArrayList<>(dim);
-        for (int i=0;i<dim;i++){
-            cells.add(grid.get(x+i).get(y));
-        }
-       return cells;
-    }
 
-    public ArrayList<CellGrid> getNextHorizontal_Left(int x, int y, int dim){
-        ArrayList<CellGrid>cells=new ArrayList<>(dim);
-        for (int i=0;i<dim;i++){
-            cells.add(grid.get(x-i).get(y));
-        }
-        return cells;
-    }
-
-    public ArrayList<CellGrid> getNextVertical_Up(int x, int y, int dim){
-        ArrayList<CellGrid>cells=new ArrayList<>(dim);
-        for (int i=0;i<dim;i++){
-            cells.add(grid.get(x).get(y+i));
-        }
-        return cells;
-    }
-
-    public ArrayList<CellGrid> getNextVertical_Down(int x, int y, int dim){
-        ArrayList<CellGrid>cells=new ArrayList<>(dim);
-        for (int i=0;i<dim;i++){
-            cells.add(grid.get(x).get(y-i));
-        }
-        return cells;
-    }
 
 
     private void setUpDrop() {
-
-
-        // Set each ship in the list as draggable
 
         DragAndDrop dragAndDrop=((PlaceShipStage)parent.getParent()).getShipListStage().getDragAndDrop();
         //set each cell of the grid as droppable
@@ -171,24 +149,23 @@ public class GridStage extends zoneStage {
                     }
                     //called when the payload is no longer over the target
                     public void reset (DragAndDrop.Source source, DragAndDrop.Payload payload) {
-                        Map<String,String> pack=(Map)payload.getObject();
-                        hidePreview(cellTarget.getXCoordinate(),cellTarget.getYCoordinate(),Integer.parseInt((pack.get("dim"))));
+
+                        hidePreview();
                     }
                     // called when the payload is dropped on the target
                     public void drop (DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
                         Map<String,String> pack=(Map)payload.getObject();
-                        System.out.println("Dropped: " + pack.get("name") + " dim: " +pack.get("dim") + " weight: "+pack.get("weight"));
-
-                        int dim= Integer.parseInt(pack.get("dim"));
+                        ArrayList<CellGrid>cells=checker.getPreviewedValidCells();
                         int count=1;
-                        for (CellGrid cell: lastCells
-                             ) {
-                            cell.dropShip(pack,count);
-                            count++;
+
+                        if (cells!=null){
+                            for (CellGrid cell: cells
+                                    ) {
+                                cell.dropShip(pack,count);
+                                count++;
+                            }
+
                         }
-
-
-                        System.out.println(cellTarget.getPosition());
 
                     }
                 });
@@ -197,5 +174,7 @@ public class GridStage extends zoneStage {
         }
 
     }
+
+
 
 }

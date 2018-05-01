@@ -99,7 +99,7 @@ public class SplashScreen implements Screen {
         });
 
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(Constants.AUDIO_MAIN_THEME));
-        backgroundMusic.play();
+        //backgroundMusic.play();
 
         exitButton.addListener(new ChangeListener() {
             @Override

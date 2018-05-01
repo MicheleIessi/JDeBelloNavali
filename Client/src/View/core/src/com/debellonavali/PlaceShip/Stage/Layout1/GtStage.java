@@ -1,5 +1,6 @@
 package com.debellonavali.PlaceShip.Stage.Layout1;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.debellonavali.PlaceShip.CellGrid;
 import com.debellonavali.PlaceShip.ConstantsPlaceShips;
@@ -14,7 +15,6 @@ public class GtStage extends zoneStage {
 
 
     private List<zoneStage> stages = new ArrayList<zoneStage>();
-
 
     public GtStage(zoneStage parent) {
         super(parent);
