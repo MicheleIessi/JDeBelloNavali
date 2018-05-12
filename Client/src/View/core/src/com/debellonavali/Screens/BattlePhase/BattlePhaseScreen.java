@@ -19,12 +19,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.debellonavali.Classes.Communicator.ConnectionManagerImpl;
+import com.debellonavali.Classes.Controller.AttackControllerObserver;
+import com.debellonavali.Classes.Controller.DefenseControllerObserver;
+import com.debellonavali.Classes.Controller.FacadeClientController;
+import com.debellonavali.Classes.Model.Battlefield;
+import com.debellonavali.Classes.Model.RangeStrategy.IRangeStrategy;
+import com.debellonavali.Classes.Model.RangeStrategy.RangeStrategyW1;
+import com.debellonavali.Classes.Model.Ship;
+import com.debellonavali.Classes.Model.Weapon;
 import com.debellonavali.Constants;
 import com.debellonavali.Screens.BattlePhase.Groups.ShipInfoGroup;
 import com.debellonavali.Screens.BattlePhase.Tables.EnemyGridTable;
 import com.debellonavali.Screens.BattlePhase.Tables.PlayerGridTable;
 import com.debellonavali.Screens.BattlePhase.Tables.ShipInfoTable;
 import com.debellonavali.Tween.SpriteAccessor;
+
+import java.util.HashMap;
 
 public class BattlePhaseScreen implements Screen {
 
@@ -40,14 +51,50 @@ public class BattlePhaseScreen implements Screen {
     private SpriteBatch batch;
     private boolean resized = false;
     private DragAndDrop dragAndDrop;
+    // Test variables
+    private Battlefield playerBattlefield;
+    private Battlefield enemyBattlefield;
 
 
     public BattlePhaseScreen(Game game) {
         this.game = game;
+        stage = new Stage();
+        ConnectionManagerImpl connectionManager = ConnectionManagerImpl.getInstance();
+        connectionManager.initialize(Constants.DEFAULT_PLAYER_PORT);
+        connectionManager.startMonitoringThread();
+        FacadeClientController clientController = new FacadeClientController();
+        AttackControllerObserver attackController = new AttackControllerObserver();
+        DefenseControllerObserver defenseController = new DefenseControllerObserver();
+        clientController.attachObserver(attackController);
+        clientController.attachObserver(defenseController);
+        connectionManager.attachFacadeController(clientController);
+
+        testOperation();
+    }
+
+    public void testOperation() {
+        playerBattlefield = new Battlefield();
+        enemyBattlefield = new Battlefield();
+        Ship ship = new Ship();
+        ship.setIntegrity(100);
+        ship.setShipID(1);
+        IRangeStrategy range = new RangeStrategyW1();
+        Weapon weapon = new Weapon();
+        weapon.setWeaponName("Prova");
+        weapon.setMaxReloadTime(1);
+        weapon.setRangeStrategy(range);
+        weapon.setWeaponID(1);
+        HashMap map = new HashMap();
+        map.put(weapon.getWeaponID(), weapon);
+        ship.setWeapons(map);
+        HashMap fleet = new HashMap();
+        fleet.put(ship.getShipID(), ship);
+        playerBattlefield.setFleet(fleet);
     }
 
     @Override
     public void show() {
+
         dragAndDrop = new DragAndDrop();
 
         atlas = new TextureAtlas(Gdx.files.internal(Constants.GRID_CELL_PACK));
@@ -71,11 +118,10 @@ public class BattlePhaseScreen implements Screen {
         Tween.set(sfondo, SpriteAccessor.ALPHA).target(0).start(tweenManager);
         Tween.to(sfondo, SpriteAccessor.ALPHA, .3f).target(1).start(tweenManager);
 
-        for (int i = 0; i < 10; i++) {
-            ShipInfoGroup shipGroup = new ShipInfoGroup(dragAndDrop);
+        for (int i = 0; i < playerBattlefield.getFleet().size(); i++) {
+            ShipInfoGroup shipGroup = new ShipInfoGroup(dragAndDrop, playerBattlefield.getFleet().get(1));
             shipInfoTable.addShipGroup(shipGroup);
         }
-
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -133,7 +179,6 @@ public class BattlePhaseScreen implements Screen {
     private void addTableClickListeners() {
 
         ClickListener playerClickListener = new ClickListener() {
-
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (playerGridTable.getWidth() == Constants.GRID_MINIMIZED_WIDTH) {
@@ -145,7 +190,6 @@ public class BattlePhaseScreen implements Screen {
         };
 
         ClickListener enemyClickListener = new ClickListener() {
-
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (enemyGridTable.getWidth() == Constants.GRID_MINIMIZED_WIDTH) {
@@ -158,8 +202,6 @@ public class BattlePhaseScreen implements Screen {
 
         playerGridTable.addListener(playerClickListener);
         enemyGridTable.addListener(enemyClickListener);
-
     }
-
 
 }

@@ -1,6 +1,6 @@
 package Controller;
 
-import DTO.IMessageDTO;
+import Communicator.DTO.IMessageDTO;
 
 import java.util.ArrayList;
 

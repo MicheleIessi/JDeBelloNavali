@@ -1,6 +1,6 @@
 package Controller;
 
-import DTO.IMessageDTO;
+import Communicator.DTO.IMessageDTO;
 
 public interface IObserver {
 

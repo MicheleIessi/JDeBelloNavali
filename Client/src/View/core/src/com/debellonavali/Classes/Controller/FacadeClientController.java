@@ -3,6 +3,7 @@ package com.debellonavali.Classes.Controller;
 import com.debellonavali.Classes.Communicator.DTO.IMessageDTO;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class FacadeClientController implements IClientController {
 
@@ -37,7 +38,7 @@ public class FacadeClientController implements IClientController {
 
     public void incomingRequest(IMessageDTO incomingDTO) {
         this.function = incomingDTO.getFunctionString();
-        System.out.printf("Server sent message %s%n", this.function);
+        Logger.getAnonymousLogger().info("DTO received");
         notifyObservers();
     }
 }

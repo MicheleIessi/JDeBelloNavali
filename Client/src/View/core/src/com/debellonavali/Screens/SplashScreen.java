@@ -29,6 +29,8 @@ import com.debellonavali.Screens.BattlePhase.BattlePhaseScreen;
 import com.debellonavali.Tween.ActorAccessor;
 import com.debellonavali.Tween.SpriteAccessor;
 
+import java.io.IOException;
+
 public class SplashScreen implements Screen {
 
     private Game game;              // Permette di cambiare screen

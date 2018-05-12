@@ -1,4 +1,4 @@
-package com.debellonavali.Classes.Communicator.DTO;
+package Communicator.DTO;
 
 public interface IMessageDTO {
 

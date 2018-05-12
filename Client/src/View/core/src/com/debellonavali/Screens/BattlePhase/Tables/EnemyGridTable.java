@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.debellonavali.Classes.Communicator.ConnectionManagerImpl;
+import com.debellonavali.Classes.Communicator.DTO.DTO;
 import com.debellonavali.Constants;
 
 public class EnemyGridTable extends GridTable {
@@ -42,6 +44,10 @@ public class EnemyGridTable extends GridTable {
                     }
 
                     public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                        ConnectionManagerImpl connectionManager = ConnectionManagerImpl.getInstance();
+                        DTO dto = new DTO("Attack");
+                        dto.addObjectToMap("hitSquares", payload);
+                        connectionManager.sendMessage(dto, "localhost", Constants.DEFAULT_ENEMY_PORT);
                         System.out.println("Accepted: " + payload.getObject() + " " + gridCell.getName());
                     }
                 });

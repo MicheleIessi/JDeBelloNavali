@@ -10,6 +10,11 @@ public class Constants {
     public static boolean APP_FULLSCREEN = false;
     public static boolean APP_RESIZABLE = false;
 
+    // Web constants
+    public static int DEFAULT_PLAYER_PORT = 1234;
+    public static int DEFAULT_ENEMY_PORT = 1235;
+    public static String CONNECTION_ERROR_MESSAGE = "Error, connection impossible";
+
     // Bitmap fonts
     public static String SPLASH_TITLE_FONT = "Fonts/titleFont.fnt";
     public static String SPLASH_BUTTON_FONT = "Fonts/buttonFont.fnt";
@@ -22,6 +27,7 @@ public class Constants {
     // Texture packs
     public static String SPLASH_BUTTON_PACK = "Packs/titleButton.pack";
     public static String GRID_CELL_PACK = "Packs/gridCell.pack";
+    public static String TABLE_BORDER_PACK = "Packs/tableBorder.pack";
 
     // Pictures
     public static String SPLASH_BACKGROUND_IMG = "Pictures/background.jpeg";
