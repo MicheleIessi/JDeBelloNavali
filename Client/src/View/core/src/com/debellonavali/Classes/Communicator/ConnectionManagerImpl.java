@@ -1,8 +1,7 @@
 package com.debellonavali.Classes.Communicator;
 
-import com.debellonavali.Classes.Communicator.DTO.DTO;
-import com.debellonavali.Classes.Communicator.DTO.IMessageDTO;
-import com.debellonavali.Classes.Controller.FacadeClientController;
+import com.debellonavali.Classes.Communicator.DTO.IDTO;
+import com.debellonavali.Classes.Model.DeBelloGame;
 import com.debellonavali.Constants;
 
 import java.io.IOException;
@@ -17,9 +16,10 @@ import java.util.logging.Logger;
 public class ConnectionManagerImpl implements IConnectionManager{
 
     private static ConnectionManagerImpl instance = null;
-    private FacadeClientController facadeClientController;
     private ServerSocket serverSocket;
     private Socket socket;
+    private String enemyHost;
+    private int enemyPort;
     private Logger logger;
 
     private ConnectionManagerImpl() {
@@ -28,7 +28,7 @@ public class ConnectionManagerImpl implements IConnectionManager{
 
     public void initialize(int portNumber) {
         try {
-            this.serverSocket = new ServerSocket(portNumber);
+            serverSocket = new ServerSocket(portNumber);
             logger.info(String.format(Locale.ITALIAN,
                     "Starting Client serversocket at address %s:%d...",
                     serverSocket.getInetAddress().getHostName(),
@@ -38,11 +38,12 @@ public class ConnectionManagerImpl implements IConnectionManager{
         }
     }
 
-    public void attachFacadeController(FacadeClientController facadeClientController) {
-        this.facadeClientController = facadeClientController;
+    public void setEnemyInformation(String host, int port) {
+        this.enemyHost = host;
+        this.enemyPort = port;
     }
 
-    public synchronized void startMonitoringThread() {
+    public void startMonitoringThread() {
         Thread listeningThread = new Thread(
                 () -> {
                     while (true) {
@@ -56,19 +57,12 @@ public class ConnectionManagerImpl implements IConnectionManager{
                             ObjectInputStream incomingDTOStream = new ObjectInputStream(socket.getInputStream());
                             ObjectOutputStream outgoingDTOStream = new ObjectOutputStream(socket.getOutputStream());
                             try {
-                                IMessageDTO incomingDTO;
-                                IMessageDTO outgoingDTO;
-
-                                incomingDTO = (IMessageDTO) incomingDTOStream.readObject();
-                                logger.info(String.format(Locale.getDefault(),
-                                        "Incoming DTO message with function %s",
-                                        incomingDTO.getFunctionString()));
-                                facadeClientController.incomingRequest(incomingDTO);
-
-                                outgoingDTO = AnswerContainer.getInstance().getStoredDTO();
+                                IDTO incomingDTO = (IDTO) incomingDTOStream.readObject();
+                                logger.info(String.format(Locale.getDefault(), "Incoming DTO message with function %s", incomingDTO.getFunctionString()));
+                                IDTO outgoingDTO = DeBelloGame.getInstance().incomingMessage(incomingDTO);
                                 outgoingDTOStream.writeObject(outgoingDTO);
                                 outgoingDTOStream.flush();
-
+                                logger.info(String.format(Locale.getDefault(), "Outgoing DTO message with function %s", outgoingDTO.getFunctionString()));
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } finally {
@@ -80,7 +74,7 @@ public class ConnectionManagerImpl implements IConnectionManager{
                                         socket.getInetAddress().getHostName(),
                                         socket.getPort()));
                             }
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -89,23 +83,22 @@ public class ConnectionManagerImpl implements IConnectionManager{
         listeningThread.start();
     }
 
-    public void sendMessage(IMessageDTO dto, String enemyHost, int enemyPort) {
-        IMessageDTO sendingDTO = new DTO("Attack");
+    public void sendMessage(IDTO dto) {
         try {
-            this.socket = new Socket(enemyHost, enemyPort);
-            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-            outputStream.writeObject(sendingDTO);
+            Socket sendingSocket = new Socket(enemyHost, enemyPort);
+            ObjectOutputStream outputStream = new ObjectOutputStream(sendingSocket.getOutputStream());
+            outputStream.writeObject(dto);
             outputStream.flush();
+            logger.info(String.format(Locale.getDefault(), "Outgoing DTO message with function %s", dto.getFunctionString()));
         } catch (IOException ex) {
             logger.warning(Constants.CONNECTION_ERROR_MESSAGE);
+            ex.printStackTrace();
         }
-
     }
 
 
     public static ConnectionManagerImpl getInstance() {
         if (instance == null) {
-            // Still needs to be initialized for the desider server port number
             instance = new ConnectionManagerImpl();
         }
         return instance;

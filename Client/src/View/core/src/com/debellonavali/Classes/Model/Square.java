@@ -3,12 +3,10 @@ package com.debellonavali.Classes.Model;
 public class Square {
 
     private boolean hit;
-    private boolean empty;   // serve davvero?
     private int shipReference;
 
     public Square() {
         this.hit = false;
-        this.empty = true;
         this.shipReference = 0;
     }
 
@@ -16,16 +14,22 @@ public class Square {
         return hit;
     }
 
+    /**
+     * Method attack returns true if the attack has hit a ship
+     * @return
+     */
+    public boolean attack() {
+        boolean isHit = false;
+        if(this.hit == false && this.shipReference!= 0){
+            isHit = true;
+            this.hit = true;
+            // Bisogna dare alla square la responsabilità di modificare gli attributi di integrità della nave?
+        }
+        return isHit;
+    }
+
     public void setHit(boolean hit) {
         this.hit = hit;
-    }
-
-    public boolean isEmpty() {
-        return empty;
-    }
-
-    public void setEmpty(boolean empty) {
-        this.empty = empty;
     }
 
     public int getShipReference() {

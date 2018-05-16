@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.debellonavali.Classes.Communicator.ConnectionManagerImpl;
 import com.debellonavali.Classes.Communicator.DTO.DTO;
+import com.debellonavali.Classes.Model.DeBelloGame;
 import com.debellonavali.Constants;
 
 public class EnemyGridTable extends GridTable {
@@ -44,11 +45,10 @@ public class EnemyGridTable extends GridTable {
                     }
 
                     public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                        ConnectionManagerImpl connectionManager = ConnectionManagerImpl.getInstance();
-                        DTO dto = new DTO("Attack");
-                        dto.addObjectToMap("hitSquares", payload);
-                        connectionManager.sendMessage(dto, "localhost", Constants.DEFAULT_ENEMY_PORT);
-                        System.out.println("Accepted: " + payload.getObject() + " " + gridCell.getName());
+                        int coordX = Integer.parseInt(gridCell.getName().substring(0,1));
+                        int coordY = Integer.parseInt(gridCell.getName().substring(2,3));
+                        System.out.println(coordX + " " + coordY);
+                        DeBelloGame.getInstance().attack(1,1, new int[] {coordX, coordY});
                     }
                 });
             }

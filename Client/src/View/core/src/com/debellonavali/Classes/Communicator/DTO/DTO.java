@@ -3,7 +3,7 @@ package com.debellonavali.Classes.Communicator.DTO;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class DTO implements IMessageDTO, Serializable {
+public class DTO implements IDTO, Serializable {
 
     private String functionString;
     private HashMap<String, Object> hashMap;
@@ -16,6 +16,11 @@ public class DTO implements IMessageDTO, Serializable {
     @Override
     public String getFunctionString() {
         return this.functionString;
+    }
+
+    @Override
+    public Object getObjectFromMap(String key) {
+        return hashMap.get(key);
     }
 
     @Override

@@ -5,6 +5,8 @@ import com.debellonavali.Classes.Model.DeBelloGame;
 
 public class GameFactory {
 
+    private static GameFactory instance = null;
+
     public DeBelloGame createDeBelloGame() {
         return new DeBelloGame();
     }
@@ -13,4 +15,10 @@ public class GameFactory {
         return new Battlefield();
     }
 
+    public static GameFactory getInstance() {
+        if (instance == null) {
+            instance = new GameFactory();
+        }
+        return instance;
+    }
 }

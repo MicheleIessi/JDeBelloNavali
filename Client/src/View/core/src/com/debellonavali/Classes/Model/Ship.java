@@ -38,15 +38,8 @@ public class Ship {
     }
 
     public boolean isFireable(int weaponID) {
-        if (integrity > 50) {
-            for (Entry<Integer, Weapon> entry : weapons.entrySet()) {
-                Weapon weapon = entry.getValue();
-                if (weaponID == weapon.getWeaponID()) {
-                    return (weapon.isFireable() && weapon.hasAmmo());
-                }
-            }
-        }
-        return false;
+        Weapon weapon = weapons.get(weaponID);
+        return (weapon.isFireable() && weapon.hasAmmo());
     }
 
     @Override

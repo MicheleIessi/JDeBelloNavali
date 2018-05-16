@@ -20,14 +20,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.debellonavali.Classes.Communicator.ConnectionManagerImpl;
-import com.debellonavali.Classes.Controller.AttackControllerObserver;
-import com.debellonavali.Classes.Controller.DefenseControllerObserver;
+import com.debellonavali.Classes.Controller.Observers.AttackResultsObserver;
+import com.debellonavali.Classes.Controller.Observers.ChatObserver;
+import com.debellonavali.Classes.Controller.Observers.ReceiveAttackObserver;
 import com.debellonavali.Classes.Controller.FacadeClientController;
-import com.debellonavali.Classes.Model.Battlefield;
+import com.debellonavali.Classes.Controller.Observers.LoginObserver;
+import com.debellonavali.Classes.Model.*;
+import com.debellonavali.Classes.Model.Factories.GameFactory;
 import com.debellonavali.Classes.Model.RangeStrategy.IRangeStrategy;
 import com.debellonavali.Classes.Model.RangeStrategy.RangeStrategyW1;
-import com.debellonavali.Classes.Model.Ship;
-import com.debellonavali.Classes.Model.Weapon;
 import com.debellonavali.Constants;
 import com.debellonavali.Screens.BattlePhase.Groups.ShipInfoGroup;
 import com.debellonavali.Screens.BattlePhase.Tables.EnemyGridTable;
@@ -53,38 +54,45 @@ public class BattlePhaseScreen implements Screen {
     private DragAndDrop dragAndDrop;
     // Test variables
     private Battlefield playerBattlefield;
-    private Battlefield enemyBattlefield;
 
 
     public BattlePhaseScreen(Game game) {
+        // Graphic initialization
         this.game = game;
         stage = new Stage();
-        ConnectionManagerImpl connectionManager = ConnectionManagerImpl.getInstance();
-        connectionManager.initialize(Constants.DEFAULT_PLAYER_PORT);
-        connectionManager.startMonitoringThread();
+
+        DeBelloGame dbg = GameFactory.getInstance().createDeBelloGame();
+
         FacadeClientController clientController = new FacadeClientController();
-        AttackControllerObserver attackController = new AttackControllerObserver();
-        DefenseControllerObserver defenseController = new DefenseControllerObserver();
-        clientController.attachObserver(attackController);
-        clientController.attachObserver(defenseController);
-        connectionManager.attachFacadeController(clientController);
+        clientController.attachObserver(new ReceiveAttackObserver());
+        clientController.attachObserver(new ChatObserver());
+        clientController.attachObserver(new LoginObserver());
+        clientController.attachObserver(new AttackResultsObserver());
+        dbg.attachFacadeController(clientController);
+
+        ConnectionManagerImpl connectionManager = ConnectionManagerImpl.getInstance();
+        connectionManager.initialize(Constants.DEFAULT_ENEMY_PORT);
+        connectionManager.setEnemyInformation("localhost", Constants.DEFAULT_PLAYER_PORT);
+        connectionManager.startMonitoringThread();
 
         testOperation();
+
     }
 
     public void testOperation() {
-        playerBattlefield = new Battlefield();
-        enemyBattlefield = new Battlefield();
+        playerBattlefield = DeBelloGame.getInstance().getPlayerBattlefield();
         Ship ship = new Ship();
         ship.setIntegrity(100);
         ship.setShipID(1);
         IRangeStrategy range = new RangeStrategyW1();
         Weapon weapon = new Weapon();
         weapon.setWeaponName("Prova");
-        weapon.setMaxReloadTime(1);
+        weapon.setMaxReloadTime(0);
         weapon.setRangeStrategy(range);
         weapon.setWeaponID(1);
+        AmmoStorage.getInstance().addWeaponToStorage(weapon.getWeaponName(), 999);
         HashMap map = new HashMap();
+        System.out.println("WEAPON ID " + weapon.getWeaponID());
         map.put(weapon.getWeaponID(), weapon);
         ship.setWeapons(map);
         HashMap fleet = new HashMap();

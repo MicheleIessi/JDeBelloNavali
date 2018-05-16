@@ -1,8 +1,8 @@
 package com.debellonavali.Classes.Communicator;
 
-import com.debellonavali.Classes.Communicator.DTO.IMessageDTO;
+import com.debellonavali.Classes.Communicator.DTO.IDTO;
 
 public interface IConnectionManager {
 
-    void sendMessage(IMessageDTO sendingDTO, String enemyHost, int enemyPort);
+    void sendMessage(IDTO sendingDTO);
 }
