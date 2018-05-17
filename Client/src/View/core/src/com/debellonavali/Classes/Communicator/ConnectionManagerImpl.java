@@ -49,13 +49,9 @@ public class ConnectionManagerImpl implements IConnectionManager{
                     while (true) {
                         try {
                             socket = serverSocket.accept();
-                            logger.info(String.format(Locale.getDefault(),
-                                    "Accepting client socket from address %s:%d",
-                                    socket.getInetAddress().getHostName(),
-                                    socket.getPort()));
-
-                            ObjectInputStream incomingDTOStream = new ObjectInputStream(socket.getInputStream());
+                            logger.info(String.format(Locale.getDefault(),"Accepting client socket from address %s:%d", socket.getInetAddress().getHostName(), socket.getPort()));
                             ObjectOutputStream outgoingDTOStream = new ObjectOutputStream(socket.getOutputStream());
+                            ObjectInputStream incomingDTOStream = new ObjectInputStream(socket.getInputStream());
                             try {
                                 IDTO incomingDTO = (IDTO) incomingDTOStream.readObject();
                                 logger.info(String.format(Locale.getDefault(), "Incoming DTO message with function %s", incomingDTO.getFunctionString()));
@@ -80,6 +76,8 @@ public class ConnectionManagerImpl implements IConnectionManager{
                     }
                 }
         );
+        listeningThread.setDaemon(true);
+        listeningThread.setName("ConnectionManager");
         listeningThread.start();
     }
 
@@ -87,12 +85,16 @@ public class ConnectionManagerImpl implements IConnectionManager{
         try {
             Socket sendingSocket = new Socket(enemyHost, enemyPort);
             ObjectOutputStream outputStream = new ObjectOutputStream(sendingSocket.getOutputStream());
+            ObjectInputStream inputStream = new ObjectInputStream(sendingSocket.getInputStream());
             outputStream.writeObject(dto);
             outputStream.flush();
+            DeBelloGame.getInstance().incomingMessage((IDTO) inputStream.readObject());
             logger.info(String.format(Locale.getDefault(), "Outgoing DTO message with function %s", dto.getFunctionString()));
         } catch (IOException ex) {
             logger.warning(Constants.CONNECTION_ERROR_MESSAGE);
             ex.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

@@ -92,7 +92,6 @@ public class BattlePhaseScreen implements Screen {
         weapon.setWeaponID(1);
         AmmoStorage.getInstance().addWeaponToStorage(weapon.getWeaponName(), 999);
         HashMap map = new HashMap();
-        System.out.println("WEAPON ID " + weapon.getWeaponID());
         map.put(weapon.getWeaponID(), weapon);
         ship.setWeapons(map);
         HashMap fleet = new HashMap();

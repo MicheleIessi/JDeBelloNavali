@@ -4,11 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JDeBelloNavali.iml" filepath="$PROJECT_DIR$/JDeBelloNavali.iml" />
       <module fileurl="file://$PROJECT_DIR$/Server/Server.iml" filepath="$PROJECT_DIR$/Server/Server.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/View.iml" filepath="$PROJECT_DIR$/.idea/modules/View.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Client/src/View/android/android.iml" filepath="$PROJECT_DIR$/Client/src/View/android/android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Client/src/View/core/core.iml" filepath="$PROJECT_DIR$/Client/src/View/core/core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Client/src/View/desktop/desktop.iml" filepath="$PROJECT_DIR$/Client/src/View/desktop/desktop.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Client/src/View/ios/ios.iml" filepath="$PROJECT_DIR$/Client/src/View/ios/ios.iml" />
     </modules>
   </component>
 </project>
