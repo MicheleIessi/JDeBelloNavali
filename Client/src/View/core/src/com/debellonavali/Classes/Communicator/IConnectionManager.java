@@ -5,4 +5,5 @@ import com.debellonavali.Classes.Communicator.DTO.IDTO;
 public interface IConnectionManager {
 
     void sendMessage(IDTO sendingDTO);
+
 }

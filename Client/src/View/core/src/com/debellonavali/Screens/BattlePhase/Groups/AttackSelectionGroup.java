@@ -32,9 +32,6 @@ public class AttackSelectionGroup extends Group {
         selectionTable.setBounds(0, 0, 100, 100);
         selectionTable.setBackground(skin.getDrawable("border"));
         HashMap<Integer, Weapon> weapons = ship.getWeapons();
-        for (Map.Entry<Integer, Weapon> weaponEntry : weapons.entrySet()) {
-            System.out.println(weaponEntry.getValue().getWeaponName());
-        }
         this.addActor(selectionTable);
 
     }

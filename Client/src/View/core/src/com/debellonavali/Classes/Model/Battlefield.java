@@ -131,6 +131,50 @@ public class Battlefield {
         return true;
     }
 
+    public boolean addShip(Ship ship, int[] position, int orientation) {
+        int posX = position[0];
+        int posY = position[1];
+
+        ArrayList<Square> squaresToBePlaced = new ArrayList<>();
+
+        if (orientation == Battlefield.HORIZONTAL) {
+            if ((posX + ship.getDimension()) > 8) {
+                System.err.println("The ships doesn't fit the battlefield");
+                return false;
+            } else {
+                for (int i = 0; i < ship.getDimension(); i++) {
+                    Square square = this.field[i + posX][posY];
+                    if (square.getShipReference() != 0) {
+                        System.err.println("Square already occupied");
+                        return false;
+                    } else {
+                        squaresToBePlaced.add(square);
+                    }
+                }
+            }
+        } else if (orientation == Battlefield.VERTICAL) {
+            if ((posY + ship.getDimension()) > 8) {
+                System.err.println("The ship doesn't fit the battlefield");
+                return false;
+            } else {
+                for (int i = 0; i < ship.getDimension(); i++) {
+                    Square square = this.field[posX][i + posY];
+                    if (square.getShipReference() != 0) {
+                        System.err.println("Square already occupied");
+                        return false;
+                    } else {
+                        squaresToBePlaced.add(square);
+                    }
+                }
+            }
+        }
+        for (Square square : squaresToBePlaced) {
+            square.setShipReference(ship.getShipID());
+        }
+
+        return true;
+    }
+
     private boolean isFireable(int shipID, int weaponID) {
         Ship firingShip = fleet.get(shipID);
         return firingShip.isFireable(weaponID);
@@ -161,7 +205,7 @@ public class Battlefield {
 
     public Map<int[], Boolean> receiveAttack(List<int[]> attackedSquares) {
         Map<int[], Boolean> attackResult = new HashMap<>();
-        for(int[] attackedCoordinate : attackedSquares) {
+        for (int[] attackedCoordinate : attackedSquares) {
             int coordX = attackedCoordinate[0];
             int coordY = attackedCoordinate[1];
             attackResult.put(attackedCoordinate, field[coordX][coordY].attack());
@@ -180,4 +224,16 @@ public class Battlefield {
         return tempField;
     }
 
+    public void drawField() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (field[j][i].isHit()) {
+                    System.out.print("x");
+                } else {
+                    System.out.print(field[j][i].getShipReference());
+                }
+            }
+            System.out.println("");
+        }
+    }
 }

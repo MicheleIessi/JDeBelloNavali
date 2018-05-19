@@ -7,13 +7,14 @@ import com.debellonavali.Constants;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Locale;
 import java.util.logging.Logger;
 
 
-public class ConnectionManagerImpl implements IConnectionManager{
+public class ConnectionManagerImpl implements IConnectionManager {
 
     private static ConnectionManagerImpl instance = null;
     private ServerSocket serverSocket;

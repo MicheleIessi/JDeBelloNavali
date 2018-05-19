@@ -18,7 +18,12 @@ public class ReceiveAttackObserver implements IObserverController {
             List<int[]> attackedSquares = (List<int[]>) controller.getDTO().getObjectFromMap("AttackedSquares");
             Map<int[], Boolean> attackResult = DeBelloGame.getInstance().getPlayerBattlefield().receiveAttack(attackedSquares);
             IDTO attackResultDTO = DTOBuilder.getInstance().createAttackResultsDTO(attackResult);
+            /*
+             * In questo caso, siccome il DTO è lo stesso, passiamo direttamente quello.
+             * In altri casi potrebbe essere necessario creare un altro DTO dal Builder.
+             */
+            DeBelloGame.getInstance().notifyScreen(attackResultDTO);
             AnswerContainer.getInstance().putDTOMessage(attackResultDTO);
-        }
+            }
     }
 }

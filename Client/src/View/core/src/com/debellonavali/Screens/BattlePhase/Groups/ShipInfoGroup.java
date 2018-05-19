@@ -53,7 +53,7 @@ public class ShipInfoGroup extends Group {
         shipInfoTable.align(Align.topLeft);
         shipInfoTable.add(shipImage);
 
-        shipInfoTable.add(new Label(String.valueOf(ship.getIntegrity()),
+        shipInfoTable.add(new Label(String.valueOf(ship.getHitsReceived()),
                 new Label.LabelStyle(new BitmapFont(Gdx.files.internal(Constants.HEADER_INFO_FONT)), Color.WHITE)));
 
         Image newImage = new Image(skin.getDrawable("grid_center"));

@@ -4,7 +4,6 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,26 +18,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.debellonavali.Classes.Communicator.ConnectionManagerImpl;
-import com.debellonavali.Classes.Controller.Observers.AttackResultsObserver;
-import com.debellonavali.Classes.Controller.Observers.ChatObserver;
-import com.debellonavali.Classes.Controller.Observers.ReceiveAttackObserver;
-import com.debellonavali.Classes.Controller.FacadeClientController;
-import com.debellonavali.Classes.Controller.Observers.LoginObserver;
+import com.debellonavali.Classes.Communicator.DTO.IDTO;
 import com.debellonavali.Classes.Model.*;
-import com.debellonavali.Classes.Model.Factories.GameFactory;
 import com.debellonavali.Classes.Model.RangeStrategy.IRangeStrategy;
 import com.debellonavali.Classes.Model.RangeStrategy.RangeStrategyW1;
 import com.debellonavali.Constants;
 import com.debellonavali.Screens.BattlePhase.Groups.ShipInfoGroup;
+import com.debellonavali.Screens.BattlePhase.Observers.BattleObserver;
+import com.debellonavali.Screens.BattlePhase.Observers.IScreenObserver;
 import com.debellonavali.Screens.BattlePhase.Tables.EnemyGridTable;
 import com.debellonavali.Screens.BattlePhase.Tables.PlayerGridTable;
 import com.debellonavali.Screens.BattlePhase.Tables.ShipInfoTable;
 import com.debellonavali.Tween.SpriteAccessor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BattlePhaseScreen implements Screen {
+public class BattlePhaseScreen implements INotifiableScreen {
 
     private Game game;
     private Stage stage;
@@ -52,6 +48,8 @@ public class BattlePhaseScreen implements Screen {
     private SpriteBatch batch;
     private boolean resized = false;
     private DragAndDrop dragAndDrop;
+    private ArrayList<IScreenObserver> observerList;
+
     // Test variables
     private Battlefield playerBattlefield;
 
@@ -59,30 +57,17 @@ public class BattlePhaseScreen implements Screen {
     public BattlePhaseScreen(Game game) {
         // Graphic initialization
         this.game = game;
+        this.observerList = new ArrayList<>();
+        observerList.add(new BattleObserver());
         stage = new Stage();
 
-        DeBelloGame dbg = GameFactory.getInstance().createDeBelloGame();
-
-        FacadeClientController clientController = new FacadeClientController();
-        clientController.attachObserver(new ReceiveAttackObserver());
-        clientController.attachObserver(new ChatObserver());
-        clientController.attachObserver(new LoginObserver());
-        clientController.attachObserver(new AttackResultsObserver());
-        dbg.attachFacadeController(clientController);
-
-        ConnectionManagerImpl connectionManager = ConnectionManagerImpl.getInstance();
-        connectionManager.initialize(Constants.DEFAULT_ENEMY_PORT);
-        connectionManager.setEnemyInformation("localhost", Constants.DEFAULT_PLAYER_PORT);
-        connectionManager.startMonitoringThread();
-
         testOperation();
-
     }
 
     public void testOperation() {
+        DeBelloGame.getInstance().setCurrentScreen(this);
         playerBattlefield = DeBelloGame.getInstance().getPlayerBattlefield();
         Ship ship = new Ship();
-        ship.setIntegrity(100);
         ship.setShipID(1);
         IRangeStrategy range = new RangeStrategyW1();
         Weapon weapon = new Weapon();
@@ -95,6 +80,8 @@ public class BattlePhaseScreen implements Screen {
         map.put(weapon.getWeaponID(), weapon);
         ship.setWeapons(map);
         HashMap fleet = new HashMap();
+        playerBattlefield.addShip(ship, new int[] {1,1}, Battlefield.HORIZONTAL);
+        playerBattlefield.drawField();
         fleet.put(ship.getShipID(), ship);
         playerBattlefield.setFleet(fleet);
     }
@@ -183,8 +170,9 @@ public class BattlePhaseScreen implements Screen {
         stage.dispose();
     }
 
-    private void addTableClickListeners() {
 
+
+    private void addTableClickListeners() {
         ClickListener playerClickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -195,7 +183,6 @@ public class BattlePhaseScreen implements Screen {
                 resized = !resized;
             }
         };
-
         ClickListener enemyClickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -209,6 +196,13 @@ public class BattlePhaseScreen implements Screen {
 
         playerGridTable.addListener(playerClickListener);
         enemyGridTable.addListener(enemyClickListener);
+    }
+
+    public void notifyScreen(IDTO dto) {
+        for(IScreenObserver observer : observerList) {
+            observer.update(dto, this);
+        }
+
     }
 
 }

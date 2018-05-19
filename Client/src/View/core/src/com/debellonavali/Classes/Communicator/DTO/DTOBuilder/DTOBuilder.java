@@ -28,6 +28,8 @@ public class DTOBuilder implements IDTOBuilder {
         return attackResultsDTO;
     }
 
+
+
     public static  DTOBuilder getInstance() {
         if (instance == null) {
             instance = new DTOBuilder();
