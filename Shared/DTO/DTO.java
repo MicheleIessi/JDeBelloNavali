@@ -8,8 +8,8 @@ public class DTO implements IMessageDTO, Serializable {
     private String functionString;
     private HashMap<String, Object> hashMap;
 
-    protected DTO(DTOBuilder builder) {
-        this.functionString = builder.getFunctionString();
+    public DTO(String functionString) {
+        this.functionString = functionString;
     }
 
     @Override

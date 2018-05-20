@@ -1,12 +1,11 @@
+import Communicator.AnswerContainer;
 import Controller.FacadeController;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import DTO.IMessageDTO;
-import Util.AnswerContainer;
-
+import Communicator.DTO.IMessageDTO;
 
 public class ConnectionListener {
 

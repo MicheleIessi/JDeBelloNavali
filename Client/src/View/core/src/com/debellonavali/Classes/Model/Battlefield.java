@@ -5,6 +5,7 @@ import com.debellonavali.Classes.Model.Factories.FleetFactory.FleetFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Battlefield {
@@ -13,7 +14,6 @@ public class Battlefield {
     public static final int VERTICAL = 1;
 
     private Map<Integer, Ship> fleet;
-    private Map<Integer, Integer> supportFleet;
     private Square[][] field;
     private FleetFactory fleetFactory;
     private int fleetWeight;
@@ -26,7 +26,6 @@ public class Battlefield {
         this.fleetWeight = 70;
         this.shipWeight = 0;
         this.fleet = new HashMap<>();
-        this.supportFleet = new HashMap<>();
         this.field = buildField();
     }
 
@@ -44,14 +43,6 @@ public class Battlefield {
 
     public void setFleet(Map<Integer, Ship> fleet) {
         this.fleet = fleet;
-    }
-
-    public Map<Integer, Integer> getSupportFleet() {
-        return supportFleet;
-    }
-
-    public void setSupportFleet(Map<Integer, Integer> supportFleet) {
-        this.supportFleet = supportFleet;
     }
 
     public Square[][] getField() {
@@ -95,7 +86,7 @@ public class Battlefield {
                 } else {
                     for (int i = 0; i < dimension; i++) {
                         Square square = this.field[i + posX][posY];
-                        if (!square.isEmpty()) {
+                        if (square.getShipReference() != 0) {
                             System.err.println("Square already occupied");
                             return false;
                         } else {
@@ -110,7 +101,7 @@ public class Battlefield {
                 } else {
                     for (int i = 0; i < dimension; i++) {
                         Square square = this.field[posX][i + posY];
-                        if (!square.isEmpty()) {
+                        if (square.getShipReference() != 0) {
                             System.err.println("Square already occupied");
                             return false;
                         } else {
@@ -126,14 +117,9 @@ public class Battlefield {
             int shipID = ship.getShipID();
 
             fleet.put(shipID, ship);
-
-
             System.out.println("SHIP ID = " + shipID);
-
-
             this.shipWeight += weight;
             for (Square square : squaresToBePlaced) {
-                square.setEmpty(false);
                 square.setShipReference(shipID);
             }
 
@@ -145,38 +131,97 @@ public class Battlefield {
         return true;
     }
 
-//    public boolean placeShips() {
-//        for(Map.Entry<Integer,Integer> entry : supportFleet.entrySet()) {
-//
-//
-//
-//        }
-//    }
+    public boolean addShip(Ship ship, int[] position, int orientation) {
+        int posX = position[0];
+        int posY = position[1];
+
+        ArrayList<Square> squaresToBePlaced = new ArrayList<>();
+
+        if (orientation == Battlefield.HORIZONTAL) {
+            if ((posX + ship.getDimension()) > 8) {
+                System.err.println("The ships doesn't fit the battlefield");
+                return false;
+            } else {
+                for (int i = 0; i < ship.getDimension(); i++) {
+                    Square square = this.field[i + posX][posY];
+                    if (square.getShipReference() != 0) {
+                        System.err.println("Square already occupied");
+                        return false;
+                    } else {
+                        squaresToBePlaced.add(square);
+                    }
+                }
+            }
+        } else if (orientation == Battlefield.VERTICAL) {
+            if ((posY + ship.getDimension()) > 8) {
+                System.err.println("The ship doesn't fit the battlefield");
+                return false;
+            } else {
+                for (int i = 0; i < ship.getDimension(); i++) {
+                    Square square = this.field[posX][i + posY];
+                    if (square.getShipReference() != 0) {
+                        System.err.println("Square already occupied");
+                        return false;
+                    } else {
+                        squaresToBePlaced.add(square);
+                    }
+                }
+            }
+        }
+        for (Square square : squaresToBePlaced) {
+            square.setShipReference(ship.getShipID());
+        }
+
+        return true;
+    }
 
     private boolean isFireable(int shipID, int weaponID) {
         Ship firingShip = fleet.get(shipID);
         return firingShip.isFireable(weaponID);
     }
 
-    public void attack(int shipID, int weaponID, int posX, int posY) {
+    public List<int[]> attack(int shipID, int weaponID, int posX, int posY) {
+
+        ArrayList<int[]> hitSquares = new ArrayList<>();
 
         if (isFireable(shipID, weaponID)) {
             Ship attackingShip = fleet.get(shipID);
             Weapon attackingWeapon = attackingShip.getWeapons().get(weaponID);
-            ArrayList<int[]> hitSquares = attackingWeapon.attack(posX, posY);
+            hitSquares = attackingWeapon.attack(posX, posY);
 
             for (int[] hitSquare : hitSquares) {
                 int hitX = hitSquare[0];
                 int hitY = hitSquare[1];
                 field[hitX][hitY].setHit(true);
             }
-
             attackingWeapon.setReloadTime(attackingWeapon.getMaxReloadTime());
             System.out.println("NEW RELOAD: " + attackingWeapon.getReloadTime());
             attackingWeapon.decreaseAmmo();
         } else {
             System.out.println("Attack not possible");
         }
+        return hitSquares;
+    }
+
+    public Map<int[], Boolean> receiveAttack(List<int[]> attackedSquares) {
+        Map<int[], Boolean> attackResult = new HashMap<>();
+        for (int[] attackedCoordinate : attackedSquares) {
+            int coordX = attackedCoordinate[0];
+            int coordY = attackedCoordinate[1];
+            attackResult.put(attackedCoordinate, field[coordX][coordY].attack());
+        }
+        return attackResult;
+    }
+
+    private Square[][] buildField() {
+        int length = 8, height = 8;
+        Square[][] tempField = new Square[length][height];
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < height; j++) {
+                tempField[i][j] = new Square();
+            }
+        }
+        return tempField;
     }
 
     public void drawField() {
@@ -191,16 +236,4 @@ public class Battlefield {
             System.out.println("");
         }
     }
-
-    private Square[][] buildField() {
-        int length = 8, height = 8;
-        Square[][] tempField = new Square[length][height];
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < height; j++) {
-                tempField[i][j] = new Square();
-            }
-        }
-        return tempField;
-    }
-
 }

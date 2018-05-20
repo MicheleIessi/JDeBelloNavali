@@ -25,9 +25,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 import com.debellonavali.Constants;
+<<<<<<< HEAD
 import com.debellonavali.PlaceShip.PlaceShipScreen;
+=======
+import com.debellonavali.Screens.BattlePhase.BattlePhaseScreen;
+>>>>>>> master
 import com.debellonavali.Tween.ActorAccessor;
 import com.debellonavali.Tween.SpriteAccessor;
+
+import java.io.IOException;
 
 public class SplashScreen implements Screen {
 
@@ -98,8 +104,15 @@ public class SplashScreen implements Screen {
             }
         });
 
+<<<<<<< HEAD
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(Constants.AUDIO_MAIN_THEME));
         //backgroundMusic.play();
+=======
+        if(Constants.SOUND_ENABLED) {
+            backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(Constants.AUDIO_MAIN_THEME));
+            backgroundMusic.play();
+        }
+>>>>>>> master
 
         exitButton.addListener(new ChangeListener() {
             @Override

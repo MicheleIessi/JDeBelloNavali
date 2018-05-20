@@ -8,25 +8,33 @@ import java.util.Map.Entry;
 public class Ship {
 
     private int shipID;
-
-    private int integrity;
-
+    private int dimension;
+    private int hitsReceived;
     private HashMap<Integer, Weapon> weapons;
 
+
     public int getShipID() {
-        return shipID;
+        return this.shipID;
     }
 
     public void setShipID(int shipID) {
         this.shipID = shipID;
     }
 
-    public int getIntegrity() {
-        return integrity;
+    public int getDimension() {
+        return this.dimension;
     }
 
-    public void setIntegrity(int integrity) {
-        this.integrity = integrity;
+    public void setDimension(int dimension) {
+        this.dimension = dimension;
+    }
+
+    public int getHitsReceived() {
+        return this.hitsReceived;
+    }
+
+    public void setHitsReceived(int hitsReceived) {
+        this.hitsReceived = hitsReceived;
     }
 
     public HashMap<Integer, Weapon> getWeapons() {
@@ -38,23 +46,8 @@ public class Ship {
     }
 
     public boolean isFireable(int weaponID) {
-        if (integrity > 50) {
-            for (Entry<Integer, Weapon> entry : weapons.entrySet()) {
-                Weapon weapon = entry.getValue();
-                if (weaponID == weapon.getWeaponID()) {
-                    return (weapon.isFireable() && weapon.hasAmmo());
-                }
-            }
-        }
-        return false;
+        Weapon weapon = weapons.get(weaponID);
+        return (weapon.isFireable() && weapon.hasAmmo());
     }
 
-    @Override
-    public String toString() {
-        return "Ship{" +
-                "shipID=" + shipID +
-                ", integrity=" + integrity +
-                ", weapons=" + weapons +
-                '}';
-    }
 }

@@ -1,8 +1,8 @@
 package Controller;
 
-import DTO.DTOBuilder;
-import DTO.IMessageDTO;
-import Util.AnswerContainer;
+import Communicator.AnswerContainer;
+import Communicator.DTO.IMessageDTO;
+import Communicator.DTO.DTO;
 
 public class HelloControllerObserver implements IObserver {
 
@@ -12,9 +12,7 @@ public class HelloControllerObserver implements IObserver {
     public void update(IController controller) {
         if(controllerFunctionName.equalsIgnoreCase(controller.getFunction())) {
 
-            IMessageDTO dto = new DTOBuilder()
-                    .function("HelloReply")
-                    .build();
+            IMessageDTO dto = new DTO("HelloReply");
 
             System.out.printf("%s", dto.getFunctionString());
             AnswerContainer.getInstance().putDTOMessage(dto);

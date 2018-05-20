@@ -1,6 +1,6 @@
-package Util;
+package Communicator;
 
-import DTO.IMessageDTO;
+import Communicator.DTO.IMessageDTO;
 
 public class AnswerContainer {
 
@@ -14,9 +14,9 @@ public class AnswerContainer {
     }
 
     public IMessageDTO getStoredDTO() {
-         IMessageDTO dtoAnswer = this.storedDTO;
-         this.storedDTO = null;
-         return dtoAnswer;
+        IMessageDTO dtoAnswer = this.storedDTO;
+        this.storedDTO = null;
+        return dtoAnswer;
 
     }
 

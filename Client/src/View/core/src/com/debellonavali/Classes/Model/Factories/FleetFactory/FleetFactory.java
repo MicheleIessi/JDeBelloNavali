@@ -55,7 +55,8 @@ public abstract class FleetFactory {
 
         incrementShipID();
         ship.setShipID(shipID);
-        ship.setIntegrity(100);
+        ship.setDimension(shipDescription.getDimension());
+        ship.setHitsReceived(0);
 
         Weapon firstWeapon = WeaponFactory.getInstance().createWeapon(shipDescription.getFirstWeapon());
         weaponList.put(firstWeapon.getWeaponID(), firstWeapon);
