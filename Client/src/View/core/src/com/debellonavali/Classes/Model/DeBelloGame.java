@@ -7,6 +7,7 @@ import com.debellonavali.Classes.Communicator.DTO.IDTO;
 import com.debellonavali.Classes.Controller.FacadeClientController;
 import com.debellonavali.Screens.BattlePhase.INotifiableScreen;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,10 +23,18 @@ public class DeBelloGame {
     private INotifiableScreen currentScreen;
     private Logger logger;
 
+
+
+
     public DeBelloGame() {
         playerBattlefield = new Battlefield();
         playerTurn = false;
+
         logger = Logger.getLogger(DeBelloGame.class.getSimpleName());
+    }
+
+    public void setPlayerTurn(boolean playerTurn) {
+        this.playerTurn = playerTurn;
     }
 
     public void attachFacadeController(FacadeClientController facadeClientController) {
@@ -38,6 +47,7 @@ public class DeBelloGame {
     }
 
     public void attack(int shipID, int weaponID, int[] position) {
+        //check if ship can attack, thus return the squares involved
         List<int[]> attackedSquares = playerBattlefield.attack(shipID, weaponID, position[0], position[1]);
         if(attackedSquares.size() > 0) {
             IDTO attackDTO = DTOBuilder.getInstance().createAttackDTO(attackedSquares);
@@ -70,4 +80,11 @@ public class DeBelloGame {
         return instance;
     }
 
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
+
+    public HashMap<String,String> getShipPosition(int shipId) {
+        return this.playerBattlefield.getShipPosition(shipId);
+    }
 }

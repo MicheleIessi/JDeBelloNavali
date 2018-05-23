@@ -2,6 +2,7 @@ package com.debellonavali.Classes.Model;
 
 
 import com.debellonavali.Classes.Model.Factories.FleetFactory.FleetFactory;
+import com.debellonavali.Screens.PlaceShip.GridChecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -236,4 +237,33 @@ public class Battlefield {
             System.out.println("");
         }
     }
+
+
+    public HashMap<String,String> getShipPosition(int shipID){
+
+        int x=0;
+        int y=0;
+        HashMap<String,String> shipInfo= new HashMap<>();
+        for (Square[] squares: field
+             ) {
+            for (Square square: squares
+                 ) {
+                if (square.getShipReference()==shipID){
+                    //TODO:Come faccio a capire l'orientamento della nave??
+                    //shipInfo.put("orientation",orientation);
+                    shipInfo.put("position",""+x+"-"+y);
+                    return shipInfo;
+                }
+
+                x++;
+            }
+            x=0;
+            y++;
+
+        }
+        return null;
+
+    }
+
+
 }

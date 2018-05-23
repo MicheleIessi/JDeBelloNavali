@@ -1,12 +1,15 @@
-package com.debellonavali.PlaceShip.Stage.Layout1.GtStageDescendant;
+package com.debellonavali.Screens.PlaceShip.Stages.Layout1.GtStageDescendant;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.debellonavali.PlaceShip.CellGrid;
-import com.debellonavali.PlaceShip.ConstantsPlaceShips;
-import com.debellonavali.PlaceShip.GridChecker;
-import com.debellonavali.PlaceShip.Stage.PlaceShipStage;
-import com.debellonavali.PlaceShip.Stage.zoneStage;
+import com.debellonavali.Screens.PlaceShip.CellGrid;
+import com.debellonavali.Screens.PlaceShip.Stages.PlaceShipStage;
+import com.debellonavali.Screens.Util.DragNDrop;
+import com.debellonavali.Screens.zoneStage;
+
+import com.debellonavali.Screens.PlaceShip.ConstantsPlaceShips;
+
+import  com.debellonavali.Screens.PlaceShip.GridChecker;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -17,7 +20,7 @@ public class GridStage extends zoneStage {
     //Game grid
     private ArrayList<ArrayList<CellGrid>> grid;
 
-    private GridChecker checker;
+    private com.debellonavali.Screens.PlaceShip.GridChecker checker;
 
 
     private Table fleetWeightTable;
@@ -56,7 +59,7 @@ public class GridStage extends zoneStage {
 
         for(int i=0; i<8; i++) {
             for(int j=0; j<8; j++) {
-                grid.get(i).add(new CellGrid(i,j,this));
+                grid.get(i).add(new CellGrid(i,j,this,ConstantsPlaceShips.GRID_TABLE_WIDTH));
                 gridTable.addActor(grid.get(i).get(j));
             }
         }
@@ -133,7 +136,7 @@ public class GridStage extends zoneStage {
 
     private void setUpDrop() {
 
-        DragAndDrop dragAndDrop=((PlaceShipStage)parent.getParent()).getShipListStage().getDragAndDrop();
+        DragNDrop dragAndDrop=DragNDrop.getInstance();
         //set each cell of the grid as droppable
         for (ArrayList<CellGrid> cells:grid
                 ) {

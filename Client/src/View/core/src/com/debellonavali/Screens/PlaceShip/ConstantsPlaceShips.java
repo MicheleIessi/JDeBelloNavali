@@ -1,6 +1,7 @@
-package com.debellonavali.PlaceShip;
+package com.debellonavali.Screens.PlaceShip;
 
 public class ConstantsPlaceShips {
+
 
     public static int APP_WIDTH = 1280;
     public static int APP_HEIGHT = 720;
@@ -59,4 +60,9 @@ public class ConstantsPlaceShips {
     /***********************************SHIPS IMG*******************************************************/
     public static final String FLEET_PICTURES_PATH="Pictures/PlaceShipPictures/FleetPictures/";
     public static final String SHIP_NAME_FONT="Fonts/Arcon.ttf";
+
+
+    /***********************************WEAPON IMG*******************************************************/
+
+    public static final String WEAPON_PICTURE_PATH = "Pictures/PlaceShipPictures/WeaponPictures/";
 }

@@ -1,14 +1,16 @@
-package com.debellonavali.PlaceShip;
+package com.debellonavali.Screens.PlaceShip;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import com.debellonavali.Screens.PlaceShip.CellGrid;
+
 public class GridChecker {
 
-    private ArrayList<ArrayList<CellGrid>> grid;
-    private ArrayList<ArrayList<CellGrid>> invalidCells;
-    private ArrayList<CellGrid> validCells;
+    private ArrayList<ArrayList<com.debellonavali.Screens.PlaceShip.CellGrid>> grid;
+    private ArrayList<ArrayList<com.debellonavali.Screens.PlaceShip.CellGrid>> invalidCells;
+    private ArrayList<com.debellonavali.Screens.PlaceShip.CellGrid> validCells;
     private Orientation lastOrientation;
 
     private Orientation standardOrientation=Orientation.Horizontal_Right;
@@ -71,7 +73,7 @@ public class GridChecker {
     }
 
 
-    private boolean isPlaceable(ArrayList<CellGrid> cells,int dim){
+    private boolean isPlaceable(ArrayList<CellGrid> cells, int dim){
 
         if (!isOutOfBoundary(cells,dim))
                 if ( !isOverlap(cells))
@@ -81,14 +83,14 @@ public class GridChecker {
     }
 
     private boolean isOverlap(ArrayList<CellGrid> c){
-        for (CellGrid cell: c) {
-            if ( cell.getState()==CellGrid.CellState.NOT_EMPTY)
+        for (com.debellonavali.Screens.PlaceShip.CellGrid cell: c) {
+            if ( cell.getState()== com.debellonavali.Screens.PlaceShip.CellGrid.CellState.NOT_EMPTY)
                 return true;
         }
         return false;
     }
 
-    private  boolean  isOutOfBoundary(ArrayList<CellGrid> c,int dim){
+    private  boolean  isOutOfBoundary(ArrayList<CellGrid> c, int dim){
         if (c.size()<dim)
             return true;
         else
@@ -107,7 +109,7 @@ public class GridChecker {
 
         try {
             method =this.getClass().getDeclaredMethod("getNext"+o,int.class,int.class,int.class );
-            return  (ArrayList<CellGrid>) method.invoke(this,x,y,dim);
+            return  (ArrayList<com.debellonavali.Screens.PlaceShip.CellGrid>) method.invoke(this,x,y,dim);
 
         } catch (SecurityException e) { return null; }
         catch (NoSuchMethodException e) {
@@ -122,7 +124,7 @@ public class GridChecker {
     }
 
     private ArrayList<CellGrid> getNextHorizontal_Right(int x, int y, int dim){
-        ArrayList<CellGrid>cells=new ArrayList<>(dim);
+        ArrayList<com.debellonavali.Screens.PlaceShip.CellGrid>cells=new ArrayList<>(dim);
         for (int i=0;i<dim;i++){
             if (!(x+i>7)){
                 cells.add(grid.get(x+i).get(y));
@@ -134,7 +136,7 @@ public class GridChecker {
     }
 
     private ArrayList<CellGrid> getNextHorizontal_Left(int x, int y, int dim){
-        ArrayList<CellGrid>cells=new ArrayList<>(dim);
+        ArrayList<com.debellonavali.Screens.PlaceShip.CellGrid>cells=new ArrayList<>(dim);
         for (int i=0;i<dim;i++){
             if (!(x-i<0)){
                 cells.add(grid.get(x-i).get(y));
@@ -146,7 +148,7 @@ public class GridChecker {
     }
 
     private ArrayList<CellGrid> getNextVertical_Up(int x, int y, int dim){
-        ArrayList<CellGrid>cells=new ArrayList<>(dim);
+        ArrayList<com.debellonavali.Screens.PlaceShip.CellGrid>cells=new ArrayList<>(dim);
         for (int i=0;i<dim;i++){
             if (!(y+1>7)){
                 cells.add(grid.get(x).get(y+i));
@@ -157,7 +159,7 @@ public class GridChecker {
     }
 
     private ArrayList<CellGrid> getNextVertical_Down(int x, int y, int dim){
-        ArrayList<CellGrid>cells=new ArrayList<>(dim);
+        ArrayList<com.debellonavali.Screens.PlaceShip.CellGrid>cells=new ArrayList<>(dim);
         for (int i=0;i<dim;i++){
             if (!(y-i<0)){
                 cells.add(grid.get(x).get(y-i));

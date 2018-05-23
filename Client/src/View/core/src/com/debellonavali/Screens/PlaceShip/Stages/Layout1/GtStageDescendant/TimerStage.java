@@ -1,14 +1,11 @@
-package com.debellonavali.PlaceShip.Stage.Layout1.GtStageDescendant;
+package com.debellonavali.Screens.PlaceShip.Stages.Layout1.GtStageDescendant;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.debellonavali.PlaceShip.ConstantsPlaceShips;
-import com.debellonavali.PlaceShip.Stage.PlaceShipStage;
-import com.debellonavali.PlaceShip.Stage.zoneStage;
+import com.debellonavali.Screens.zoneStage;
 
 public class TimerStage extends zoneStage {
 
@@ -28,20 +25,20 @@ public class TimerStage extends zoneStage {
 
     @Override
     public void setUpLayout() {
-        parent.getTable().add(zoneTable).width(ConstantsPlaceShips.TIMER_ZONE_WIDTH).height(ConstantsPlaceShips.TIMER_ZONE_HEIGHT);
+        parent.getTable().add(zoneTable).width(com.debellonavali.Screens.PlaceShip.ConstantsPlaceShips.TIMER_ZONE_WIDTH).height(com.debellonavali.Screens.PlaceShip.ConstantsPlaceShips.TIMER_ZONE_HEIGHT);
         zoneTable.setBounds(0,0,zoneTable.getWidth(),zoneTable.getHeight());
 
-        atlas = new TextureAtlas(Gdx.files.internal(ConstantsPlaceShips.START_BATTLE_BUTTON_PACK));
+        atlas = new TextureAtlas(Gdx.files.internal(com.debellonavali.Screens.PlaceShip.ConstantsPlaceShips.START_BATTLE_BUTTON_PACK));
         skin = new Skin(atlas);
 
-        buttonFont = new BitmapFont(Gdx.files.internal(ConstantsPlaceShips.PLACE_SHIP_BUTTON_FONT), false);
+        buttonFont = new BitmapFont(Gdx.files.internal(com.debellonavali.Screens.PlaceShip.ConstantsPlaceShips.PLACE_SHIP_BUTTON_FONT), false);
 
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = buttonFont;
         textButtonStyle.up = skin.getDrawable("buttonUP");
         textButtonStyle.down = skin.getDrawable("buttonDOWN");
 
-        atlas = new TextureAtlas(Gdx.files.internal(ConstantsPlaceShips.SURREND_BUTTON_PACK));
+        atlas = new TextureAtlas(Gdx.files.internal(com.debellonavali.Screens.PlaceShip.ConstantsPlaceShips.SURREND_BUTTON_PACK));
         skin = new Skin(atlas);
 
         surrendButtonStyle = new TextButton.TextButtonStyle();
@@ -49,8 +46,8 @@ public class TimerStage extends zoneStage {
         surrendButtonStyle.up = skin.getDrawable("buttonUP");
         surrendButtonStyle.down = skin.getDrawable("buttonDOWN");
 
-        playButton = new TextButton(ConstantsPlaceShips.START_BATTLE_BUTTON_TEXT, textButtonStyle);
-        surrendButton = new TextButton(ConstantsPlaceShips.START_BATTLE_BUTTON_TEXT, surrendButtonStyle);
+        playButton = new TextButton(com.debellonavali.Screens.PlaceShip.ConstantsPlaceShips.START_BATTLE_BUTTON_TEXT, textButtonStyle);
+        surrendButton = new TextButton(com.debellonavali.Screens.PlaceShip.ConstantsPlaceShips.START_BATTLE_BUTTON_TEXT, surrendButtonStyle);
 
 
 

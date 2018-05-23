@@ -8,8 +8,13 @@ import java.util.Map.Entry;
 public class Ship {
 
     private int shipID;
+    private String shipName;
     private int dimension;
     private int hitsReceived;
+
+
+
+    private int shipWeight;
     private HashMap<Integer, Weapon> weapons;
 
 
@@ -48,6 +53,22 @@ public class Ship {
     public boolean isFireable(int weaponID) {
         Weapon weapon = weapons.get(weaponID);
         return (weapon.isFireable() && weapon.hasAmmo());
+    }
+
+    public void setShipName(String name) {
+        this.shipName=name;
+    }
+
+    public String getShipName() {
+        return shipName;
+    }
+
+    public int getShipWeight() {
+        return shipWeight;
+    }
+
+    public void setShipWeight(int shipWeight) {
+        this.shipWeight = shipWeight;
     }
 
 }

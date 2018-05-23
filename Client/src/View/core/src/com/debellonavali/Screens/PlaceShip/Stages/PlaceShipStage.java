@@ -1,21 +1,17 @@
-package com.debellonavali.PlaceShip.Stage;
+package com.debellonavali.Screens.PlaceShip.Stages;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.debellonavali.PlaceShip.ConstantsPlaceShips;
-import com.debellonavali.PlaceShip.Stage.Layout1.GtStage;
-import com.debellonavali.PlaceShip.Stage.Layout1.ShipListStage;
+import com.debellonavali.Screens.PlaceShip.Stages.Layout1.ShipListStage;
+import com.debellonavali.Screens.PlaceShip.Stages.Layout1.GtStage;
+import com.debellonavali.Screens.zoneStage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceShipStage extends zoneStage {
 
-    private List<zoneStage> stages = new ArrayList<zoneStage>();
 
-    private ShipListStage shipListStage;
-    private GtStage gtStage;
+
     private final String civilization="RomanFleet";
 
 
@@ -25,10 +21,9 @@ public class PlaceShipStage extends zoneStage {
 
         zoneTable.setFillParent(true);
         zoneTable.pad(0);
-        shipListStage= new ShipListStage(this);
-        gtStage= new GtStage(this);
-        stages.add(shipListStage);
-        stages.add(gtStage);
+
+        stages.add(new ShipListStage(this));
+        stages.add(new GtStage(this));
 
     }
 
@@ -53,18 +48,17 @@ public class PlaceShipStage extends zoneStage {
     }
 
     public ShipListStage getShipListStage() {
-        return shipListStage;
+        return (ShipListStage)this.stages.get(0);
     }
 
     public GtStage getGtStage() {
-        return gtStage;
+        return (GtStage) this.stages.get(1);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        shipListStage.dispose();
-        gtStage.dispose();
-
+        stages.get(0).dispose();
+        stages.get(1).dispose();
     }
 }

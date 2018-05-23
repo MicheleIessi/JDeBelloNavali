@@ -1,25 +1,16 @@
-package com.debellonavali.PlaceShip;
+package com.debellonavali.Screens.PlaceShip;
 
-import java.awt.*;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Affine2;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
-import com.debellonavali.PlaceShip.Stage.Layout1.GtStageDescendant.GridStage;
-import com.sun.javafx.collections.MappingChange;
+import com.debellonavali.Screens.PlaceShip.Stages.Layout1.GtStageDescendant.GridStage;
+import com.debellonavali.Screens.zoneStage;
 
 public class CellGrid extends Actor {
     private Batch batch;
@@ -40,9 +31,9 @@ public class CellGrid extends Actor {
     public Image shipImg;
     //Sizing for the cell
     private int x, y;
-    public static int cellWidth =  (ConstantsPlaceShips.GRID_ZONE_WIDTH/13);
+    public  int cellWidth;
 
-    private GridStage parentStage;
+    private zoneStage parentStage;
 
 
 
@@ -69,12 +60,14 @@ public class CellGrid extends Actor {
         this.style = style;
     }
 
-    public CellGrid(int x, int y, GridStage stage) {
+    public CellGrid(int x, int y, zoneStage stage, int gridWidth) {
         this.x = x;
         this.y = y;
         this.parentStage=stage;
         this.state=CellState.EMPTY;
         super.setName(x+","+y);
+
+        cellWidth=gridWidth/8;
 
         notEmptyTexture= new Image (new Texture(Gdx.files.internal(ConstantsPlaceShips.NOT_EMPTY_TEXTURE_PATH)));
         emptyTexture= new Image(new Texture(Gdx.files.internal(ConstantsPlaceShips.EMPTY_TEXTURE_PATH)));
@@ -119,14 +112,24 @@ public class CellGrid extends Actor {
 
     }
 
+    public void dropShip(String civil,String name,int part){
+
+        shipImg= new Image(new Texture(Gdx.files.internal(
+                ConstantsPlaceShips.FLEET_PICTURES_PATH+civil+"/divided/"+name+"/"+part+".png")));
+
+        setState(CellState.NOT_EMPTY);
+
+
+    }
+
     /**
      * Draws water "sprite"
      */
     public void drawWater(Batch batch) {
         waterStateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame =(TextureRegion)water.getKeyFrame(waterStateTime, true);
-        for(float i = 0; i < CellGrid.cellWidth - currentFrame.getRegionWidth(); i+=currentFrame.getRegionWidth()) {
-            for(float j = 0; j< CellGrid.cellWidth - currentFrame.getRegionHeight(); j+=currentFrame.getRegionHeight()) {
+        for(float i = 0; i < cellWidth - currentFrame.getRegionWidth(); i+=currentFrame.getRegionWidth()) {
+            for(float j = 0; j< cellWidth - currentFrame.getRegionHeight(); j+=currentFrame.getRegionHeight()) {
                 batch.draw(currentFrame, getX()+i, getY()+j,cellWidth-1,cellWidth-1);
             }
         }
