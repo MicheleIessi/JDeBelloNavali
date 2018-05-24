@@ -6,8 +6,10 @@ import com.debellonavali.Screens.BattlePhase.Stages.ConstantsBattlePhase;
 
 import com.debellonavali.Screens.BattlePhase.Stages.Layout1.FieldStageDescendant.EnemyField;
 import com.debellonavali.Screens.BattlePhase.Stages.Layout1.FieldStageDescendant.PlayerField;
+import com.debellonavali.Screens.PlaceShip.CellGrid;
 import com.debellonavali.Screens.zoneStage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -48,5 +50,9 @@ public class FieldStage extends zoneStage {
     public void setFleet(HashMap fleet) {
 
        playerField.setFleet(fleet);
+    }
+
+    public ArrayList<ArrayList<CellGrid>> getEnemyField() {
+       return enemyField.getEnemyField();
     }
 }

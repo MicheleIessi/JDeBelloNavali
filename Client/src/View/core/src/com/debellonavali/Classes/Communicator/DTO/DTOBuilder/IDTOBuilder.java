@@ -9,4 +9,9 @@ public interface IDTOBuilder {
 
     IDTO createAttackDTO(List<int[]> attackedSquares);
     IDTO createAttackResultsDTO(Map<int[], Boolean> attackResults);
+    IDTO createDefenceResultsDTO(Map<int [], Boolean> defenceResult);
+    IDTO createAttackWinDTO(Map<int [], Boolean> defenceResult);
+    IDTO createDefenceLoseDTO(Map<int [], Boolean> defenceResult);
+
+
 }

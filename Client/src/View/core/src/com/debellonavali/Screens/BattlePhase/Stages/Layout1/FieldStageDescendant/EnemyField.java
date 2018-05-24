@@ -1,5 +1,10 @@
 package com.debellonavali.Screens.BattlePhase.Stages.Layout1.FieldStageDescendant;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.debellonavali.Classes.Model.DeBelloGame;
@@ -7,7 +12,6 @@ import com.debellonavali.Screens.BattlePhase.Stages.ConstantsBattlePhase;
 import com.debellonavali.Screens.PlaceShip.CellGrid;
 import com.debellonavali.Screens.Util.DragNDrop;
 import com.debellonavali.Screens.zoneStage;
-import jdk.nashorn.internal.ir.IfNode;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -71,11 +75,13 @@ public class EnemyField extends zoneStage {
                     public boolean drag (DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
                         Map<String,String> pack=(Map)payload.getObject();
 
+                        cellTarget.showPreviewPlacement(CellGrid.previewStylePlacement.VALID);
                         return true;
                     }
                     //called when the payload is no longer over the target
                     public void reset (DragAndDrop.Source source, DragAndDrop.Payload payload) {
 
+                        cellTarget.hidePreviewPlacement();
                     }
                     // called when the payload is dropped on the target
                     public void drop (DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
@@ -90,11 +96,27 @@ public class EnemyField extends zoneStage {
                             int weaponID=pack.get("weaponID");
                             //it's my turn i can attack
                             deBelloGame.attack(shipID,weaponID,position);
+                            deBelloGame.setPlayerTurn(false);
+                        }
+                        else{
+                            Skin uiSkin = new Skin(Gdx.files.internal("Dialog/uiskin.json"));
+                            Dialog dialog = new Dialog("Warning", uiSkin) {
+                                public void result(Object obj) {
+                                    System.out.println("result "+obj);
+                                }
+                            };
+                            dialog.text("Sorry it's not your turn, please wait your enemy attack...");
+                            dialog.button("Got it", false).sizeBy(50,50); //sends "false" as the result
+                            dialog.show(parent.getParent());
                         }
                     }
                 });
             }
 
         }
+    }
+
+    public ArrayList<ArrayList<CellGrid>> getEnemyField() {
+        return this.enemyGrid;
     }
 }

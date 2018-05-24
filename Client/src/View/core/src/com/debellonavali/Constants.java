@@ -3,7 +3,7 @@ package com.debellonavali;
 public class Constants {
 
     // Desktop application constants
-    public static String APP_TITLE = "De Bello Navali";
+    public static String APP_TITLE = "De Bello Navali ";
 
     public static int APP_WIDTH = 1280;
     public static int APP_HEIGHT = 720;

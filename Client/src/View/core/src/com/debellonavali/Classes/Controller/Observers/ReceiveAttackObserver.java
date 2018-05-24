@@ -17,13 +17,32 @@ public class ReceiveAttackObserver implements IObserverController {
         if(controller.getFunction().equalsIgnoreCase(DTOMessages.ATTACK_MESSAGE)) {
             List<int[]> attackedSquares = (List<int[]>) controller.getDTO().getObjectFromMap("AttackedSquares");
             Map<int[], Boolean> attackResult = DeBelloGame.getInstance().getPlayerBattlefield().receiveAttack(attackedSquares);
-            IDTO attackResultDTO = DTOBuilder.getInstance().createAttackResultsDTO(attackResult);
-            /*
-             * In questo caso, siccome il DTO è lo stesso, passiamo direttamente quello.
-             * In altri casi potrebbe essere necessario creare un altro DTO dal Builder.
-             */
-            DeBelloGame.getInstance().notifyScreen(attackResultDTO);
-            AnswerContainer.getInstance().putDTOMessage(attackResultDTO);
+
+            IDTO attackResultDTO;
+            IDTO defenceResultDTO;
+            //Check if the game is ended
+            if (attackedSquares.get(0)[0]==717){
+                //The game is ended
+                 attackResultDTO = DTOBuilder.getInstance().createAttackWinDTO(attackResult);
+                AnswerContainer.getInstance().putDTOMessage(attackResultDTO);
+                 defenceResultDTO = DTOBuilder.getInstance().createDefenceLoseDTO(attackResult);
+
+
+            }
+            else
+            {
+                 attackResultDTO = DTOBuilder.getInstance().createAttackResultsDTO(attackResult);
+                AnswerContainer.getInstance().putDTOMessage(attackResultDTO);
+                 defenceResultDTO = DTOBuilder.getInstance().createDefenceResultsDTO(attackResult);
+            }
+
+
+            //TODO: run it using a thread to improve user experience and latency
+
+            DeBelloGame.getInstance().notifyScreen(defenceResultDTO);
+
+            DeBelloGame.getInstance().setPlayerTurn(true);
+
             }
     }
 }

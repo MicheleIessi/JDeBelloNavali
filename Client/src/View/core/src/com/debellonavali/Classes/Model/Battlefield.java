@@ -193,7 +193,8 @@ public class Battlefield {
             for (int[] hitSquare : hitSquares) {
                 int hitX = hitSquare[0];
                 int hitY = hitSquare[1];
-                field[hitX][hitY].setHit(true);
+
+                //field[hitX][hitY].setHit(true);
             }
             attackingWeapon.setReloadTime(attackingWeapon.getMaxReloadTime());
             System.out.println("NEW RELOAD: " + attackingWeapon.getReloadTime());

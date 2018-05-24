@@ -104,12 +104,12 @@ public class GridChecker {
     }
 
 
-    public ArrayList<CellGrid> getCells(int x, int y, int dim, Orientation o){
+    public ArrayList<CellGrid> getCells(int y, int x, int dim, Orientation o){
         Method method;
 
         try {
             method =this.getClass().getDeclaredMethod("getNext"+o,int.class,int.class,int.class );
-            return  (ArrayList<com.debellonavali.Screens.PlaceShip.CellGrid>) method.invoke(this,x,y,dim);
+            return  (ArrayList<com.debellonavali.Screens.PlaceShip.CellGrid>) method.invoke(this,y,x,dim);
 
         } catch (SecurityException e) { return null; }
         catch (NoSuchMethodException e) {

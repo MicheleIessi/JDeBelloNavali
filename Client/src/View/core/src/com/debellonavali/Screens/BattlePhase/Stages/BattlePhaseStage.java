@@ -5,6 +5,7 @@ import com.debellonavali.Classes.Model.DeBelloGame;
 import com.debellonavali.Classes.Model.Ship;
 import com.debellonavali.Screens.BattlePhase.Stages.Layout1.FieldStage;
 import com.debellonavali.Screens.BattlePhase.Stages.Layout1.FleetListStage;
+import com.debellonavali.Screens.PlaceShip.CellGrid;
 import com.debellonavali.Screens.zoneStage;
 
 import java.util.ArrayList;
@@ -47,4 +48,7 @@ public class BattlePhaseStage extends zoneStage {
         fieldStage.setFleet(fleet);
     }
 
+    public ArrayList<ArrayList<CellGrid>> getEnemyField() {
+        return fieldStage.getEnemyField();
+    }
 }

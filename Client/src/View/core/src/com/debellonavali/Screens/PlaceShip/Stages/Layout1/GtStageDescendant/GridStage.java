@@ -3,7 +3,6 @@ package com.debellonavali.Screens.PlaceShip.Stages.Layout1.GtStageDescendant;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.debellonavali.Screens.PlaceShip.CellGrid;
-import com.debellonavali.Screens.PlaceShip.Stages.PlaceShipStage;
 import com.debellonavali.Screens.Util.DragNDrop;
 import com.debellonavali.Screens.zoneStage;
 
@@ -91,7 +90,7 @@ public class GridStage extends zoneStage {
         if (invalidCells!=null){
             for (ArrayList<CellGrid> position:invalidCells) {
                 for (CellGrid cell:position) {
-                    cell.showPreview(CellGrid.previewStyle.NOT_VALID);
+                    cell.showPreviewPlacement(CellGrid.previewStylePlacement.NOT_VALID);
                 }
             }
         }
@@ -99,7 +98,7 @@ public class GridStage extends zoneStage {
 
         if (validCells!=null){
             for (CellGrid cell:validCells){
-                cell.showPreview(CellGrid.previewStyle.VALID);
+                cell.showPreviewPlacement(CellGrid.previewStylePlacement.VALID);
             }
         }
 
@@ -116,7 +115,7 @@ public class GridStage extends zoneStage {
         if (invalidCells!=null){
             for (ArrayList<CellGrid> position:invalidCells) {
                 for (CellGrid cell:position) {
-                    cell.hidePreview();
+                    cell.hidePreviewPlacement();
                 }
             }
         }
@@ -124,7 +123,7 @@ public class GridStage extends zoneStage {
 
         if (validCells!=null){
             for (CellGrid cell:validCells){
-                cell.hidePreview();
+                cell.hidePreviewPlacement();
             }
         }
 

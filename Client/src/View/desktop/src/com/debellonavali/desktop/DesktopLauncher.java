@@ -16,6 +16,9 @@ public class DesktopLauncher {
 		config.fullscreen = Constants.APP_FULLSCREEN;
 		config.resizable = Constants.APP_RESIZABLE;
 
+
 		new LwjglApplication(new MainView(), config);
+
+
 	}
 }

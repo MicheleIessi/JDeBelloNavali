@@ -87,7 +87,7 @@ public class PlayerField extends zoneStage {
             int x= Integer.parseInt(position[0]);
             int y= Integer.parseInt(position[1]);
 
-            ArrayList<CellGrid>cells=checker.getCells(x,y,ship.getDimension(),GridChecker.Orientation.Horizontal_Right);
+            ArrayList<CellGrid>cells=checker.getCells(y,x,ship.getDimension(),GridChecker.Orientation.Horizontal_Right);
 
             int count=1;
 

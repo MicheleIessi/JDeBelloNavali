@@ -9,23 +9,32 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.debellonavali.Screens.PlaceShip.Stages.Layout1.GtStageDescendant.GridStage;
+import com.debellonavali.Screens.BattlePhase.Stages.ConstantsBattlePhase;
 import com.debellonavali.Screens.zoneStage;
 
 public class CellGrid extends Actor {
     private Batch batch;
     //Variables for water animation
     private Animation water;
+    private Animation fire;
     private TextureRegion[] waterTextures;
+    private TextureRegion[] fireTextures;
+
     float waterStateTime = 0f;
+    float fireStateTime=0f;
     private CellState state;
-    private previewStyle style;
+    private previewStylePlacement stylePlacement;
+    private previewStyleBattle styleBattle;
     //CellGrid select overlay texture
     private boolean showPreview=false;
+    private boolean hitPreview =false;
 
     private Image notEmptyTexture ;
     private Image emptyTexture ;
     private Image emptyInvalidTexture ;
+
+    private Image alreadyHitTexture ;
+    private Image waterHoleTexture ;
 
     //Ship contained
     public Image shipImg;
@@ -38,10 +47,13 @@ public class CellGrid extends Actor {
 
 
     public enum CellState {
-        EMPTY, NOT_EMPTY
+        EMPTY, NOT_EMPTY,HIT
     }
-    public enum previewStyle{
-        VALID,NOT_VALID
+    public enum previewStylePlacement {
+        VALID,NOT_VALID,
+    }
+    public enum previewStyleBattle{
+        ALREADY_HIT,HIT,WATER_HOLE
     }
 
     public CellState getState() {
@@ -52,12 +64,16 @@ public class CellGrid extends Actor {
         this.state = state;
     }
 
-    public previewStyle getStyle() {
-        return style;
+    public previewStylePlacement getStylePlacement() {
+        return stylePlacement;
     }
 
-    public void setStyle(previewStyle style) {
-        this.style = style;
+    public void setStylePlacement(previewStylePlacement style) {
+        this.stylePlacement = style;
+    }
+
+    public void setStyleBattle(previewStyleBattle style){
+        this.styleBattle=style;
     }
 
     public CellGrid(int x, int y, zoneStage stage, int gridWidth) {
@@ -72,8 +88,13 @@ public class CellGrid extends Actor {
         notEmptyTexture= new Image (new Texture(Gdx.files.internal(ConstantsPlaceShips.NOT_EMPTY_TEXTURE_PATH)));
         emptyTexture= new Image(new Texture(Gdx.files.internal(ConstantsPlaceShips.EMPTY_TEXTURE_PATH)));
         emptyInvalidTexture= new Image(new Texture(Gdx.files.internal(ConstantsPlaceShips.EMPTY_INVALID_TEXTURE_PATH)));
+
+        alreadyHitTexture= new Image(new Texture(Gdx.files.internal(ConstantsBattlePhase.ALREADY_HIT_TEXTURE_PATH)));
+        waterHoleTexture= new Image(new Texture(Gdx.files.internal(ConstantsBattlePhase.WATER_HOLE_TEXTURE_PATH)));
+
         setDimensions();
         setUpWaterAnimation();
+        setUpFireAnimation();
     }
 
     @Override
@@ -84,13 +105,33 @@ public class CellGrid extends Actor {
         }
         if(showPreview) {
             if (state==CellState.EMPTY ){
-                if (style==previewStyle.VALID)
+                if (stylePlacement ==previewStylePlacement.VALID)
                     emptyTexture.getDrawable().draw(batch,getX(),getY(),cellWidth,cellWidth);
                 else
                     emptyInvalidTexture.getDrawable().draw(batch,getX(),getY(),cellWidth,cellWidth);
             }
             else
                 notEmptyTexture.getDrawable().draw(batch,getX(),getY(),cellWidth,cellWidth);
+
+        }
+
+        if(hitPreview){
+
+            if (styleBattle ==previewStyleBattle.HIT)
+                drawFire(batch);
+
+            else if (styleBattle ==previewStyleBattle.ALREADY_HIT)
+                alreadyHitTexture.getDrawable().draw(batch,getX(),getY(),cellWidth,cellWidth);
+
+                else if (styleBattle== previewStyleBattle.WATER_HOLE)
+                waterHoleTexture.getDrawable().draw(batch,getX(),getY(),cellWidth,cellWidth);
+
+
+
+
+
+
+
 
         }
 
@@ -136,6 +177,19 @@ public class CellGrid extends Actor {
     }
 
     /**
+     * Draws fire "sprite"
+     */
+    public void drawFire(Batch batch){
+        fireStateTime += Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame =(TextureRegion)fire.getKeyFrame(fireStateTime, true);
+        for(float i = 0; i < cellWidth - currentFrame.getRegionWidth(); i+=currentFrame.getRegionWidth()) {
+            for(float j = 0; j< cellWidth - currentFrame.getRegionHeight(); j+=currentFrame.getRegionHeight()) {
+                batch.draw(currentFrame, getX()+i, getY()+j,cellWidth-1,cellWidth-1);
+            }
+        }
+    }
+
+    /**
      * Sets up water texture and animation
      */
     private void setUpWaterAnimation() {
@@ -149,6 +203,21 @@ public class CellGrid extends Actor {
         }
         //Sets up the background animation at 32 fps
         water = new Animation(1/2f, waterTextures);
+    }
+    /**
+     * Sets up water texture and animation
+     */
+    private void setUpFireAnimation() {
+        //Combines the water images into a TextureRegion array
+        fireTextures = new TextureRegion[10];
+        for(int i=0; i<10; i++) {
+            //Uses entire texture as "region" since they aren't on combined sprite sheet
+            fireTextures[i] = new TextureRegion(
+                    new Texture(Gdx.files.internal(ConstantsBattlePhase.FIRE_TEXTURE+i+".png")),0, 0, cellWidth-1,cellWidth-1);
+
+        }
+        //Sets up the background animation at 32 fps
+        fire = new Animation(1/2f, fireTextures);
     }
 
     /**
@@ -174,16 +243,25 @@ public class CellGrid extends Actor {
         return y;
     }
 
-    public void showPreview(previewStyle s){
-
+    public void showPreviewPlacement(previewStylePlacement s){
        this.showPreview=true;
-       this.setStyle(s);
-
+       this.setStylePlacement(s);
 
     }
 
-    public void hidePreview(){
+    public void hidePreviewPlacement(){
         this.showPreview=false;
-        this.setStyle(previewStyle.NOT_VALID);
+        this.setStylePlacement(previewStylePlacement.NOT_VALID);
+    }
+
+    public void showPreviewBattle(previewStyleBattle s){
+        this.hitPreview =true;
+        this.setStyleBattle(s);
+    }
+
+    public void hidePreviewBattle( )
+    {
+        this.hitPreview =false;
+
     }
 }

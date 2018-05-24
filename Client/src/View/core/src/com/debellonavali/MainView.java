@@ -13,6 +13,8 @@ import com.debellonavali.Screens.SplashScreen;
 
 public class MainView extends Game {
 
+	private int port;
+
 	@Override
 	public void create () {
 		DeBelloGame dbg = GameFactory.getInstance().createDeBelloGame();
@@ -51,5 +53,7 @@ public class MainView extends Game {
 	public void resume() {
 		super.resume();
 	}
+
+
 
 }

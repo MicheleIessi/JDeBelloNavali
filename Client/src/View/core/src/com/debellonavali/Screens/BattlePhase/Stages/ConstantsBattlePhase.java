@@ -1,6 +1,8 @@
 package com.debellonavali.Screens.BattlePhase.Stages;
 
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 public class ConstantsBattlePhase {
 
 
@@ -44,6 +46,12 @@ public class ConstantsBattlePhase {
     /***********************************BUTTON****************************************************/
 
 
+
+    public static final String ALREADY_HIT_TEXTURE_PATH="Pictures/BattlePhasePictures/alreadyHit.png";
+    public static final String WATER_HOLE_TEXTURE_PATH="Pictures/BattlePhasePictures/waterHole.png";
+
+
+    public static final String FIRE_TEXTURE="Pictures/BattlePhasePictures/fire/fire";
 
 
 
