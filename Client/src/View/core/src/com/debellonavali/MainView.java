@@ -13,8 +13,6 @@ import com.debellonavali.Screens.SplashScreen;
 
 public class MainView extends Game {
 
-	private int port;
-
 	@Override
 	public void create () {
 		DeBelloGame dbg = GameFactory.getInstance().createDeBelloGame();
@@ -27,8 +25,8 @@ public class MainView extends Game {
 		dbg.attachFacadeController(clientController);
 
 		ConnectionManagerImpl connectionManager = ConnectionManagerImpl.getInstance();
-		connectionManager.initialize(Constants.DEFAULT_ENEMY_PORT);
-		connectionManager.setEnemyInformation("localhost", Constants.DEFAULT_PLAYER_PORT);
+		connectionManager.initialize(Constants.DEFAULT_PLAYER_PORT);
+		connectionManager.setEnemyInformation("localhost", Constants.DEFAULT_ENEMY_PORT);
 		connectionManager.startMonitoringThread();
 
 		setScreen(new SplashScreen(this));

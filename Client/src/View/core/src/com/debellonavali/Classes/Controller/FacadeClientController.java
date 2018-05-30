@@ -43,6 +43,7 @@ public class FacadeClientController implements IClientController {
         }
     }
 
+    @Override
     public void incomingRequest(IDTO incomingDTO) {
         this.function = incomingDTO.getFunctionString();
         this.dto = incomingDTO;

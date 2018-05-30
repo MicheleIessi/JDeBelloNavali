@@ -29,25 +29,24 @@ public class FleetListStage extends zoneStage {
 
     private ArrayList<Table> ships;
 
-    public FleetListStage(zoneStage parent){
+    public FleetListStage(zoneStage parent) {
         super(parent);
         zoneTable.pad(0);
         zoneTable.setDebug(true);
-        ships=new ArrayList<>();
-        dragAndDrop= DragNDrop.getInstance();
+        ships = new ArrayList<>();
+        dragAndDrop = DragNDrop.getInstance();
 
     }
-
 
 
     @Override
     public void setUpLayout() {
 
 
-        super.setZoneTableDimension(ConstantsBattlePhase.FLEETLIST_TABLE_WIDTH,ConstantsBattlePhase.FLEETLIST_TABLE_HEIGHT);
+        super.setZoneTableDimension(ConstantsBattlePhase.FLEETLIST_TABLE_WIDTH, ConstantsBattlePhase.FLEETLIST_TABLE_HEIGHT);
     }
 
-    public void setFleet(HashMap<Integer,Ship> fleet) {
+    public void setFleet(HashMap<Integer, Ship> fleet) {
 
         //Define all the variable
         Table shipItem;
@@ -60,63 +59,63 @@ public class FleetListStage extends zoneStage {
         Image shipImg;
         Texture shipTex;
 
-        FreeTypeFontGenerator generator= new FreeTypeFontGenerator(Gdx.files.internal(com.debellonavali.Screens.PlaceShip.ConstantsPlaceShips.SHIP_NAME_FONT));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(com.debellonavali.Screens.PlaceShip.ConstantsPlaceShips.SHIP_NAME_FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size=50;
-        parameter.color=Color.BLACK;
-        shipFont= generator.generateFont(parameter);
+        parameter.size = 50;
+        parameter.color = Color.BLACK;
+        shipFont = generator.generateFont(parameter);
 
         shipLabelStyle = new Label.LabelStyle();
         shipLabelStyle.font = shipFont;
         shipLabelStyle.fontColor = new Color(.1f, .1f, .1f, 1);
 
 
-        int shipCardHeight=ConstantsBattlePhase.FLEETLIST_TABLE_HEIGHT/fleet.entrySet().size();
+        int shipCardHeight = ConstantsBattlePhase.FLEETLIST_TABLE_HEIGHT / fleet.entrySet().size();
 
-        //TODO: come ottengo questa informazione??
-        String civil="RomanFleet";
+        //TODO: come ottengo questa informazione?
+        String civil = "RomanFleet";
 
         //Add each ship placed with its info
-        for(Map.Entry<Integer,Ship> entry : fleet.entrySet()) {
+        for (Map.Entry<Integer, Ship> entry : fleet.entrySet()) {
             int shipId = entry.getKey();
             Ship ship = entry.getValue();
 
 
-            shipItem= new Table();
+            shipItem = new Table();
             shipItem.pad(0);
-            shipInfo= new Table();
+            shipInfo = new Table();
             shipInfo.pad(0);
-            weaponsItems= new Table();
+            weaponsItems = new Table();
             weaponsItems.pad(0);
 
-            shipTex= new Texture(Gdx.files.internal(
-                    ConstantsPlaceShips.FLEET_PICTURES_PATH+civil+"/entire/"+ship.getShipName()+"-"+ship.getDimension()+"-"+ship.getShipWeight()+".png"));
-            shipImg=new Image(shipTex);
+            shipTex = new Texture(Gdx.files.internal(
+                    ConstantsPlaceShips.FLEET_PICTURES_PATH + civil + "/entire/" + ship.getShipName().toLowerCase() + "-" + ship.getDimension() + "-" + ship.getShipWeight() + ".png"));
+            shipImg = new Image(shipTex);
             shipInfo.add(shipImg).expand().left();
             shipInfo.row();
             shipLabel = new Label(ship.getShipName(), shipLabelStyle);
             shipLabel.setAlignment(Align.left);
             shipInfo.add(shipLabel);
-            shipItem.add(shipInfo).width(ConstantsBattlePhase.FLEETLIST_TABLE_WIDTH/2).height(shipCardHeight);
+            shipItem.add(shipInfo).width(ConstantsBattlePhase.FLEETLIST_TABLE_WIDTH / 2).height(shipCardHeight);
 
-            int weaponCardHeight=shipCardHeight/ship.getWeapons().size();
+            int weaponCardHeight = shipCardHeight / ship.getWeapons().size();
 
             //add weapons
-            for (Map.Entry<Integer,Weapon> weaponEntry: ship.getWeapons().entrySet()){
+            for (Map.Entry<Integer, Weapon> weaponEntry : ship.getWeapons().entrySet()) {
 
-                Table temp= new Table();
+                Table temp = new Table();
 
-                Weapon w= weaponEntry.getValue();
+                Weapon w = weaponEntry.getValue();
 
-                Image weaponImage= new Image(new Texture(
-                        Gdx.files.internal(ConstantsPlaceShips.WEAPON_PICTURE_PATH+civil+"/"+w.getWeaponName()+".png")));
+                Image weaponImage = new Image(new Texture(
+                        Gdx.files.internal(ConstantsPlaceShips.WEAPON_PICTURE_PATH + civil + "/" + w.getWeaponName().toLowerCase() + ".png")));
 
-                temp.add(new Label(w.getWeaponName(),shipLabelStyle));
+                temp.add(new Label(w.getWeaponName(), shipLabelStyle));
                 temp.add(weaponImage).width(50).height(50);
-                weaponsItems.add(temp).width(ConstantsBattlePhase.FLEETLIST_TABLE_WIDTH/2).height(weaponCardHeight);
+                weaponsItems.add(temp).width(ConstantsBattlePhase.FLEETLIST_TABLE_WIDTH / 2).height(weaponCardHeight);
 
                 //Set this weapon as draggable
-                setUpDraggable(shipId,w,weaponImage);
+                setUpDraggable(shipId, w, weaponImage);
 
                 weaponsItems.row();
 
@@ -125,37 +124,33 @@ public class FleetListStage extends zoneStage {
             shipItem.add(weaponsItems);
             ships.add(shipItem);
 
-
-
-
         }
 
-        for (Table t: ships){
-            zoneTable.add(t).width(ConstantsBattlePhase.FLEETLIST_TABLE_WIDTH).height(ConstantsBattlePhase.FLEETLIST_TABLE_HEIGHT/ships.size());
+        for (Table t : ships) {
+            zoneTable.add(t).width(ConstantsBattlePhase.FLEETLIST_TABLE_WIDTH).height(ConstantsBattlePhase.FLEETLIST_TABLE_HEIGHT / ships.size());
             zoneTable.row();
         }
     }
 
 
-    private void setUpDraggable(int shipID,Weapon weapon,Image weaponImage){
+    private void setUpDraggable(int shipID, Weapon weapon, Image weaponImage) {
 
-        dragAndDrop.addSource(new DragAndDrop.Source(weaponImage){
-            public DragAndDrop.Payload dragStart (InputEvent event, float x, float y, int pointer) {
+        dragAndDrop.addSource(new DragAndDrop.Source(weaponImage) {
+            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
                 DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                HashMap<String,Integer> infoPack= new HashMap<>();
+                HashMap<String, Integer> infoPack = new HashMap<>();
 
-                infoPack.put("shipID",shipID);
+                infoPack.put("shipID", shipID);
                 infoPack.put("weaponID", weapon.getWeaponID());
 
                 payload.setObject(infoPack);
-                Image toDrag=new Image( weaponImage.getDrawable());
-                toDrag.setSize(70,70);
+                Image toDrag = new Image(weaponImage.getDrawable());
+                toDrag.setSize(70, 70);
                 payload.setDragActor(toDrag);
                 return payload;
             }
         });
     }
-
 
 
 }

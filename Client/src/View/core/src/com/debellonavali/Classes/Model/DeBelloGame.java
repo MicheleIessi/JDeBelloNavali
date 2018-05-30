@@ -5,6 +5,7 @@ import com.debellonavali.Classes.Communicator.ConnectionManagerImpl;
 import com.debellonavali.Classes.Communicator.DTO.DTOBuilder.DTOBuilder;
 import com.debellonavali.Classes.Communicator.DTO.IDTO;
 import com.debellonavali.Classes.Controller.FacadeClientController;
+import com.debellonavali.Classes.Model.Factories.GameFactory;
 import com.debellonavali.Screens.BattlePhase.INotifiableScreen;
 
 import java.util.HashMap;
@@ -22,14 +23,13 @@ public class DeBelloGame {
     private boolean playerTurn;
     private INotifiableScreen currentScreen;
     private Logger logger;
-
-
+    private boolean gameEnded;
 
 
     public DeBelloGame() {
-        playerBattlefield = new Battlefield();
+        playerBattlefield = GameFactory.getInstance().createBattlefield();
         playerTurn = false;
-
+        gameEnded = false;
         logger = Logger.getLogger(DeBelloGame.class.getSimpleName());
     }
 
@@ -42,14 +42,11 @@ public class DeBelloGame {
         logger.info("Facade Controller Attached");
     }
 
-    public Battlefield getPlayerBattlefield() {
-        return playerBattlefield;
-    }
-
     public void attack(int shipID, int weaponID, int[] position) {
         //check if ship can attack, thus return the squares involved
         List<int[]> attackedSquares = playerBattlefield.attack(shipID, weaponID, position[0], position[1]);
         if(attackedSquares.size() > 0) {
+            setPlayerTurn(false);
             IDTO attackDTO = DTOBuilder.getInstance().createAttackDTO(attackedSquares);
             ConnectionManagerImpl.getInstance().sendMessage(attackDTO);
         }
@@ -72,6 +69,25 @@ public class DeBelloGame {
         currentScreen.notifyScreen(notifyingDTO);
     }
 
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
+
+    public Battlefield getPlayerBattlefield() {
+        return playerBattlefield;
+    }
+
+    public boolean getGameEnded() {
+        return gameEnded;
+    }
+
+    public void setGameEnded(boolean end) {
+        gameEnded = end;
+    }
+
+    public HashMap<String,String> getShipPosition(int shipId) {
+        return this.playerBattlefield.getShipPosition(shipId);
+    }
 
     public static DeBelloGame getInstance() {
         if (instance == null) {
@@ -80,11 +96,4 @@ public class DeBelloGame {
         return instance;
     }
 
-    public boolean isPlayerTurn() {
-        return playerTurn;
-    }
-
-    public HashMap<String,String> getShipPosition(int shipId) {
-        return this.playerBattlefield.getShipPosition(shipId);
-    }
 }

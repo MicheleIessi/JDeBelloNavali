@@ -5,7 +5,6 @@ import com.debellonavali.Classes.Controller.IClientController;
 import com.debellonavali.Classes.Model.DeBelloGame;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 /**
@@ -22,11 +21,11 @@ public class AttackResultsObserver implements IObserverController {
      */
     @Override
     public void update(IClientController controller) {
-        if(controller.getFunction().equalsIgnoreCase(DTOMessages.ATTACK_RESULT_MESSAGE_ATTACKER)) {
+        if(controller.getFunction().equalsIgnoreCase(DTOMessages.ATTACK_RESULT_MESSAGE_ATTACKER) ||
+                controller.getFunction().equalsIgnoreCase(DTOMessages.ATTACKER_WIN)) {
             Logger.getLogger(this.getClass().getCanonicalName()).info(String.format("Received message %s", controller.getFunction()));
-
-                //notify the screen observer in order to update the view
-                DeBelloGame.getInstance().notifyScreen(controller.getDTO());
+            //notify the screen observer in order to update the view
+            DeBelloGame.getInstance().notifyScreen(controller.getDTO());
             }
         }
     }

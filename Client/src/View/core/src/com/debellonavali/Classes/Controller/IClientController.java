@@ -11,7 +11,7 @@ public interface IClientController {
     void attachObserver(IObserverController observer);
     void detachObserver(IObserverController observer);
     void notifyObservers();
-
+    void incomingRequest(IDTO dto);
 
 
 }

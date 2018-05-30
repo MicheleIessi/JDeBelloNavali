@@ -20,9 +20,11 @@ public class Battlefield {
     private int fleetWeight;
     private int shipWeight;
     private int shipCumulativeID;
+    private int deadShips;
 
 
     public Battlefield() {
+        deadShips = 0;
         this.shipCumulativeID = 0;
         this.fleetWeight = 70;
         this.shipWeight = 0;
@@ -189,13 +191,6 @@ public class Battlefield {
             Ship attackingShip = fleet.get(shipID);
             Weapon attackingWeapon = attackingShip.getWeapons().get(weaponID);
             hitSquares = attackingWeapon.attack(posX, posY);
-
-            for (int[] hitSquare : hitSquares) {
-                int hitX = hitSquare[0];
-                int hitY = hitSquare[1];
-
-                //field[hitX][hitY].setHit(true);
-            }
             attackingWeapon.setReloadTime(attackingWeapon.getMaxReloadTime());
             System.out.println("NEW RELOAD: " + attackingWeapon.getReloadTime());
             attackingWeapon.decreaseAmmo();
@@ -210,6 +205,19 @@ public class Battlefield {
         for (int[] attackedCoordinate : attackedSquares) {
             int coordX = attackedCoordinate[0];
             int coordY = attackedCoordinate[1];
+            int shipID = this.field[coordX][coordY].getShipReference();
+            if (shipID != 0) {
+                Ship hitShip = fleet.get(shipID);
+                if(hitShip.getHitsReceived() < hitShip.getDimension()) {
+                    hitShip.setHitsReceived(hitShip.getHitsReceived() + 1);
+                    if(!hitShip.isAlive()) {
+                        deadShips++;
+                    }
+                }
+                if(deadShips == getFleet().size()) {
+                    DeBelloGame.getInstance().setGameEnded(true);
+                }
+            }
             attackResult.put(attackedCoordinate, field[coordX][coordY].attack());
         }
         return attackResult;
@@ -255,7 +263,6 @@ public class Battlefield {
                     shipInfo.put("position",""+x+"-"+y);
                     return shipInfo;
                 }
-
                 x++;
             }
             x=0;

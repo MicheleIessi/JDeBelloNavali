@@ -106,20 +106,16 @@ public class SplashScreen implements Screen {
             //backgroundMusic.play();
         }
 
-
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
                 fade(.3f);
-
                 Timer.schedule(new Timer.Task(){
                     @Override
                     public void run() {
                         Gdx.app.exit();
                     }
                 }, .5f);
-
             }
         });
 

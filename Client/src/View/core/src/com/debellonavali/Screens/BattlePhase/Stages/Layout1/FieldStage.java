@@ -20,19 +20,19 @@ public class FieldStage extends zoneStage {
     private PlayerField playerField;
     private DeBelloGame deBelloGame;
 
-   public FieldStage (zoneStage parent, DeBelloGame dbg){
-       super(parent);
+    public FieldStage(zoneStage parent, DeBelloGame dbg) {
+        super(parent);
 
-       zoneTable.pad(0);
+        zoneTable.pad(0);
 
-       this.deBelloGame = dbg;
-       enemyField= new EnemyField(this, deBelloGame);
-       playerField= new PlayerField(this, deBelloGame);
+        this.deBelloGame = dbg;
+        enemyField = new EnemyField(this, deBelloGame);
+        playerField = new PlayerField(this, deBelloGame);
 
-       stages.add(enemyField);
-       stages.add(playerField);
+        stages.add(enemyField);
+        stages.add(playerField);
 
-   }
+    }
 
 
     @Override
@@ -44,15 +44,19 @@ public class FieldStage extends zoneStage {
             zoneTable.row();
         }
 
-        super.setZoneTableDimension(ConstantsBattlePhase.FIELD_TABLE_WIDTH,ConstantsBattlePhase.FIELD_TABLE_HEIGHT);
+        super.setZoneTableDimension(ConstantsBattlePhase.FIELD_TABLE_WIDTH, ConstantsBattlePhase.FIELD_TABLE_HEIGHT);
     }
 
     public void setFleet(HashMap fleet) {
 
-       playerField.setFleet(fleet);
+        playerField.setFleet(fleet);
     }
 
     public ArrayList<ArrayList<CellGrid>> getEnemyField() {
-       return enemyField.getEnemyField();
+        return enemyField.getEnemyField();
+    }
+
+    public ArrayList<ArrayList<CellGrid>> getPlayerField() {
+        return playerField.getPlayerField();
     }
 }

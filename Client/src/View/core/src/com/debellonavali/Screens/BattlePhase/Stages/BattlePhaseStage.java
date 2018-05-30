@@ -18,14 +18,14 @@ public class BattlePhaseStage extends zoneStage {
     private FieldStage fieldStage;
     private DeBelloGame deBelloGame;
 
-    public BattlePhaseStage(DeBelloGame dbg){
+    public BattlePhaseStage(DeBelloGame dbg) {
         super();
         zoneTable.setFillParent(true);
         zoneTable.pad(0);
 
-        this.deBelloGame=dbg;
-        fleetListStage= new FleetListStage(this);
-        fieldStage= new FieldStage(this,deBelloGame);
+        this.deBelloGame = dbg;
+        fleetListStage = new FleetListStage(this);
+        fieldStage = new FieldStage(this, deBelloGame);
 
         stages.add(fleetListStage);
         stages.add(fieldStage);
@@ -43,7 +43,6 @@ public class BattlePhaseStage extends zoneStage {
 
 
     public void setFleet(HashMap fleet) {
-
         fleetListStage.setFleet(fleet);
         fieldStage.setFleet(fleet);
     }
@@ -51,4 +50,9 @@ public class BattlePhaseStage extends zoneStage {
     public ArrayList<ArrayList<CellGrid>> getEnemyField() {
         return fieldStage.getEnemyField();
     }
+
+    public ArrayList<ArrayList<CellGrid>> getPlayerField() {
+        return fieldStage.getPlayerField();
+    }
+
 }
