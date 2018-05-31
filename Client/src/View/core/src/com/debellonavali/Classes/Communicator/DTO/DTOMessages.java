@@ -1,5 +1,8 @@
 package com.debellonavali.Classes.Communicator.DTO;
 
+/**
+ * Contains the list of all possible DTO functions
+ */
 public class DTOMessages {
 
     public static String ATTACK_MESSAGE = "attack";
