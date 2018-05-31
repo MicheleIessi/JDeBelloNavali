@@ -8,7 +8,7 @@ public class GameFactory {
     private static GameFactory instance = null;
 
     public DeBelloGame createDeBelloGame() {
-        return new DeBelloGame();
+        return DeBelloGame.getInstance();
     }
 
     public Battlefield createBattlefield() {
