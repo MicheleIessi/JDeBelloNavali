@@ -5,6 +5,7 @@ import com.debellonavali.Classes.Communicator.ConnectionManagerImpl;
 import com.debellonavali.Classes.Communicator.DTO.DTOBuilder.DTOBuilder;
 import com.debellonavali.Classes.Communicator.DTO.IDTO;
 import com.debellonavali.Classes.Controller.FacadeClientController;
+import com.debellonavali.Classes.Model.Factories.FleetFactory.FleetFactory;
 import com.debellonavali.Classes.Model.Factories.GameFactory;
 import com.debellonavali.Screens.BattlePhase.INotifiableScreen;
 
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 public class DeBelloGame {
 
     private Battlefield playerBattlefield;
+    private FleetFactory playerFleetFactory;
     private static FacadeClientController facadeController;
     private static DeBelloGame instance;
     private boolean playerTurn;
@@ -87,6 +89,10 @@ public class DeBelloGame {
 
     public HashMap<String,String> getShipPosition(int shipId) {
         return this.playerBattlefield.getShipPosition(shipId);
+    }
+
+    public FleetFactory getPlayerFleetFactory() {
+        return playerFleetFactory;
     }
 
     public static DeBelloGame getInstance() {
