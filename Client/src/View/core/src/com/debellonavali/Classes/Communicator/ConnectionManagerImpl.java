@@ -7,13 +7,14 @@ import com.debellonavali.Constants;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-
+/**
+ * Implementation of a DTO based connection manager
+ */
 public class ConnectionManagerImpl implements IConnectionManager {
 
     private static ConnectionManagerImpl instance = null;
@@ -23,10 +24,17 @@ public class ConnectionManagerImpl implements IConnectionManager {
     private int enemyPort;
     private Logger logger;
 
+    /**
+     * Default constructor sets up the logger
+     */
     private ConnectionManagerImpl() {
         logger = Logger.getLogger(this.getClass().getSimpleName());
     }
 
+    /**
+     * Initializes the Connection Manager setting up a ServerSocket on the given port
+     * @param portNumber The port of the ServerSocket
+     */
     public void initialize(int portNumber) {
         try {
             serverSocket = new ServerSocket(portNumber);
@@ -39,18 +47,26 @@ public class ConnectionManagerImpl implements IConnectionManager {
         }
     }
 
+    /**
+     * Sets enemy's host and port information
+     * @param host Enemy's host
+     * @param port Enemy's port
+     */
     public void setEnemyInformation(String host, int port) {
         this.enemyHost = host;
         this.enemyPort = port;
     }
 
+    /**
+     * Starts a thread that listens for incoming DTO messages
+     */
     public void startMonitoringThread() {
         Thread listeningThread = new Thread(
                 () -> {
                     while (true) {
                         try {
                             socket = serverSocket.accept();
-                            logger.info(String.format(Locale.getDefault(),"Accepting client socket from address %s:%d", socket.getInetAddress().getHostName(), socket.getPort()));
+                            logger.info(String.format(Locale.getDefault(), "Accepting client socket from address %s:%d", socket.getInetAddress().getHostName(), socket.getPort()));
                             ObjectOutputStream outgoingDTOStream = new ObjectOutputStream(socket.getOutputStream());
                             ObjectInputStream incomingDTOStream = new ObjectInputStream(socket.getInputStream());
                             try {
@@ -82,6 +98,10 @@ public class ConnectionManagerImpl implements IConnectionManager {
         listeningThread.start();
     }
 
+    /**
+     * Sends an IDTO message
+     * @param dto The IDTO message to send
+     */
     public void sendMessage(IDTO dto) {
         try {
             Socket sendingSocket = new Socket(enemyHost, enemyPort);
@@ -99,7 +119,10 @@ public class ConnectionManagerImpl implements IConnectionManager {
         }
     }
 
-
+    /**
+     * Singleton: only one instance of this class is allowed
+     * @return The unique instance of ConnectionManagerImpl
+     */
     public static ConnectionManagerImpl getInstance() {
         if (instance == null) {
             instance = new ConnectionManagerImpl();
