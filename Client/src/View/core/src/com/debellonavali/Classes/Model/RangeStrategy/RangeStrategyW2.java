@@ -2,6 +2,9 @@ package com.debellonavali.Classes.Model.RangeStrategy;
 
 import java.util.ArrayList;
 
+/**
+ * RangeStrategyW2 models a horizontal three-square attack
+ */
 public class RangeStrategyW2 extends AbstractRangeStrategy implements IRangeStrategy {
 
     private static String rangeName = "3-Row";
@@ -12,7 +15,6 @@ public class RangeStrategyW2 extends AbstractRangeStrategy implements IRangeStra
     public ArrayList getInvolvedSquares(int coordX, int coordY) {
 
         ArrayList<int[]> involvedSquares = new ArrayList<>();
-
         int[] leftSquare = {coordX, coordY}; // center square
         involvedSquares.add(leftSquare);
 
@@ -28,5 +30,4 @@ public class RangeStrategyW2 extends AbstractRangeStrategy implements IRangeStra
 
         return involvedSquares;
     }
-
 }
