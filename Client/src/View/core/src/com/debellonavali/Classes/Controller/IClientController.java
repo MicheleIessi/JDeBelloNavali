@@ -3,6 +3,9 @@ package com.debellonavali.Classes.Controller;
 import com.debellonavali.Classes.Communicator.DTO.IDTO;
 import com.debellonavali.Classes.Controller.Observers.IObserverController;
 
+/**
+ * Interface that a ClientController must implement
+ */
 public interface IClientController {
 
     String getFunction();
