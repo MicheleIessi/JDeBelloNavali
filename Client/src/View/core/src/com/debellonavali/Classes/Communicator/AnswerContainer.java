@@ -12,7 +12,7 @@ public class AnswerContainer {
 
     /**
      * Puts a IDTO object into the container
-     * @param dtoMessage
+     * @param dtoMessage The IDTO object to be inserted
      */
     public void putDTOMessage(IDTO dtoMessage) {
         this.storedDTO = dtoMessage;
@@ -20,7 +20,7 @@ public class AnswerContainer {
 
     /**
      * Gets the stored IDTO object
-     * @return
+     * @return The stored IDTO object
      */
     public IDTO getStoredDTO() {
         IDTO dtoAnswer = this.storedDTO;
