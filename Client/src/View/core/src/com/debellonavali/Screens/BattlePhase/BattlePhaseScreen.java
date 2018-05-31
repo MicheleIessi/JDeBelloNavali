@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Timer;
 import com.debellonavali.Classes.Communicator.DTO.IDTO;
 import com.debellonavali.Classes.Model.*;
 import com.debellonavali.Classes.Model.RangeStrategy.IRangeStrategy;
@@ -20,6 +21,7 @@ import com.debellonavali.Screens.BattlePhase.Stages.BattlePhaseStage;
 
 import com.debellonavali.Screens.BattlePhase.Stages.ConstantsBattlePhase;
 import com.debellonavali.Screens.PlaceShip.CellGrid;
+import com.debellonavali.Screens.SplashScreen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,13 +67,23 @@ public class BattlePhaseScreen implements INotifiableScreen {
 
         winDialog = new Dialog(ConstantsBattlePhase.DIALOG_TITLE, uiSkin) {
             public void result(Object obj) {
-                System.out.println("result " + obj);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new SplashScreen(game));
+                    }
+                }, .5f);
             }
         };
 
         loseDialog = new Dialog(ConstantsBattlePhase.DIALOG_TITLE, uiSkin) {
             public void result(Object obj) {
-                System.out.println("result " + obj);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new SplashScreen(game));
+                    }
+                }, .5f);
             }
         };
 
