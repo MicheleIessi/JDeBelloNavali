@@ -10,8 +10,18 @@ import com.debellonavali.Classes.Model.DeBelloGame;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ReceiveAttackObserver is responsible to reply to a received attack. It is its duty also to recognize if a game
+ * has ended, and communicates attack results storing this information into the AnswerContainer unique object.
+ */
 public class ReceiveAttackObserver implements IObserverController {
 
+    /**
+     * This controller receives a List<int[2]> of attacked coordinates, and proceeds to
+     * compute the attack result. Then it communicates the result of the attack, asking to DeBelloGame
+     * if the game has eventually ended
+     * @param controller The IClientController class that contains information about the function to achieve
+     */
     @Override
     public void update(IClientController controller) {
         if (controller.getFunction().equalsIgnoreCase(DTOMessages.ATTACK_MESSAGE)) {
