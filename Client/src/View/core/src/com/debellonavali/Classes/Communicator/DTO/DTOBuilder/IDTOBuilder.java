@@ -5,6 +5,9 @@ import com.debellonavali.Classes.Communicator.DTO.IDTO;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interface that a DTOBuilder class must implement
+ */
 public interface IDTOBuilder {
 
     IDTO createAttackDTO(List<int[]> attackedSquares);
